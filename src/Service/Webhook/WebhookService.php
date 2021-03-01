@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Webhook;
 
 class WebhookService
 {
@@ -16,5 +16,12 @@ class WebhookService
     public function isTokenValid(string $token): bool
     {
         return $token === $this->token;
+    }
+
+    public function handleMessage(WebhookMessage $webhookMessage): void
+    {
+        if (!$webhookMessage->isCommand()) {
+            return;
+        }
     }
 }

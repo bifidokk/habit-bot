@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Controller\WebhookController;
-use App\Service\WebhookService;
+use App\Service\Webhook\WebhookService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
