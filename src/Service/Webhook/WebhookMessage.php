@@ -63,7 +63,9 @@ class WebhookMessage
 
         foreach ($entities as $entity) {
             if (isset($entity['type']) && $entity['type'] === self::ENTITY_BOT_COMMAND_TYPE) {
-                return substr($text, $entity['offset'], $entity['length']);
+                $command = substr($text, $entity['offset'], $entity['length']);
+
+                return substr($command, 1);
             }
         }
 

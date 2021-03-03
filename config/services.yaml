@@ -32,4 +32,13 @@ services:
     App\Service\Webhook\WebhookService:
         arguments:
             $token: '%env(TG_BOT_WEBHOOK_TOKEN)%'
+            $commandLocator: '@app.service.command_locator'
+
+    app.service.command_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        tags: [ 'container.service_locator' ]
+        arguments:
+            - start: '@App\Service\Command\StartCommand'
+
+
 
