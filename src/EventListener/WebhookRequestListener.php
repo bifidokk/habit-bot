@@ -37,7 +37,7 @@ class WebhookRequestListener implements EventSubscriberInterface
             return;
         }
 
-        if ($controllerAttribute !== WebhookController::class . '::webhook') {
+        if ($controllerAttribute !== WebhookController::class.'::webhook') {
             return;
         }
 
@@ -50,6 +50,8 @@ class WebhookRequestListener implements EventSubscriberInterface
 
     private function getErrorResponse(): JsonResponse
     {
-        return new JsonResponse(['error' => 'Invalid token'],Response::HTTP_FORBIDDEN);
+        return new JsonResponse([
+            'error' => 'Invalid token',
+        ], Response::HTTP_FORBIDDEN);
     }
 }

@@ -15,6 +15,7 @@ class StartCommand implements CommandInterface
     {
         $this->logger = $logger;
     }
+
     public function run(WebhookMessage $message): void
     {
         $this->logger->info($message->command);

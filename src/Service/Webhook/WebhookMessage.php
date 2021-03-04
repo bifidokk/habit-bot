@@ -41,7 +41,6 @@ class WebhookMessage
         $webhookMessage->username = $data['message']['chat']['username'] ?? null;
         $webhookMessage->text = $data['message']['text'];
 
-
         $webhookMessage->command = WebhookMessage::parseCommand(
             $data['message']['text'],
             $data['message']['entities'] ?? []

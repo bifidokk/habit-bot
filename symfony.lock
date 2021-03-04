@@ -2,6 +2,12 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
+    "composer/semver": {
+        "version": "3.2.4"
+    },
+    "composer/xdebug-handler": {
+        "version": "1.4.5"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -78,6 +84,18 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "friendsofphp/php-cs-fixer": {
+        "version": "2.16",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.16",
+            "ref": "c1947bad147704aeaf0285745f0baae927a58959"
+        },
+        "files": [
+            ".php_cs.dist"
+        ]
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
@@ -93,6 +111,9 @@
     "http-interop/http-factory-guzzle": {
         "version": "1.0.0"
     },
+    "jean85/pretty-package-versions": {
+        "version": "1.6.0"
+    },
     "laminas/laminas-code": {
         "version": "4.0.0"
     },
@@ -104,6 +125,21 @@
     },
     "monolog/monolog": {
         "version": "2.2.0"
+    },
+    "nette/finder": {
+        "version": "v2.5.2"
+    },
+    "nette/neon": {
+        "version": "v3.2.2"
+    },
+    "nette/robot-loader": {
+        "version": "v3.3.1"
+    },
+    "nette/utils": {
+        "version": "v3.2.1"
+    },
+    "nikic/php-parser": {
+        "version": "v4.10.4"
     },
     "nyholm/psr7": {
         "version": "1.0",
@@ -119,6 +155,9 @@
     },
     "php": {
         "version": "7.4"
+    },
+    "php-cs-fixer/diff": {
+        "version": "v1.3.1"
     },
     "php-http/guzzle6-adapter": {
         "version": "v2.0.1"
@@ -177,8 +216,14 @@
     "psr/log": {
         "version": "1.1.3"
     },
+    "psr/simple-cache": {
+        "version": "1.0.1"
+    },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "sebastian/diff": {
+        "version": "4.0.4"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -190,6 +235,18 @@
         },
         "files": [
             "config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "0dc9cceda799fd3a08b96987e176a261028a3709"
+        },
+        "files": [
+            "phpcs.xml.dist"
         ]
     },
     "symfony/cache": {
@@ -317,6 +374,9 @@
             "config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/options-resolver": {
+        "version": "v5.2.3"
+    },
     "symfony/orm-pack": {
         "version": "v2.1.0"
     },
@@ -347,11 +407,17 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.22.1"
     },
+    "symfony/polyfill-php70": {
+        "version": "v1.20.0"
+    },
     "symfony/polyfill-php73": {
         "version": "v1.22.1"
     },
     "symfony/polyfill-php80": {
         "version": "v1.22.1"
+    },
+    "symfony/process": {
+        "version": "v5.2.4"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.5"
@@ -433,6 +499,51 @@
     },
     "symfony/yaml": {
         "version": "v5.2.3"
+    },
+    "symplify/autowire-array-parameter": {
+        "version": "v9.2.4"
+    },
+    "symplify/coding-standard": {
+        "version": "v9.2.4"
+    },
+    "symplify/composer-json-manipulator": {
+        "version": "v9.2.4"
+    },
+    "symplify/console-color-diff": {
+        "version": "v9.2.4"
+    },
+    "symplify/console-package-builder": {
+        "version": "v9.2.4"
+    },
+    "symplify/easy-coding-standard": {
+        "version": "v9.2.4"
+    },
+    "symplify/easy-testing": {
+        "version": "v9.2.4"
+    },
+    "symplify/markdown-diff": {
+        "version": "v9.2.4"
+    },
+    "symplify/package-builder": {
+        "version": "v9.2.4"
+    },
+    "symplify/php-config-printer": {
+        "version": "v9.2.4"
+    },
+    "symplify/rule-doc-generator": {
+        "version": "v9.2.4"
+    },
+    "symplify/set-config-resolver": {
+        "version": "v9.2.4"
+    },
+    "symplify/skipper": {
+        "version": "v9.2.4"
+    },
+    "symplify/smart-file-system": {
+        "version": "v9.2.4"
+    },
+    "symplify/symplify-kernel": {
+        "version": "v9.2.4"
     },
     "tg-bot-api/bot-api-base": {
         "version": "1.0",
