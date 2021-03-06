@@ -23,6 +23,7 @@
         "symfony/http-client": "5.2.*",
         "symfony/monolog-bundle": "^3.6",
         "symfony/proxy-manager-bridge": "5.2.*",
+        "symfony/validator": "5.2.*",
         "symfony/yaml": "5.2.*",
         "tg-bot-api/bot-api-base": "^1.7"
     },
