@@ -13,18 +13,13 @@ class UserRepository extends EntityRepository
      * @param string   $id
      * @param int|null $lockMode
      * @param int|null $lockVersion
-     *
-     * @return User|null
      */
     public function find($id, $lockMode = null, $lockVersion = null): ?User
     {
-        /** @var User|null $entity */
-        $entity = parent::find($id, $lockMode, $lockVersion);
-
-        return $entity;
+        return parent::find($id, $lockMode, $lockVersion);
     }
 
-    public function save(User $user)
+    public function save(User $user): void
     {
         $em = $this->getEntityManager();
         $em->persist($user);

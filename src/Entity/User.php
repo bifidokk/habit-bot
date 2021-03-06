@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\\Repository\UserRepository")
@@ -22,8 +22,6 @@ class User
     private string $id = '';
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Assert\Length(max=255)
@@ -31,8 +29,6 @@ class User
     private ?string $username = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      *
      * @Assert\NotBlank()
@@ -41,8 +37,6 @@ class User
     private string $firstName = '';
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer", unique=true)
      *
      * @Assert\NotBlank()
@@ -50,8 +44,6 @@ class User
     private int $telegramId = 0;
 
     /**
-     * @var \DateTimeImmutable
-     *
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
