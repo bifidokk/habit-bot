@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Command;
 
-use App\Service\Webhook\WebhookMessage;
+use TgBotApi\BotApiBase\Type\MessageType;
 
 interface CommandInterface
 {
-    public function run(WebhookMessage $message): void;
+    public function run(MessageType $message): void;
 }

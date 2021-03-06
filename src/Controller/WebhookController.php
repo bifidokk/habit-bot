@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Service\Webhook\WebhookMessage;
 use App\Service\Webhook\WebhookService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\BotApiNormalizer;
+use TgBotApi\BotApiBase\WebhookFetcher;
 
 class WebhookController
 {
@@ -29,11 +30,11 @@ class WebhookController
      */
     public function webhook(Request $request): JsonResponse
     {
+        $fetcher = new WebhookFetcher(new BotApiNormalizer());
+
         try {
-            $webhookMessage = WebhookMessage::fromRequestData(
-                json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR)
-            );
-            $this->webhookService->handleMessage($webhookMessage);
+            $update = $fetcher->fetch($request->getContent());
+            $this->webhookService->handleMessage($update);
         } catch (\Throwable $e) {
             // do nothing
         }
