@@ -1,5 +1,5 @@
 services:
-    App\Entity\Repository\UserRepository:
+    App\Repository\UserRepository:
         factory: [ '@doctrine.orm.entity_manager', getRepository ]
         arguments:
             - App\Entity\User

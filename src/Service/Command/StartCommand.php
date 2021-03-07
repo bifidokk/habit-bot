@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Command;
 
+use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -15,18 +16,31 @@ class StartCommand implements CommandInterface
 {
     private BotApiComplete $bot;
     private LoggerInterface $logger;
+    private UserService $userService;
 
     public function __construct(
         BotApiComplete $bot,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        UserService $userService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
+        $this->userService = $userService;
     }
 
     public function run(MessageType $message): void
     {
-        $this->logger->info($message->text);
+        $from = $message->from;
+
+        if ($from === null) {
+            return;
+        }
+
+        $user = $this->userService->findUserByTelegramId($from->id);
+
+        if ($user === null) {
+            $this->userService->createUser($from);
+        }
 
         $method = $this->createSendMethod($message);
         $this->bot->sendMessage($method);
