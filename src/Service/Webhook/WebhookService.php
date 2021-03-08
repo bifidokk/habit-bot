@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Webhook;
 
 use App\Service\Command\CommandInterface;
+use App\Service\Command\CommandNameList;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\Type\MessageEntityType;
@@ -38,22 +39,31 @@ class WebhookService
             return;
         }
 
-        $commandMessage = $this->parseCommand($update->message);
+        $commandName = $this->resolveCommand($update->message);
 
-        if ($commandMessage === null) {
+        if ($commandName === null) {
             return;
         }
 
         try {
             /** @var CommandInterface $command */
-            $command = $this->commandLocator->get($commandMessage);
+            $command = $this->commandLocator->get($commandName);
             $command->run($update->message);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
         }
     }
 
-    private function parseCommand(MessageType $message): ?string
+    private function resolveCommand(MessageType $message): ?string
+    {
+        if (isset($message->entities) && $message->entities !== null) {
+            return $this->parseCommandFromMessage($message);
+        }
+
+        return $this->chooseCommand($message);
+    }
+
+    private function parseCommandFromMessage(MessageType $message): ?string
     {
         if ($message->entities === null) {
             return null;
@@ -70,5 +80,10 @@ class WebhookService
         }
 
         return null;
+    }
+
+    private function chooseCommand(MessageType $message): ?string
+    {
+        return CommandNameList::getName($message->text);
     }
 }

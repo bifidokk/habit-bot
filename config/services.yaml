@@ -42,7 +42,9 @@ services:
         class: Symfony\Component\DependencyInjection\ServiceLocator
         tags: [ 'container.service_locator' ]
         arguments:
-            - start: '@App\Service\Command\StartCommand'
+            -
+                start: '@App\Service\Command\StartCommand'
+                new_custom_habit: '@App\Service\Command\NewCustomHabitCommand'
 
 
 

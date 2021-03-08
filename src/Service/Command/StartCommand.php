@@ -8,9 +8,9 @@ use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
-use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
-use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
+use TgBotApi\BotApiBase\Type\KeyboardButtonType;
 use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\ReplyKeyboardMarkupType;
 
 class StartCommand implements CommandInterface
 {
@@ -49,10 +49,8 @@ class StartCommand implements CommandInterface
     private function createSendMethod(MessageType $message): SendMessageMethod
     {
         return SendMessageMethod::create($message->chat->id, 'Hey there! You can add a new habit here', [
-            'replyMarkup' => InlineKeyboardMarkupType::create([
-                [InlineKeyboardButtonType::create('Add a new habit', [
-                    'callbackData' => 'new_habit',
-                ])],
+            'replyMarkup' => ReplyKeyboardMarkupType::create([
+                [KeyboardButtonType::create('Add a new habit')],
             ]),
         ]);
     }

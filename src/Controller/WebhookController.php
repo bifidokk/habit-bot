@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Service\Webhook\WebhookService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,13 +17,16 @@ class WebhookController
 {
     private BotApiComplete $bot;
     private WebhookService $webhookService;
+    private LoggerInterface $logger;
 
     public function __construct(
         BotApiComplete $bot,
-        WebhookService $webhookService
+        WebhookService $webhookService,
+        LoggerInterface $logger
     ) {
         $this->bot = $bot;
         $this->webhookService = $webhookService;
+        $this->logger = $logger;
     }
 
     /**
@@ -36,7 +40,7 @@ class WebhookController
             $update = $fetcher->fetch($request->getContent());
             $this->webhookService->handleMessage($update);
         } catch (\Throwable $e) {
-            // do nothing
+            $this->logger->error($e->getMessage());
         }
 
         return new JsonResponse();
