@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Service\User\UserState;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -59,11 +60,11 @@ class User
     private ?string $languageCode = null;
 
     /**
-     * @ORM\Column(type="string", length=64, options={"default"="start"})
+     * @ORM\Column(type="user_state", length=64, options={"default"="start"})
      *
      * @Assert\Length(max=64)
      */
-    private string $state;
+    private UserState $state;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -72,7 +73,7 @@ class User
 
     public function __construct()
     {
-        $this->state = 'start';
+        $this->state = UserState::get(UserState::START);
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -81,12 +82,12 @@ class User
         return $this->id;
     }
 
-    public function getState(): string
+    public function getState(): UserState
     {
         return $this->state;
     }
 
-    public function setState(string $state): void
+    public function setState(UserState $state): void
     {
         $this->state = $state;
     }
