@@ -1,0 +1,17 @@
+framework:
+    workflows:
+        user:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\User
+            initial_marking: start
+            places:
+                - start
+                - new_custom_habit_form
+            transitions:
+                new_custom_habit:
+                    from: start
+                    to: new_custom_habit_form

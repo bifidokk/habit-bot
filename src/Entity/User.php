@@ -59,18 +59,36 @@ class User
     private ?string $languageCode = null;
 
     /**
+     * @ORM\Column(type="string", length=64, options={"default"="start"})
+     *
+     * @Assert\Length(max=64)
+     */
+    private string $state;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
 
     public function __construct()
     {
+        $this->state = 'start';
         $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): void
+    {
+        $this->state = $state;
     }
 
     public static function createFromUserType(UserType $userType): User

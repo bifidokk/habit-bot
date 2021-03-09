@@ -6,6 +6,7 @@ namespace App\Service\Command;
 
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Workflow\StateMachine;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\KeyboardButtonType;
@@ -17,15 +18,18 @@ class StartCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private UserService $userService;
+    private StateMachine $stateMachine;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        UserService $userService
+        UserService $userService,
+        StateMachine $stateMachine
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->userService = $userService;
+        $this->stateMachine = $stateMachine;
     }
 
     public function run(MessageType $message): void
@@ -48,10 +52,12 @@ class StartCommand implements CommandInterface
 
     private function createSendMethod(MessageType $message): SendMessageMethod
     {
-        return SendMessageMethod::create($message->chat->id, 'Hey there! You can add a new habit here', [
-            'replyMarkup' => ReplyKeyboardMarkupType::create([
-                [KeyboardButtonType::create('Add a new habit')],
-            ]),
-        ]);
+        return SendMessageMethod::create(
+            $message->chat->id,
+            'Hey there! You can add a new habit here', [
+                'replyMarkup' => ReplyKeyboardMarkupType::create([
+                    [KeyboardButtonType::create('Add a new habit')],
+                ]),
+            ]);
     }
 }
