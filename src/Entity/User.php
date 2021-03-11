@@ -84,7 +84,7 @@ class User
 
     public function getState(): string
     {
-        return (string)$this->state->getValue();
+        return (string) $this->state->getValue();
     }
 
     public function setState(string $state): void

@@ -8,7 +8,6 @@ use App\Entity\User;
 use App\Service\User\UserService;
 use App\Service\User\UserStateTransition;
 use Psr\Log\LoggerInterface;
-
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;

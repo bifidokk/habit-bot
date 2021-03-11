@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Webhook;
 
-use App\Entity\User;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandNameList;
 use App\Service\User\UserService;
