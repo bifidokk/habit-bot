@@ -40,7 +40,13 @@ class UserService
 
     public function changeUserState(User $user, Enum $state): void
     {
-        $this->stateMachine->apply($user, $state->getValue());
+        $this->stateMachine->apply($user, (string)$state->getValue());
+        $this->userRepository->save($user);
+    }
+
+    public function moveUserToStart(User $user): void
+    {
+        $user->setState(UserState::get(UserState::START)->getValue());
         $this->userRepository->save($user);
     }
 }

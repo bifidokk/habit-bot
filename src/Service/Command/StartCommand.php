@@ -6,7 +6,6 @@ namespace App\Service\Command;
 
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Workflow\StateMachine;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\KeyboardButtonType;
@@ -18,18 +17,15 @@ class StartCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private UserService $userService;
-    private StateMachine $stateMachine;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        UserService $userService,
-        StateMachine $stateMachine
+        UserService $userService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->userService = $userService;
-        $this->stateMachine = $stateMachine;
     }
 
     public function run(MessageType $message): void
@@ -43,8 +39,10 @@ class StartCommand implements CommandInterface
         $user = $this->userService->findUserByTelegramId($from->id);
 
         if ($user === null) {
-            $this->userService->createUser($from);
+            $user = $this->userService->createUser($from);
         }
+
+        $this->userService->moveUserTostart($user);
 
         $method = $this->createSendMethod($message);
         $this->bot->sendMessage($method);
