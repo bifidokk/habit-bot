@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Command;
 
+use App\Entity\User;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
@@ -28,20 +29,8 @@ class StartCommand implements CommandInterface
         $this->userService = $userService;
     }
 
-    public function run(MessageType $message): void
+    public function run(MessageType $message, User $user): void
     {
-        $from = $message->from;
-
-        if ($from === null) {
-            return;
-        }
-
-        $user = $this->userService->findUserByTelegramId($from->id);
-
-        if ($user === null) {
-            $user = $this->userService->createUser($from);
-        }
-
         $this->userService->moveUserTostart($user);
 
         $method = $this->createSendMethod($message);

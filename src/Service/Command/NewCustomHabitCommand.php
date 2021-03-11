@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Service\Command;
 
 use App\Entity\User;
-use App\Service\User\Exception\CouldNotFindUser;
-use App\Service\User\Exception\CouldNotGetUserFromMessage;
 use App\Service\User\UserService;
 use App\Service\User\UserStateTransition;
 use Psr\Log\LoggerInterface;
@@ -32,9 +30,8 @@ class NewCustomHabitCommand implements CommandInterface
         $this->userService = $userService;
     }
 
-    public function run(MessageType $message): void
+    public function run(MessageType $message, User $user): void
     {
-        $user = $this->getUser($message);
         $this->userService->changeUserState($user, UserStateTransition::get(UserStateTransition::NEW_CUSTOM_HABIT));
 
         $method = $this->createSendMethod($message);
@@ -51,22 +48,5 @@ class NewCustomHabitCommand implements CommandInterface
             'Just enter a new habit\'s text', [
                 'replyMarkup' => $replyKeyboardRemove,
             ]);
-    }
-
-    private function getUser(MessageType $message): User
-    {
-        $from = $message->from;
-
-        if ($from === null) {
-            throw new CouldNotGetUserFromMessage();
-        }
-
-        $user = $this->userService->findUserByTelegramId($from->id);
-
-        if ($user === null) {
-            throw new CouldNotFindUser();
-        }
-
-        return $user;
     }
 }

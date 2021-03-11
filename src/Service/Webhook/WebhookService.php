@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\Webhook;
 
+use App\Entity\User;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandNameList;
+use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\Type\MessageEntityType;
@@ -17,15 +19,18 @@ class WebhookService
     private string $token;
     private ServiceLocator $commandLocator;
     private LoggerInterface $logger;
+    private UserService $userService;
 
     public function __construct(
         string $token,
         ServiceLocator $commandLocator,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        UserService $userService
     ) {
         $this->token = $token;
         $this->commandLocator = $commandLocator;
         $this->logger = $logger;
+        $this->userService = $userService;
     }
 
     public function isTokenValid(string $token): bool
@@ -45,10 +50,16 @@ class WebhookService
             return;
         }
 
+        $user = $this->userService->getUser($update->message);
+
+        if ($user === null) {
+            return;
+        }
+
         try {
             /** @var CommandInterface $command */
             $command = $this->commandLocator->get($commandName);
-            $command->run($update->message);
+            $command->run($update->message, $user);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }

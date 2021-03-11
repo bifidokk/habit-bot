@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Elao\Enum\Enum;
 use Symfony\Component\Workflow\StateMachine;
+use TgBotApi\BotApiBase\Type\MessageType;
 use TgBotApi\BotApiBase\Type\UserType;
 
 class UserService
@@ -23,17 +24,19 @@ class UserService
         $this->stateMachine = $stateMachine;
     }
 
-    public function findUserByTelegramId(int $id): ?User
+    public function getUser(MessageType $message): ?User
     {
-        return $this->userRepository->findOneBy([
-            'telegramId' => $id,
-        ]);
-    }
+        $from = $message->from;
 
-    public function createUser(UserType $userType): User
-    {
-        $user = User::createFromUserType($userType);
-        $this->userRepository->save($user);
+        if ($from === null) {
+            return null;
+        }
+
+        $user = $this->findUserByTelegramId($from->id);
+
+        if ($user === null) {
+            $user = $this->createUser($from);
+        }
 
         return $user;
     }
@@ -48,5 +51,20 @@ class UserService
     {
         $user->setState((string)UserState::get(UserState::START)->getValue());
         $this->userRepository->save($user);
+    }
+
+    private function findUserByTelegramId(int $id): ?User
+    {
+        return $this->userRepository->findOneBy([
+            'telegramId' => $id,
+        ]);
+    }
+
+    private function createUser(UserType $userType): User
+    {
+        $user = User::createFromUserType($userType);
+        $this->userRepository->save($user);
+
+        return $user;
     }
 }
