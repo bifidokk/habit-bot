@@ -46,7 +46,7 @@ class UserService
 
     public function moveUserToStart(User $user): void
     {
-        $user->setState(UserState::get(UserState::START)->getValue());
+        $user->setState((string)UserState::get(UserState::START)->getValue());
         $this->userRepository->save($user);
     }
 }

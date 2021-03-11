@@ -50,7 +50,7 @@ class WebhookService
             $command = $this->commandLocator->get($commandName);
             $command->run($update->message);
         } catch (\Throwable $e) {
-            $this->logger->error($e->getMessage());
+            $this->logger->error($e->getMessage(), $e->getTrace());
         }
     }
 
