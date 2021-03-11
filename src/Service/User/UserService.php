@@ -6,15 +6,21 @@ namespace App\Service\User;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Elao\Enum\Enum;
+use Symfony\Component\Workflow\StateMachine;
 use TgBotApi\BotApiBase\Type\UserType;
 
 class UserService
 {
     private UserRepository $userRepository;
+    private StateMachine $stateMachine;
 
-    public function __construct(UserRepository $userRepository)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        StateMachine $stateMachine
+    ) {
         $this->userRepository = $userRepository;
+        $this->stateMachine = $stateMachine;
     }
 
     public function findUserByTelegramId(int $id): ?User
@@ -30,5 +36,11 @@ class UserService
         $this->userRepository->save($user);
 
         return $user;
+    }
+
+    public function changeUserState(User $user, Enum $state): void
+    {
+        $this->stateMachine->apply($user, $state->getValue());
+        $this->userRepository->save($user);
     }
 }

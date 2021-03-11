@@ -82,14 +82,14 @@ class User
         return $this->id;
     }
 
-    public function getState(): UserState
+    public function getState(): string
     {
-        return $this->state;
+        return $this->state->getValue();
     }
 
-    public function setState(UserState $state): void
+    public function setState(string $state): void
     {
-        $this->state = $state;
+        $this->state = UserState::get($state);
     }
 
     public static function createFromUserType(UserType $userType): User
