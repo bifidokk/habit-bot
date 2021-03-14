@@ -21,7 +21,7 @@ class CommandName extends ReadableEnum
     public static function readables(): array
     {
         return [
-            self::NEW_CUSTOM_HABIT => 'new_custom_habit',
+            self::NEW_CUSTOM_HABIT => NewCustomHabitCommand::COMMAND_NAME,
         ];
     }
 }

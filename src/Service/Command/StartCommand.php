@@ -29,6 +29,13 @@ class StartCommand implements CommandInterface
         $this->userService = $userService;
     }
 
+    public const COMMAND_NAME = 'start';
+
+    public function getName(): string
+    {
+        return self::COMMAND_NAME;
+    }
+
     public function run(MessageType $message, User $user): void
     {
         $this->userService->moveUserTostart($user);

@@ -47,6 +47,7 @@ services:
             -
                 start: '@App\Service\Command\StartCommand'
                 new_custom_habit: '@App\Service\Command\NewCustomHabitCommand'
+                add_custom_habit: '@App\Service\Command\AddCustomHabitCommand'
 
 
 

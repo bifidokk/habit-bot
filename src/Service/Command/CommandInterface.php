@@ -9,5 +9,7 @@ use TgBotApi\BotApiBase\Type\MessageType;
 
 interface CommandInterface
 {
+    public function getName(): string;
+
     public function run(MessageType $message, User $user): void;
 }

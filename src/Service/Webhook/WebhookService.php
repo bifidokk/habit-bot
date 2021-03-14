@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service\Webhook;
 
+use App\Entity\User;
+use App\Service\Command\AddCustomHabitCommand;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandName;
 use App\Service\User\UserService;
+use App\Service\User\UserState;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\Type\MessageEntityType;
@@ -43,15 +46,15 @@ class WebhookService
             return;
         }
 
-        $commandName = $this->resolveCommand($update->message);
-
-        if ($commandName === null) {
-            return;
-        }
-
         $user = $this->userService->getUser($update->message);
 
         if ($user === null) {
+            return;
+        }
+
+        $commandName = $this->resolveCommand($update->message, $user);
+
+        if ($commandName === null) {
             return;
         }
 
@@ -64,13 +67,19 @@ class WebhookService
         }
     }
 
-    private function resolveCommand(MessageType $message): ?string
+    private function resolveCommand(MessageType $message, User $user): ?string
     {
         if (isset($message->entities) && $message->entities !== null) {
             return $this->parseCommandFromMessage($message);
         }
 
-        return $this->chooseCommand($message);
+        $command = $this->resolveCommandByName($message);
+
+        if ($command !== null) {
+            return $command;
+        }
+
+        return $this->resolveCommandByUserState($user);
     }
 
     private function parseCommandFromMessage(MessageType $message): ?string
@@ -92,8 +101,18 @@ class WebhookService
         return null;
     }
 
-    private function chooseCommand(MessageType $message): ?string
+    private function resolveCommandByName(MessageType $message): ?string
     {
         return CommandName::getName($message->text);
+    }
+
+    private function resolveCommandByUserState(User $user): ?string
+    {
+        switch ($user->getState()) {
+            case UserState::NEW_CUSTOM_HABIT:
+                return AddCustomHabitCommand::COMMAND_NAME;
+        }
+
+        return null;
     }
 }

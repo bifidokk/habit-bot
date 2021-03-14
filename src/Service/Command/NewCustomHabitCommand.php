@@ -29,6 +29,13 @@ class NewCustomHabitCommand implements CommandInterface
         $this->userService = $userService;
     }
 
+    public const COMMAND_NAME = 'new_custom_habit';
+
+    public function getName(): string
+    {
+        return self::COMMAND_NAME;
+    }
+
     public function run(MessageType $message, User $user): void
     {
         $this->userService->changeUserState($user, UserStateTransition::get(UserStateTransition::NEW_CUSTOM_HABIT));
