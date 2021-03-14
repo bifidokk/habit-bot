@@ -23,11 +23,16 @@ class Habit
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     *
+     * @Assert\NotBlank()
      */
     private ?User $user = null;
 
     /**
      * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private string $description = '';
 
