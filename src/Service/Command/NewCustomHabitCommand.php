@@ -15,6 +15,8 @@ use TgBotApi\BotApiBase\Type\ReplyKeyboardRemoveType;
 
 class NewCustomHabitCommand implements CommandInterface
 {
+    public const COMMAND_NAME = 'new_custom_habit';
+
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private UserService $userService;
@@ -28,8 +30,6 @@ class NewCustomHabitCommand implements CommandInterface
         $this->logger = $logger;
         $this->userService = $userService;
     }
-
-    public const COMMAND_NAME = 'new_custom_habit';
 
     public function getName(): string
     {

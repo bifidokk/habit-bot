@@ -15,6 +15,8 @@ use TgBotApi\BotApiBase\Type\ReplyKeyboardMarkupType;
 
 class StartCommand implements CommandInterface
 {
+    public const COMMAND_NAME = 'start';
+
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private UserService $userService;
@@ -28,8 +30,6 @@ class StartCommand implements CommandInterface
         $this->logger = $logger;
         $this->userService = $userService;
     }
-
-    public const COMMAND_NAME = 'start';
 
     public function getName(): string
     {

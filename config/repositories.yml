@@ -3,3 +3,8 @@ services:
         factory: [ '@doctrine.orm.entity_manager', getRepository ]
         arguments:
             - App\Entity\User
+
+    App\Repository\HabitRepository:
+        factory: [ '@doctrine.orm.entity_manager', getRepository ]
+        arguments:
+            - App\Entity\Habit

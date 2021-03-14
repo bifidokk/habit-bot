@@ -12,6 +12,8 @@ use TgBotApi\BotApiBase\Type\MessageType;
 
 class AddCustomHabitCommand implements CommandInterface
 {
+    public const COMMAND_NAME = 'add_custom_habit';
+
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private UserService $userService;
@@ -25,8 +27,6 @@ class AddCustomHabitCommand implements CommandInterface
         $this->logger = $logger;
         $this->userService = $userService;
     }
-
-    public const COMMAND_NAME = 'add_custom_habit';
 
     public function getName(): string
     {
