@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Webhook;
 
 use App\Service\Command\CommandInterface;
-use App\Service\Command\CommandNameList;
+use App\Service\Command\CommandName;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -94,6 +94,6 @@ class WebhookService
 
     private function chooseCommand(MessageType $message): ?string
     {
-        return CommandNameList::getName($message->text);
+        return CommandName::getName($message->text);
     }
 }
