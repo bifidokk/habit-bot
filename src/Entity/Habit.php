@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HabitRepository")
@@ -23,16 +22,11 @@ class Habit
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     *
-     * @Assert\NotBlank()
      */
     private ?User $user = null;
 
     /**
      * @ORM\Column(type="string")
-     *
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
      */
     private string $description = '';
 

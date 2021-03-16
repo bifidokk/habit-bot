@@ -47,7 +47,7 @@ class CommandResolver
 
     private function resolveCommandByName(MessageType $message): ?string
     {
-        return CommandName::getName($message->text);
+        return CommandName::getName((string) $message->text);
     }
 
     private function resolveCommandByUserState(User $user): ?string

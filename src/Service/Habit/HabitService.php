@@ -17,10 +17,10 @@ class HabitService
         $this->habitRepository = $habitRepository;
     }
 
-    public function addHabit(string $habitDescription, User $user): void
+    public function createHabit(NewHabitDto $newHabit, User $user): void
     {
         $habit = new Habit();
-        $habit->setDescription($habitDescription);
+        $habit->setDescription($newHabit->description);
         $habit->setUser($user);
 
         $this->habitRepository->save($habit);
