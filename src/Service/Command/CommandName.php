@@ -12,6 +12,7 @@ class CommandName extends ReadableEnum
     use AutoDiscoveredValuesTrait;
 
     public const NEW_CUSTOM_HABIT = 'Add a new habit';
+    public const BACK = 'Back';
 
     public static function getName(string $commandText): ?string
     {
@@ -22,6 +23,7 @@ class CommandName extends ReadableEnum
     {
         return [
             self::NEW_CUSTOM_HABIT => NewCustomHabitCommand::COMMAND_NAME,
+            self::BACK => BackCommand::COMMAND_NAME,
         ];
     }
 }

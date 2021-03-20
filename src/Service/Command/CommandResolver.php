@@ -11,8 +11,6 @@ use TgBotApi\BotApiBase\Type\MessageType;
 
 class CommandResolver
 {
-    const BACK_COMMAND = 'Back';
-
     public function resolve(MessageType $message, User $user): ?string
     {
         if (isset($message->entities) && $message->entities !== null) {
@@ -25,16 +23,7 @@ class CommandResolver
             return $command;
         }
 
-        if ($this->isBackCommand($message)) {
-            return $this->resolveBackCommandByUserState($user);
-        }
-
         return $this->resolveCommandByUserState($user);
-    }
-
-    private function isBackCommand(MessageType $message): bool
-    {
-        return (string) $message->text === self::BACK_COMMAND;
     }
 
     private function parseCommandFromMessage(MessageType $message): ?string
@@ -66,16 +55,6 @@ class CommandResolver
         switch ($user->getState()) {
             case UserState::NEW_CUSTOM_HABIT:
                 return AddCustomHabitCommand::COMMAND_NAME;
-        }
-
-        return null;
-    }
-
-    private function resolveBackCommandByUserState(User $user): ?string
-    {
-        switch ($user->getState()) {
-            case UserState::NEW_CUSTOM_HABIT:
-                return StartCommand::COMMAND_NAME;
         }
 
         return null;
