@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\NewHabitDto;
 use App\Service\Keyboard\MainMenuKeyboard;
+use App\Service\Keyboard\NewHabitKeyboard;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -86,7 +87,9 @@ class AddCustomHabitCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $message->chat->id,
-                'Just enter a new habit\'s text'
+                'Just enter a new habit\'s text', [
+                    'replyMarkup' =>  NewHabitKeyboard::generate(),
+                ]
             )
         );
     }
