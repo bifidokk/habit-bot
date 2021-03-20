@@ -48,7 +48,7 @@ class MainMenuCommand implements CommandInterface
         return SendMessageMethod::create(
             $message->chat->id,
             'You are in the main menu', [
-            'replyMarkup' => MainMenuKeyboard::generate(),
-        ]);
+                'replyMarkup' => MainMenuKeyboard::generate(),
+            ]);
     }
 }

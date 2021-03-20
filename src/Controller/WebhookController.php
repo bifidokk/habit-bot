@@ -46,12 +46,4 @@ class WebhookController
 
         return new JsonResponse();
     }
-
-    /**
-     * @Route("/add-webhook")
-     */
-    public function addWebhook(): JsonResponse
-    {
-        $this->bot->setWebhook(SetWebhookMethod::create('https://bbae64c0a179.ngrok.io/webhook/jc95oyvlRZtieaPLQRodolDTeXXs1Ek3'));
-    }
 }
