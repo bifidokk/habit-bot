@@ -5,32 +5,29 @@ declare(strict_types=1);
 namespace App\Service\Command;
 
 use App\Entity\User;
+use App\Service\Keyboard\MainMenuKeyboard;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
 
-class StartCommand implements CommandInterface
+class MainMenuCommand implements CommandInterface
 {
-    public const COMMAND_NAME = 'start';
+    public const COMMAND_NAME = 'main_menu';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private UserService $userService;
-    private ServiceLocator $commandLocator;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        UserService $userService,
-        ServiceLocator $commandLocator
+        UserService $userService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->userService = $userService;
-        $this->commandLocator = $commandLocator;
     }
 
     public function getName(): string
@@ -44,16 +41,14 @@ class StartCommand implements CommandInterface
 
         $method = $this->createSendMethod($message);
         $this->bot->sendMessage($method);
-
-        $nextCommand = $this->commandLocator->get(MainMenuCommand::COMMAND_NAME);
-        $nextCommand->run($message, $user);
     }
 
     private function createSendMethod(MessageType $message): SendMessageMethod
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            'Hey there! You can add a new habit here'
-        );
+            'You are in the main menu', [
+            'replyMarkup' => MainMenuKeyboard::generate(),
+        ]);
     }
 }

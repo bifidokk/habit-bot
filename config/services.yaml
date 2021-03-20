@@ -15,6 +15,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $stateMachine: '@state_machine.user'
+            $commandLocator: '@app.service.command_locator'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -38,7 +39,6 @@ services:
     App\Service\Webhook\WebhookService:
         arguments:
             $token: '%env(TG_BOT_WEBHOOK_TOKEN)%'
-            $commandLocator: '@app.service.command_locator'
 
     app.service.command_locator:
         class: Symfony\Component\DependencyInjection\ServiceLocator
@@ -46,6 +46,7 @@ services:
         arguments:
             -
                 start: '@App\Service\Command\StartCommand'
+                main_menu: '@App\Service\Command\MainMenuCommand'
                 new_custom_habit: '@App\Service\Command\NewCustomHabitCommand'
                 add_custom_habit: '@App\Service\Command\AddCustomHabitCommand'
 

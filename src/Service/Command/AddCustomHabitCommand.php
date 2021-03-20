@@ -88,7 +88,7 @@ class AddCustomHabitCommand implements CommandInterface
             SendMessageMethod::create(
                 $message->chat->id,
                 'Just enter a new habit\'s text', [
-                    'replyMarkup' =>  NewHabitKeyboard::generate(),
+                    'replyMarkup' => NewHabitKeyboard::generate(),
                 ]
             )
         );
