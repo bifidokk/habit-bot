@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\BotApiNormalizer;
-use TgBotApi\BotApiBase\Method\SetWebhookMethod;
 use TgBotApi\BotApiBase\WebhookFetcher;
 
 class WebhookController
