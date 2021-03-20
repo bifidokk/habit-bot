@@ -12,5 +12,5 @@ class UserState extends Enum
     use AutoDiscoveredValuesTrait;
 
     public const START = 'start';
-    public const NEW_CUSTOM_HABIT = 'new_custom_habit';
+    public const NEW_CUSTOM_HABIT = 'new_habit';
 }

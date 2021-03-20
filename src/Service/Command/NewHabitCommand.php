@@ -13,9 +13,9 @@ use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
 
-class NewCustomHabitCommand implements CommandInterface
+class NewHabitCommand implements CommandInterface
 {
-    public const COMMAND_NAME = 'new_custom_habit';
+    public const COMMAND_NAME = 'new_habit';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
