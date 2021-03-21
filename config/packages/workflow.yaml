@@ -10,8 +10,8 @@ framework:
             initial_marking: start
             places:
                 - start
-                - new_custom_habit
+                - new_habit
             transitions:
-                new_custom_habit:
+                new_habit:
                     from: start
-                    to: new_custom_habit
+                    to: new_habit

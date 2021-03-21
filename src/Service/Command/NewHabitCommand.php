@@ -5,30 +5,25 @@ declare(strict_types=1);
 namespace App\Service\Command;
 
 use App\Entity\User;
-use App\Service\Keyboard\NewHabitKeyboard;
-use App\Service\User\UserService;
-use App\Service\User\UserStateTransition;
-use Psr\Log\LoggerInterface;
-use TgBotApi\BotApiBase\BotApiComplete;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
+use App\Service\Command\HabitCreation\AddTitleCommand as HabitCreationAddTitleCommand;
+use App\Service\Command\HabitCreation\StartCommand as HabitCreationStartCommand;
+use App\Service\Habit\HabitService;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\Type\MessageType;
 
 class NewHabitCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'new_habit';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private UserService $userService;
+    private ServiceLocator $commandLocator;
+    private HabitService $habitService;
 
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        UserService $userService
+        ServiceLocator $commandLocator,
+        HabitService $habitService
     ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->userService = $userService;
+        $this->commandLocator = $commandLocator;
+        $this->habitService = $habitService;
     }
 
     public function getName(): string
@@ -38,18 +33,20 @@ class NewHabitCommand implements CommandInterface
 
     public function run(MessageType $message, User $user): void
     {
-        $this->userService->changeUserState($user, UserStateTransition::get(UserStateTransition::NEW_CUSTOM_HABIT));
+        if (!$user->inHabitCreationFlow()) {
+            $command = $this->commandLocator->get(HabitCreationStartCommand::COMMAND_NAME);
+            $command->run($message, $user);
 
-        $method = $this->createSendMethod($message);
-        $this->bot->sendMessage($method);
-    }
+            return;
+        }
 
-    private function createSendMethod(MessageType $message): SendMessageMethod
-    {
-        return SendMessageMethod::create(
-            $message->chat->id,
-            'Just enter a new habit\'s text', [
-                'replyMarkup' => NewHabitKeyboard::generate(),
-            ]);
+        $habit = $this->habitService->getLastDraftHabitForUser($user);
+
+        if ($habit === null) {
+            $command = $this->commandLocator->get(HabitCreationAddTitleCommand::COMMAND_NAME);
+            $command->run($message, $user);
+
+            return;
+        }
     }
 }

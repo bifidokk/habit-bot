@@ -47,9 +47,10 @@ services:
             -
                 start: '@App\Service\Command\StartCommand'
                 main_menu: '@App\Service\Command\MainMenuCommand'
-                new_custom_habit: '@App\Service\Command\NewHabitCommand'
-                add_custom_habit: '@App\Service\Command\AddHabitCommand'
+                new_habit: '@App\Service\Command\NewHabitCommand'
                 back: '@App\Service\Command\BackCommand'
+                habit_creation_start: '@App\Service\Command\HabitCreation\StartCommand'
+                habit_creation_add_title: '@App\Service\Command\HabitCreation\AddTitleCommand'
 
 
 

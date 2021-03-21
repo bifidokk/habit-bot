@@ -2,40 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Command;
+namespace App\Service\Command\HabitCreation;
 
 use App\Entity\User;
+use App\Service\Command\CommandInterface;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\NewHabitDto;
-use App\Service\Keyboard\MainMenuKeyboard;
+use App\Service\Keyboard\HabitPeriodMenuKeyboard;
 use App\Service\Keyboard\NewHabitKeyboard;
-use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
 
-class AddHabitCommand implements CommandInterface
+class AddTitleCommand implements CommandInterface
 {
-    public const COMMAND_NAME = 'add_habit';
+    public const COMMAND_NAME = 'habit_creation_add_title';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private UserService $userService;
     private HabitService $habitService;
     private ValidatorInterface $validator;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        UserService $userService,
         HabitService $habitService,
         ValidatorInterface $validator
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
-        $this->userService = $userService;
         $this->habitService = $habitService;
         $this->validator = $validator;
     }
@@ -64,13 +61,11 @@ class AddHabitCommand implements CommandInterface
             return;
         }
 
-        $this->userService->moveUserToStart($user);
-
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $message->chat->id,
-                'New habit is added', [
-                    'replyMarkup' => MainMenuKeyboard::generate(),
+                'Select remind days', [
+                    'replyMarkup' => HabitPeriodMenuKeyboard::generate(),
                 ])
         );
     }

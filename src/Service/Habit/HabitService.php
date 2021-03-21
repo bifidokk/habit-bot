@@ -22,7 +22,15 @@ class HabitService
         $habit = new Habit();
         $habit->setDescription($newHabit->description);
         $habit->setUser($user);
+        $habit->setCreationState(CreationHabitState::TITLE_ADDED);
 
         $this->habitRepository->save($habit);
+    }
+
+    public function getLastDraftHabitForUser(User $user): ?Habit
+    {
+        $state = HabitState::get(HabitState::DRAFT);
+
+        return $this->habitRepository->getHabitForUserByState($user, $state);
     }
 }

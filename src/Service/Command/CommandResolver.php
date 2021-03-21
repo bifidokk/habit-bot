@@ -53,8 +53,8 @@ class CommandResolver
     private function resolveCommandByUserState(User $user): ?string
     {
         switch ($user->getState()) {
-            case UserState::NEW_CUSTOM_HABIT:
-                return AddHabitCommand::COMMAND_NAME;
+            case UserState::NEW_HABIT:
+                return NewHabitCommand::COMMAND_NAME;
         }
 
         return null;

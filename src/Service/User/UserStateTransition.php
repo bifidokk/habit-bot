@@ -11,5 +11,5 @@ class UserStateTransition extends Enum
 {
     use AutoDiscoveredValuesTrait;
 
-    public const NEW_CUSTOM_HABIT = 'new_habit';
+    public const NEW_HABIT = 'new_habit';
 }

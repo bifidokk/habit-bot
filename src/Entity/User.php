@@ -90,6 +90,11 @@ class User
         $this->state = UserState::get($state);
     }
 
+    public function inHabitCreationFlow(): bool
+    {
+        return $this->state->equals(UserState::get(UserState::NEW_HABIT));
+    }
+
     public static function createFromUserType(UserType $userType): User
     {
         $user = new User();

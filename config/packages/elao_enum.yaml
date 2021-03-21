@@ -5,3 +5,4 @@ elao_enum:
         types:
             user_state: App\Service\User\UserState
             habit_state: App\Service\Habit\HabitState
+            creation_habit_state: App\Service\Habit\CreationHabitState
