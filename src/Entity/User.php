@@ -61,8 +61,6 @@ class User
 
     /**
      * @ORM\Column(type="user_state", length=64, options={"default"="start"})
-     *
-     * @Assert\Length(max=64)
      */
     private UserState $state;
 

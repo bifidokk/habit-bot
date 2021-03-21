@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Service\Habit\HabitState;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 
@@ -29,6 +30,11 @@ class Habit
      * @ORM\Column(type="string")
      */
     private string $description = '';
+
+    /**
+     * @ORM\Column(type="habit_state", length=32, options={"default"="draft"})
+     */
+    private HabitState $state;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -58,5 +64,15 @@ class Habit
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getState(): string
+    {
+        return (string) $this->state->getValue();
+    }
+
+    public function setState(string $state): void
+    {
+        $this->state = HabitState::get($state);
     }
 }
