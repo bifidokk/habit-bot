@@ -31,6 +31,11 @@ class NewHabitCommand implements CommandInterface
         return self::COMMAND_NAME;
     }
 
+    public function canRun(MessageType $message, User $user): bool
+    {
+        return false;
+    }
+
     public function run(MessageType $message, User $user): void
     {
         if (!$user->inHabitCreationFlow()) {

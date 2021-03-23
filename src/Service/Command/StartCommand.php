@@ -12,7 +12,7 @@ use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
 
-class StartCommand implements CommandInterface
+class StartCommand extends AbstractTelegramCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'start';
 

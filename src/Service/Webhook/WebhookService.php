@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Webhook;
 
-use App\Service\Command\CommandInterface;
-use App\Service\Command\CommandResolver;
+use App\Service\Router;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -17,20 +16,20 @@ class WebhookService
     private ServiceLocator $commandLocator;
     private LoggerInterface $logger;
     private UserService $userService;
-    private CommandResolver $commandResolver;
+    private Router $router;
 
     public function __construct(
         string $token,
         ServiceLocator $commandLocator,
         LoggerInterface $logger,
         UserService $userService,
-        CommandResolver $commandResolver
+        Router $router
     ) {
         $this->token = $token;
         $this->commandLocator = $commandLocator;
         $this->logger = $logger;
         $this->userService = $userService;
-        $this->commandResolver = $commandResolver;
+        $this->router = $router;
     }
 
     public function isTokenValid(string $token): bool
@@ -50,15 +49,13 @@ class WebhookService
             return;
         }
 
-        $commandName = $this->commandResolver->resolve($update->message, $user);
+        $command = $this->router->getCommand($update->message, $user);
 
-        if ($commandName === null) {
+        if ($command === null) {
             return;
         }
 
         try {
-            /** @var CommandInterface $command */
-            $command = $this->commandLocator->get($commandName);
             $command->run($update->message, $user);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());

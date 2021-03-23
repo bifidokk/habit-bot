@@ -37,6 +37,11 @@ class StartCommand implements CommandInterface
         return self::COMMAND_NAME;
     }
 
+    public function canRun(MessageType $message, User $user): bool
+    {
+        return false;
+    }
+
     public function run(MessageType $message, User $user): void
     {
         $this->userService->changeUserState($user, UserStateTransition::get(UserStateTransition::NEW_HABIT));
