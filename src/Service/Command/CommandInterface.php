@@ -11,6 +11,8 @@ interface CommandInterface
 {
     public function getName(): string;
 
+    public function getPriority(): CommandPriority;
+
     public function canRun(MessageType $message, User $user): bool;
 
     public function run(MessageType $message, User $user): void;

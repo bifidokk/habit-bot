@@ -6,6 +6,7 @@ namespace App\Service\Command\HabitCreation;
 
 use App\Entity\User;
 use App\Service\Command\CommandInterface;
+use App\Service\Command\CommandPriority;
 use App\Service\Keyboard\NewHabitKeyboard;
 use App\Service\User\UserService;
 use App\Service\User\UserStateTransition;
@@ -36,6 +37,11 @@ class StartCommand implements CommandInterface
     public function getName(): string
     {
         return self::COMMAND_NAME;
+    }
+
+    public function getPriority(): CommandPriority
+    {
+        return CommandPriority::get(CommandPriority::LOW);
     }
 
     public function canRun(MessageType $message, User $user): bool

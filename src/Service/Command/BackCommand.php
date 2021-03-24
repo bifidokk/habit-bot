@@ -26,6 +26,11 @@ class BackCommand implements CommandInterface
         return self::COMMAND_NAME;
     }
 
+    public function getPriority(): CommandPriority
+    {
+        return CommandPriority::get(CommandPriority::LOW);
+    }
+
     public function canRun(MessageType $message, User $user): bool
     {
         return $message->text === self::COMMAND_PHRASE;

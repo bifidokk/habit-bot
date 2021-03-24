@@ -38,6 +38,11 @@ class StartCommand extends AbstractTelegramCommand implements CommandInterface
         return self::COMMAND_NAME;
     }
 
+    public function getPriority(): CommandPriority
+    {
+        return CommandPriority::get(CommandPriority::HIGH);
+    }
+
     public function run(MessageType $message, User $user): void
     {
         $this->userService->moveUserToStart($user);

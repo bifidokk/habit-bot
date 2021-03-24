@@ -20,12 +20,18 @@ class Router
 
     public function getCommand(MessageType $message, User $user): ?CommandInterface
     {
-        $commands = $this->commandLocator->getProvidedServices();
+        $commandServices = $this->commandLocator->getProvidedServices();
+        $commands = [];
 
-        foreach ($commands as $commandName => $commandClass) {
-            /** @var CommandInterface $command */
-            $command = $this->commandLocator->get($commandName);
+        foreach ($commandServices as $commandName => $commandClass) {
+            $commands[] = $this->commandLocator->get($commandName);
+        }
 
+        usort($commands, function($a, $b) {
+            return $b->getPriority()->getValue() <=> $a->getPriority()->getValue();
+        });
+
+        foreach ($commands as $command) {
             if ($command->canRun($message, $user)) {
                 return $command;
             }
