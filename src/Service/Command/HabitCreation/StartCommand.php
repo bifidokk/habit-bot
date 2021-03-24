@@ -17,6 +17,7 @@ use TgBotApi\BotApiBase\Type\MessageType;
 class StartCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_start';
+    public const COMMAND_PHRASE = 'Add a new habit';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
@@ -39,7 +40,7 @@ class StartCommand implements CommandInterface
 
     public function canRun(MessageType $message, User $user): bool
     {
-        return false;
+        return $message->text === self::COMMAND_PHRASE;
     }
 
     public function run(MessageType $message, User $user): void

@@ -45,12 +45,12 @@ services:
         tags: [ 'container.service_locator' ]
         arguments:
             -
-                start: '@App\Service\Command\StartCommand'
-                main_menu: '@App\Service\Command\MainMenuCommand'
-                new_habit: '@App\Service\Command\NewHabitCommand'
-                back: '@App\Service\Command\BackCommand'
                 habit_creation_start: '@App\Service\Command\HabitCreation\StartCommand'
                 habit_creation_add_title: '@App\Service\Command\HabitCreation\AddTitleCommand'
+                start: '@App\Service\Command\StartCommand'
+                main_menu: '@App\Service\Command\MainMenuCommand'
+                back: '@App\Service\Command\BackCommand'
+
 
 
 

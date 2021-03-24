@@ -44,7 +44,9 @@ class AddTitleCommand implements CommandInterface
 
     public function canRun(MessageType $message, User $user): bool
     {
-        return false;
+        $draftHabit = $user->getDraftHabit();
+
+        return $user->inHabitCreationFlow() && $draftHabit === null;
     }
 
     public function run(MessageType $message, User $user): void

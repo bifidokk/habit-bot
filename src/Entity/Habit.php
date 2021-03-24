@@ -23,7 +23,7 @@ class Habit
     private string $id = '';
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="habits")
      */
     private ?User $user = null;
 
@@ -91,5 +91,10 @@ class Habit
     public function setCreationState(string $creationState): void
     {
         $this->creationState = CreationHabitState::get($creationState);
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->state->equals(HabitState::get(HabitState::DRAFT));
     }
 }

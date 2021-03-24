@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Service\User\UserState;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -69,10 +70,19 @@ class User
      */
     private \DateTimeImmutable $createdAt;
 
+    /**
+     * @var Habit[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Habit", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"createdAt"="DESC"})
+     */
+    private $habits;
+
     public function __construct()
     {
         $this->state = UserState::get(UserState::START);
         $this->createdAt = new \DateTimeImmutable();
+        $this->habits = new ArrayCollection();
     }
 
     public function getId(): string
@@ -90,11 +100,6 @@ class User
         $this->state = UserState::get($state);
     }
 
-    public function inHabitCreationFlow(): bool
-    {
-        return $this->state->equals(UserState::get(UserState::NEW_HABIT));
-    }
-
     public static function createFromUserType(UserType $userType): User
     {
         $user = new User();
@@ -105,5 +110,25 @@ class User
         $user->telegramId = $userType->id;
 
         return $user;
+    }
+
+    public function inHabitCreationFlow(): bool
+    {
+        return $this->state->equals(UserState::get(UserState::NEW_HABIT));
+    }
+
+    public function getDraftHabit(): ?Habit
+    {
+        $draftHabits = $this->habits->filter(
+            function ($habit) {
+                return $habit->isDraft();
+            }
+        );
+
+        if ($draftHabits->count() === 0) {
+            return null;
+        }
+
+        return $draftHabits->first();
     }
 }
