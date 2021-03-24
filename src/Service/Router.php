@@ -27,7 +27,7 @@ class Router
             $commands[] = $this->commandLocator->get($commandName);
         }
 
-        usort($commands, function($a, $b) {
+        usort($commands, function ($a, $b) {
             return $b->getPriority()->getValue() <=> $a->getPriority()->getValue();
         });
 
