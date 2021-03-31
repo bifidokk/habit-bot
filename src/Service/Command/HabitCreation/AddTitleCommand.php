@@ -67,7 +67,7 @@ class AddTitleCommand implements CommandInterface
         }
 
         try {
-            $this->habitService->createHabit($newHabit, $user);
+            $habit = $this->habitService->createHabit($newHabit, $user);
         } catch (\Throwable $e) {
             $this->handleError($message, 'Something went wrong');
 
@@ -78,7 +78,7 @@ class AddTitleCommand implements CommandInterface
             SendMessageMethod::create(
                 $message->chat->id,
                 'Select remind days', [
-                    'replyMarkup' => HabitPeriodMenuKeyboard::generate(),
+                    'replyMarkup' => HabitPeriodMenuKeyboard::generate($habit->getRemindWeekDays()),
                 ])
         );
     }

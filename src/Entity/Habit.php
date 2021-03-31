@@ -43,6 +43,11 @@ class Habit
     private ?CreationHabitState $creationState = null;
 
     /**
+     * @ORM\Column(type="smallint")
+     */
+    private int $remindWeekDays = 0;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
@@ -96,5 +101,10 @@ class Habit
     public function isDraft(): bool
     {
         return $this->state->equals(HabitState::get(HabitState::DRAFT));
+    }
+
+    public function getRemindWeekDays(): int
+    {
+        return $this->remindWeekDays;
     }
 }

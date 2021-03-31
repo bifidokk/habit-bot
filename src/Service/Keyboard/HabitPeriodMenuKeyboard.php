@@ -9,7 +9,7 @@ use TgBotApi\BotApiBase\Type\ReplyKeyboardMarkupType;
 
 class HabitPeriodMenuKeyboard
 {
-    public static function generate(): ReplyKeyboardMarkupType
+    public static function generate(int $chosenWeekDays): ReplyKeyboardMarkupType
     {
         return ReplyKeyboardMarkupType::create([
             [

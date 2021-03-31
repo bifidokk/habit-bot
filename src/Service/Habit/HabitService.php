@@ -17,7 +17,7 @@ class HabitService
         $this->habitRepository = $habitRepository;
     }
 
-    public function createHabit(NewHabitDto $newHabit, User $user): void
+    public function createHabit(NewHabitDto $newHabit, User $user): Habit
     {
         $habit = new Habit();
         $habit->setDescription($newHabit->description);
@@ -25,12 +25,7 @@ class HabitService
         $habit->setCreationState(CreationHabitState::TITLE_ADDED);
 
         $this->habitRepository->save($habit);
-    }
 
-    public function getLastDraftHabitForUser(User $user): ?Habit
-    {
-        $state = HabitState::get(HabitState::DRAFT);
-
-        return $this->habitRepository->getHabitForUserByState($user, $state);
+        return $habit;
     }
 }
