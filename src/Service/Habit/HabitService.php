@@ -40,7 +40,7 @@ class HabitService
         }
 
         $remindDaysString = implode('', $remindDays);
-        $habit->setRemindWeekDays(bindec($remindDaysString));
+        $habit->setRemindWeekDays((int)bindec($remindDaysString));
 
         $this->habitRepository->save($habit);
     }
