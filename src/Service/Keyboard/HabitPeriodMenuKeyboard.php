@@ -18,7 +18,7 @@ class HabitPeriodMenuKeyboard
     public static function generate(int $chosenWeekDays): ReplyKeyboardMarkupType
     {
         $buttons = [];
-        $chosenWeekDaysBin = sprintf( "%07d", decbin($chosenWeekDays));
+        $chosenWeekDaysBin = sprintf('%07d', decbin($chosenWeekDays));
 
         foreach (self::WEEK_DAYS as $number => $day) {
             if (self::dayIsChosen($chosenWeekDaysBin, $number)) {
@@ -35,8 +35,8 @@ class HabitPeriodMenuKeyboard
         ]);
     }
 
-    private static function dayIsChosen(string $chosenWeekDaysBin, $dayNumberInWeek): bool
+    private static function dayIsChosen(string $chosenWeekDaysBin, int $dayNumberInWeek): bool
     {
-        return isset($chosenWeekDaysBin[$dayNumberInWeek]) && (int)$chosenWeekDaysBin[$dayNumberInWeek] === 1;
+        return isset($chosenWeekDaysBin[$dayNumberInWeek]) && (int) $chosenWeekDaysBin[$dayNumberInWeek] === 1;
     }
 }
