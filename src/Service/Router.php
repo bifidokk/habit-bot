@@ -39,4 +39,9 @@ class Router
 
         return null;
     }
+
+    public function getCommandByName(string $name): CommandInterface
+    {
+        return $this->commandLocator->get($name);
+    }
 }
