@@ -131,4 +131,9 @@ class User
 
         return $draftHabits->first();
     }
+
+    public function addHabit(Habit $habit): void
+    {
+        $this->habits->add($habit);
+    }
 }

@@ -70,7 +70,8 @@ class AddTitleCommand implements CommandInterface
         }
 
         try {
-            $this->habitService->createHabit($newHabit, $user);
+            $habit = $this->habitService->createHabit($newHabit, $user);
+            $user->addHabit($habit);
         } catch (\Throwable $e) {
             $this->handleError($message, 'Something went wrong');
 
