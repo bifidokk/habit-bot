@@ -65,7 +65,7 @@ class AddRemindDayCommand implements CommandInterface
         $dayNumber = array_search($dayName, HabitPeriodMenuKeyboard::WEEK_DAYS, true);
 
         if ($dayNumber !== false) {
-            $this->habitService->toggleRemindDay($habit, (int)$dayNumber);
+            $this->habitService->toggleRemindDay($habit, (int) $dayNumber);
         }
 
         $this->bot->sendMessage(
