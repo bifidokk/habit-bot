@@ -9,10 +9,10 @@ use TgBotApi\BotApiBase\Type\ReplyKeyboardMarkupType;
 
 class HabitPeriodMenuKeyboard
 {
-    public const MARK_CODE = 'U+2705';
+    public const MARK_CODE = "\xE2\x9C\x85";
 
-    private const WEEK_DAYS = [
-        'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sar',
+    public const WEEK_DAYS = [
+        'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
     ];
 
     public static function generate(int $chosenWeekDays): ReplyKeyboardMarkupType
@@ -22,7 +22,7 @@ class HabitPeriodMenuKeyboard
 
         foreach (self::WEEK_DAYS as $number => $day) {
             if (self::dayIsChosen($chosenWeekDaysBin, $number)) {
-                $day = sprintf('U+2705%s', $day);
+                $day = sprintf('%s%s', self::MARK_CODE, $day);
             }
 
             $buttons[] = KeyboardButtonType::create($day);
@@ -31,7 +31,7 @@ class HabitPeriodMenuKeyboard
         return ReplyKeyboardMarkupType::create([
             $buttons,
             [KeyboardButtonType::create('Choose all')],
-            [KeyboardButtonType::create('Back')],
+            [KeyboardButtonType::create('Back'), KeyboardButtonType::create('Next')],
         ]);
     }
 

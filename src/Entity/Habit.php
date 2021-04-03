@@ -107,4 +107,9 @@ class Habit
     {
         return $this->remindWeekDays;
     }
+
+    public function setRemindWeekDays(int $remindWeekDays): void
+    {
+        $this->remindWeekDays = $remindWeekDays;
+    }
 }

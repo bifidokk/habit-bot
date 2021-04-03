@@ -60,6 +60,14 @@ class AddRemindDayCommand implements CommandInterface
     {
         $habit = $user->getDraftHabit();
 
+        $dayName = trim($message->text);
+        $dayName = str_replace(HabitPeriodMenuKeyboard::MARK_CODE, '', $dayName);
+        $dayNumber = array_search($dayName, HabitPeriodMenuKeyboard::WEEK_DAYS, true);
+
+        if ($dayNumber !== false) {
+            $this->habitService->toggleRemindDay($habit, (int)$dayNumber);
+        }
+
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $message->chat->id,
