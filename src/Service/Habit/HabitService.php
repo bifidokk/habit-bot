@@ -28,25 +28,4 @@ class HabitService
 
         return $habit;
     }
-
-    public function toggleRemindDay(Habit $habit, int $dayNumber): void
-    {
-        $remindDays = $this->getRemindDayArray($habit);
-
-        foreach ($remindDays as $number => $day) {
-            if ($number === $dayNumber) {
-                $remindDays[$number] = $remindDays[$number] === '1' ? '0' : '1';
-            }
-        }
-
-        $remindDaysString = implode('', $remindDays);
-        $habit->setRemindWeekDays((int) bindec($remindDaysString));
-
-        $this->habitRepository->save($habit);
-    }
-
-    private function getRemindDayArray(Habit $habit): array
-    {
-        return str_split(sprintf('%07d', decbin($habit->getRemindWeekDays())));
-    }
 }

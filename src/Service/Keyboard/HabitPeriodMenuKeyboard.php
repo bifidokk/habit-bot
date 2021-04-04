@@ -10,6 +10,8 @@ use TgBotApi\BotApiBase\Type\ReplyKeyboardMarkupType;
 class HabitPeriodMenuKeyboard
 {
     public const MARK_CODE = "\xE2\x9C\x85";
+    public const CHOOSE_ALL_BUTTON_LABEL = 'Choose all';
+    public const NEXT_BUTTON_LABEL = 'Next';
 
     public const WEEK_DAYS = [
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
@@ -30,8 +32,8 @@ class HabitPeriodMenuKeyboard
 
         return ReplyKeyboardMarkupType::create([
             $buttons,
-            [KeyboardButtonType::create('Choose all')],
-            [KeyboardButtonType::create('Back'), KeyboardButtonType::create('Next')],
+            [KeyboardButtonType::create(self::CHOOSE_ALL_BUTTON_LABEL)],
+            [KeyboardButtonType::create('Back'), KeyboardButtonType::create(self::NEXT_BUTTON_LABEL)],
         ]);
     }
 
