@@ -13,6 +13,7 @@
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="8.5" />
+        <env name="TG_BOT_WEBHOOK_TOKEN" value="yyFqZ9LExjjCdamtqup9ENp2iikNVmJM" />
     </php>
 
     <testsuites>

@@ -1,0 +1,3 @@
+services:
+    TgBotApi\BotApiBase\BotApiComplete:
+        public: true
