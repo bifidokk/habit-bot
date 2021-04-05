@@ -54,6 +54,8 @@ jobs:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
       - name: Run Tests
         run: php bin/phpunit --coverage-text
+        env:
+          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
       - name: PHPStan
         run: phpstan analyse src tests --level 7
       - name: Code style
