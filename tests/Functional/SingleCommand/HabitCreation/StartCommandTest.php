@@ -17,8 +17,8 @@ class StartCommandTest extends CommandTest
         $methodStart = SendMessageMethod::create(
             $chatId,
             StartCommand::COMMAND_RESPONSE_TEXT, [
-            'replyMarkup' => NewHabitKeyboard::generate(),
-        ]);
+                'replyMarkup' => NewHabitKeyboard::generate(),
+            ]);
 
         $this->botApiCompleteMock->expects($this->once())
             ->method('sendMessage')
@@ -26,7 +26,7 @@ class StartCommandTest extends CommandTest
                 [$methodStart]
             );
 
-       $this->sendRequest($this->getContent());
+        $this->sendRequest($this->getContent());
     }
 
     private function getContent(): string
