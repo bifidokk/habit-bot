@@ -59,4 +59,4 @@ jobs:
       - name: PHPStan
         run: phpstan analyse src tests --level 7
       - name: Code style
-        run: vendor/bin/ecs check src
+        run: vendor/bin/ecs check src tests

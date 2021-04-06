@@ -20,8 +20,8 @@ class StartCommandTest extends WebTestCase
         $methodMainMenu = SendMessageMethod::create(
             '1',
             'You are in the main menu', [
-            'replyMarkup' => MainMenuKeyboard::generate(),
-        ]);
+                'replyMarkup' => MainMenuKeyboard::generate(),
+            ]);
 
         $botApiComplete = $this->createMock(\TgBotApi\BotApiBase\BotApiComplete::class);
 

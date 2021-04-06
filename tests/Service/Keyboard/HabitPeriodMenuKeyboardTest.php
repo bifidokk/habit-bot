@@ -16,7 +16,7 @@ class HabitPeriodMenuKeyboardTest extends TestCase
     {
         $days = '0100100';
         $actualDays = '';
-        $keyboard = HabitPeriodMenuKeyboard::generate((int)bindec($days));
+        $keyboard = HabitPeriodMenuKeyboard::generate((int) bindec($days));
 
         $daysRow = $keyboard->keyboard[0];
 
