@@ -19,6 +19,7 @@ class StartCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_start';
     public const COMMAND_PHRASE = 'Add a new habit';
+    public const COMMAND_RESPONSE_TEXT = 'Just enter a new habit\'s text';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
@@ -61,7 +62,7 @@ class StartCommand implements CommandInterface
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            'Just enter a new habit\'s text', [
+            self::COMMAND_RESPONSE_TEXT, [
                 'replyMarkup' => NewHabitKeyboard::generate(),
             ]);
     }

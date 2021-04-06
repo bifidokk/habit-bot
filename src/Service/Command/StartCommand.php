@@ -15,6 +15,7 @@ use TgBotApi\BotApiBase\Type\MessageType;
 class StartCommand extends AbstractTelegramCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'start';
+    public const COMMAND_RESPONSE_TEXT = 'Hey there! You can add a new habit here';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
@@ -58,7 +59,7 @@ class StartCommand extends AbstractTelegramCommand implements CommandInterface
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            'Hey there! You can add a new habit here'
+            self::COMMAND_RESPONSE_TEXT
         );
     }
 }

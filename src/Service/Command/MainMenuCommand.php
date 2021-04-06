@@ -15,6 +15,7 @@ use TgBotApi\BotApiBase\Type\MessageType;
 class MainMenuCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'main_menu';
+    public const COMMAND_RESPONSE_TEXT = 'You are in the main menu';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
@@ -57,7 +58,7 @@ class MainMenuCommand implements CommandInterface
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            'You are in the main menu', [
+            self::COMMAND_RESPONSE_TEXT, [
                 'replyMarkup' => MainMenuKeyboard::generate(),
             ]);
     }

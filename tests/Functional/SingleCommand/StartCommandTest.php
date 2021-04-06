@@ -2,41 +2,38 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional;
+namespace App\Tests\Functional\SingleCommand;
 
+use App\Service\Command\MainMenuCommand;
+use App\Service\Command\StartCommand;
 use App\Service\Keyboard\MainMenuKeyboard;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Functional\CommandTest;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 
-class StartCommandTest extends WebTestCase
+class StartCommandTest extends CommandTest
 {
     public function testStartCommand(): void
     {
+        $chatId = 1;
         $methodStart = SendMessageMethod::create(
-            '1',
-            'Hey there! You can add a new habit here'
+            $chatId,
+            StartCommand::COMMAND_RESPONSE_TEXT
         );
 
         $methodMainMenu = SendMessageMethod::create(
-            '1',
-            'You are in the main menu', [
+            $chatId,
+            MainMenuCommand::COMMAND_RESPONSE_TEXT, [
                 'replyMarkup' => MainMenuKeyboard::generate(),
             ]);
 
-        $botApiComplete = $this->createMock(\TgBotApi\BotApiBase\BotApiComplete::class);
-
-        $botApiComplete->expects($this->exactly(2))
+        $this->botApiCompleteMock->expects($this->exactly(2))
             ->method('sendMessage')
             ->withConsecutive(
                 [$methodStart],
                 [$methodMainMenu]
             );
 
-        $client = static::createClient();
-        $client->getContainer()->set('TgBotApi\BotApiBase\BotApiComplete', $botApiComplete);
-        $client->request('POST', sprintf('/webhook/%s', getenv('TG_BOT_WEBHOOK_TOKEN')), [], [], [], $this->getContent());
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->sendRequest($this->getContent());
     }
 
     private function getContent(): string
