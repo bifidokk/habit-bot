@@ -23,6 +23,7 @@ class CommandTest extends WebTestCase
         $this->botApiCompleteMock = $this->createMock(\TgBotApi\BotApiBase\BotApiComplete::class);
         $this->client = static::createClient();
         $this->client->getContainer()->set('TgBotApi\BotApiBase\BotApiComplete', $this->botApiCompleteMock);
+        $this->client->disableReboot();
 
         $this->entityManager = $this->client->getContainer()
             ->get('doctrine')

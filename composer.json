@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
+        "doctrine/coding-standard": "^8.2",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",

@@ -21,6 +21,7 @@ use TgBotApi\BotApiBase\Type\MessageType;
 class AddRemindDayCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_remind_day';
+    public const COMMAND_RESPONSE_TEXT = 'Select remind days';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
@@ -81,7 +82,11 @@ class AddRemindDayCommand implements CommandInterface
 
         if ($message->text === HabitPeriodMenuKeyboard::NEXT_BUTTON_LABEL) {
             $this->goNextStep($message, $habit);
+
+            return;
         }
+
+        $this->updateKeyboard($message, $habit);
     }
 
     private function goNextStep(MessageType $message, Habit $habit): void
@@ -107,7 +112,7 @@ class AddRemindDayCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $message->chat->id,
-                'Select remind days', [
+                self::COMMAND_RESPONSE_TEXT, [
                     'replyMarkup' => HabitPeriodMenuKeyboard::generate($habit->getRemindWeekDays()),
                 ])
         );

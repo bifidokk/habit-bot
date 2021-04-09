@@ -26,10 +26,10 @@ class StartCommandTest extends CommandTest
                 [$methodStart]
             );
 
-        $this->sendRequest($this->getContent());
+        $this->sendRequest(self::getContent());
     }
 
-    private function getContent(): string
+    public static function getContent(): string
     {
         return '{
     "update_id": 1,
