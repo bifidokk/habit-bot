@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Service\Command\HabitCreation\AddRemindDayCommand;
 use App\Service\Keyboard\HabitPeriodMenuKeyboard;
 use App\Tests\Functional\CommandTest;
+use App\Tests\Functional\WebhookDataFactory;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UserType;
 
@@ -26,8 +27,7 @@ class AddTitleCommandTest extends CommandTest
         $userRepository = static::$container->get(UserRepository::class);
         $userRepository->save($user);
 
-        $startContent = StartCommandTest::getContent();
-        $this->sendRequest($startContent);
+        $this->sendRequest(WebhookDataFactory::getHabitCreationStartCommandData());
 
         $methodAddRemindDay = SendMessageMethod::create(
             1,
@@ -41,31 +41,6 @@ class AddTitleCommandTest extends CommandTest
                 [$methodAddRemindDay]
             );
 
-        $this->sendRequest($this->getContent());
-    }
-
-    private function getContent(): string
-    {
-        return '{
-    "update_id": 1,
-    "message": {
-        "message_id": 1,
-        "from": {
-            "id": 1,
-            "is_bot": false,
-            "first_name": "John",
-            "username": "johndoe",
-            "language_code": "ru"
-        },
-        "chat": {
-            "id": 1,
-            "first_name": "John",
-            "username": "johndoe",
-            "type": "private"
-        },
-        "date": 1617729513,
-        "text": "This a new habit"
-    }
-}';
+        $this->sendRequest(WebhookDataFactory::getHabitCreationAddTitleCommandData());
     }
 }
