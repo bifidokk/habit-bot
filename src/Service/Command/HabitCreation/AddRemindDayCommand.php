@@ -105,7 +105,7 @@ class AddRemindDayCommand implements CommandInterface
                 $message->chat->id,
                 self::COMMAND_RESPONSE_NEXT_TEXT, [
                     'replyMarkup' => HabitPeriodMenuKeyboard::generate($habit->getRemindWeekDays()),
-            ])
+                ])
         );
     }
 

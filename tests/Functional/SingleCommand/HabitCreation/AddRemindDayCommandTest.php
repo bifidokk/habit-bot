@@ -111,8 +111,8 @@ class AddRemindDayCommandTest extends CommandTest
         $messageMethod = SendMessageMethod::create(
             1,
             AddRemindDayCommand::COMMAND_RESPONSE_NEXT_TEXT, [
-            'replyMarkup' => HabitPeriodMenuKeyboard::generate(0),
-        ]);
+                'replyMarkup' => HabitPeriodMenuKeyboard::generate(0),
+            ]);
 
         $this->botApiCompleteMock->expects($this->once())
             ->method('sendMessage')
