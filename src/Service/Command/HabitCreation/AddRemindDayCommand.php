@@ -72,12 +72,10 @@ class AddRemindDayCommand implements CommandInterface
 
         if ($dayNumber !== false) {
             $this->remindDayService->toggleDay($habit, (int) $dayNumber);
-            $this->updateKeyboard($message, $habit);
         }
 
         if ($message->text === HabitPeriodMenuKeyboard::CHOOSE_ALL_BUTTON_LABEL) {
             $this->remindDayService->markAll($habit);
-            $this->updateKeyboard($message, $habit);
         }
 
         if ($message->text === HabitPeriodMenuKeyboard::NEXT_BUTTON_LABEL) {

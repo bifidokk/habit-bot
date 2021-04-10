@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
+use App\Service\Keyboard\HabitPeriodMenuKeyboard;
+
 class WebhookDataFactory
 {
     public static function getStartCommandData(): string
@@ -41,6 +43,22 @@ class WebhookDataFactory
     public static function getEmptyHabitCreationAddTitleCommandData(): string
     {
         $data = self::getCommonData();
+
+        return json_encode($data);
+    }
+
+    public static function getHabitCreationAddRemindDayCommandData(): string
+    {
+        $data = self::getCommonData();
+        $data['message']['text'] = 'Sun';
+
+        return json_encode($data);
+    }
+
+    public static function getHabitCreationAddAllRemindDaysCommandData(): string
+    {
+        $data = self::getCommonData();
+        $data['message']['text'] = HabitPeriodMenuKeyboard::CHOOSE_ALL_BUTTON_LABEL;
 
         return json_encode($data);
     }
