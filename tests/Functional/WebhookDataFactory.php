@@ -38,6 +38,13 @@ class WebhookDataFactory
         return json_encode($data);
     }
 
+    public static function getEmptyHabitCreationAddTitleCommandData(): string
+    {
+        $data = self::getCommonData();
+
+        return json_encode($data);
+    }
+
     private static function getCommonData(): array
     {
         return [

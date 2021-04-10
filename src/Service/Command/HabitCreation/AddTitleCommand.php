@@ -20,6 +20,9 @@ use TgBotApi\BotApiBase\Type\MessageType;
 class AddTitleCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_title';
+    public const ERROR_TEMPLATE_TEXT = 'There is an error: %s';
+    public const ERROR_DESCRIPTION_TEXT = 'Invalid habit description';
+    public const ERROR_TEXT = 'Something went wrong';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
@@ -64,7 +67,7 @@ class AddTitleCommand implements CommandInterface
         $errors = $this->validator->validate($newHabit);
 
         if (count($errors) > 0) {
-            $this->handleError($message, 'Invalid habit description');
+            $this->handleError($message, self::ERROR_DESCRIPTION_TEXT);
 
             return;
         }
@@ -73,7 +76,7 @@ class AddTitleCommand implements CommandInterface
             $habit = $this->habitService->createHabit($newHabit, $user);
             $user->addHabit($habit);
         } catch (\Throwable $e) {
-            $this->handleError($message, 'Something went wrong');
+            $this->handleError($message, self::ERROR_TEXT);
 
             return;
         }
@@ -87,14 +90,14 @@ class AddTitleCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $message->chat->id,
-                sprintf('There is an error: %s', $error)
+                sprintf(self::ERROR_TEMPLATE_TEXT, $error)
             )
         );
 
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $message->chat->id,
-                'Just enter a new habit\'s text', [
+                StartCommand::COMMAND_RESPONSE_TEXT, [
                     'replyMarkup' => NewHabitKeyboard::generate(),
                 ]
             )
