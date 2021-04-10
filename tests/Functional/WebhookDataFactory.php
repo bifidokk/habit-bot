@@ -55,6 +55,14 @@ class WebhookDataFactory
         return json_encode($data);
     }
 
+    public static function getHabitCreationAddRemindDayNextCommandData(): string
+    {
+        $data = self::getCommonData();
+        $data['message']['text'] = HabitPeriodMenuKeyboard::NEXT_BUTTON_LABEL;
+
+        return json_encode($data);
+    }
+
     public static function getHabitCreationAddAllRemindDaysCommandData(): string
     {
         $data = self::getCommonData();

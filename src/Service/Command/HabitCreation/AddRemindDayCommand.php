@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\CreationHabitState;
+use App\Service\Habit\CreationHabitStateTransition;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindDayService;
 use App\Service\Keyboard\HabitPeriodMenuKeyboard;
@@ -22,6 +23,7 @@ class AddRemindDayCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_remind_day';
     public const COMMAND_RESPONSE_TEXT = 'Select remind days';
+    public const COMMAND_RESPONSE_NEXT_TEXT = 'You have to choose at least on day';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
@@ -90,8 +92,10 @@ class AddRemindDayCommand implements CommandInterface
     private function goNextStep(MessageType $message, Habit $habit): void
     {
         if ($habit->getRemindWeekDays() > 0) {
-            // change habit creation state
-            // go next
+            $this->habitService->changeHabitCreationState(
+                $habit,
+                CreationHabitStateTransition::get(CreationHabitStateTransition::PERIOD_ADDED)
+            );
 
             return;
         }
@@ -99,9 +103,9 @@ class AddRemindDayCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $message->chat->id,
-                'You have to choose at least on day', [
+                self::COMMAND_RESPONSE_NEXT_TEXT, [
                     'replyMarkup' => HabitPeriodMenuKeyboard::generate($habit->getRemindWeekDays()),
-                ])
+            ])
         );
     }
 

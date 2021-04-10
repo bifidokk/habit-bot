@@ -15,3 +15,35 @@ framework:
                 new_habit:
                     from: start
                     to: new_habit
+
+        habit:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\Habit
+            initial_marking: draft
+            places:
+                - draft
+                - published
+            transitions:
+                publish:
+                    from: draft
+                    to: published
+
+        habit_creation:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'creationState'
+            supports:
+                - App\Entity\Habit
+            initial_marking: title_added
+            places:
+                - title_added
+                - period_added
+            transitions:
+                period_added:
+                    from: title_added
+                    to: period_added

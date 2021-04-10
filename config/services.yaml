@@ -14,7 +14,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
-            $stateMachine: '@state_machine.user'
             $commandLocator: '@app.service.command_locator'
 
     # makes classes in src/ available to be used as services
@@ -52,5 +51,11 @@ services:
                 habit_creation_add_title: '@App\Service\Command\HabitCreation\AddTitleCommand'
                 habit_creation_add_remind_day: '@App\Service\Command\HabitCreation\AddRemindDayCommand'
 
+    App\Service\User\UserService:
+        arguments:
+            $stateMachine: '@state_machine.user'
 
-
+    App\Service\Habit\HabitService:
+        arguments:
+            $habitStateMachine: '@state_machine.habit'
+            $habitCreationStateMachine: '@state_machine.habit_creation'

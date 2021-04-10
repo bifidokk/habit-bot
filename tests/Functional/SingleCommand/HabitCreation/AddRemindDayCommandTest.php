@@ -8,6 +8,7 @@ use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\Command\HabitCreation\AddRemindDayCommand;
+use App\Service\Habit\CreationHabitState;
 use App\Service\Keyboard\HabitPeriodMenuKeyboard;
 use App\Service\User\UserState;
 use App\Tests\Functional\CommandTest;
@@ -24,8 +25,8 @@ class AddRemindDayCommandTest extends CommandTest
         $methodAddRemindDay = SendMessageMethod::create(
             1,
             AddRemindDayCommand::COMMAND_RESPONSE_TEXT, [
-            'replyMarkup' => HabitPeriodMenuKeyboard::generate(64),
-        ]);
+                'replyMarkup' => HabitPeriodMenuKeyboard::generate(64),
+            ]);
 
         $this->botApiCompleteMock->expects($this->once())
             ->method('sendMessage')
@@ -56,8 +57,8 @@ class AddRemindDayCommandTest extends CommandTest
         $methodAddRemindDay = SendMessageMethod::create(
             1,
             AddRemindDayCommand::COMMAND_RESPONSE_TEXT, [
-            'replyMarkup' => HabitPeriodMenuKeyboard::generate(127),
-        ]);
+                'replyMarkup' => HabitPeriodMenuKeyboard::generate(127),
+            ]);
 
         $this->botApiCompleteMock->expects($this->once())
             ->method('sendMessage')
@@ -79,6 +80,47 @@ class AddRemindDayCommandTest extends CommandTest
 
         $this->assertInstanceOf(Habit::class, $habit);
         $this->assertEquals(127, $habit->getRemindWeekDays());
+    }
+
+    public function testAddRemindDayNextCommand(): void
+    {
+        $this->prepareState();
+
+        $this->sendRequest(WebhookDataFactory::getHabitCreationAddRemindDayCommandData());
+        $this->sendRequest(WebhookDataFactory::getHabitCreationAddRemindDayNextCommandData());
+
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy([
+            'telegramId' => 1,
+        ]);
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertEquals(UserState::NEW_HABIT, $user->getState());
+
+        $habit = $user->getDraftHabit();
+
+        $this->assertInstanceOf(Habit::class, $habit);
+        $this->assertEquals(64, $habit->getRemindWeekDays());
+        $this->assertEquals(CreationHabitState::PERIOD_ADDED, $habit->getCreationState());
+    }
+
+    public function testAddRemindDayNextWithoutSavedCommand(): void
+    {
+        $this->prepareState();
+
+        $messageMethod = SendMessageMethod::create(
+            1,
+            AddRemindDayCommand::COMMAND_RESPONSE_NEXT_TEXT, [
+            'replyMarkup' => HabitPeriodMenuKeyboard::generate(0),
+        ]);
+
+        $this->botApiCompleteMock->expects($this->once())
+            ->method('sendMessage')
+            ->withConsecutive(
+                [$messageMethod]
+            );
+
+        $this->sendRequest(WebhookDataFactory::getHabitCreationAddRemindDayNextCommandData());
     }
 
     private function prepareState(): void
