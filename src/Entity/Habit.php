@@ -48,6 +48,11 @@ class Habit
     private int $remindWeekDays = 0;
 
     /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?\DateTimeImmutable $remindAt = null;
+
+    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
@@ -111,5 +116,15 @@ class Habit
     public function setRemindWeekDays(int $remindWeekDays): void
     {
         $this->remindWeekDays = $remindWeekDays;
+    }
+
+    public function getRemindAt(): \DateTimeImmutable
+    {
+        return $this->remindAt;
+    }
+
+    public function setRemindAt(\DateTimeImmutable $remindAt): void
+    {
+        $this->remindAt = $remindAt;
     }
 }

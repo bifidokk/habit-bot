@@ -104,7 +104,7 @@ class AddRemindDayCommandTest extends CommandTest
         $this->assertEquals(CreationHabitState::PERIOD_ADDED, $habit->getCreationState());
     }
 
-    public function testAddRemindDayNextWithoutSavedCommand(): void
+    public function testAddRemindDayNextWithoutSavedDaysCommand(): void
     {
         $this->prepareState();
 
