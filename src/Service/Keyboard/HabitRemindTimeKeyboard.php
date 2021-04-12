@@ -27,7 +27,7 @@ class HabitRemindTimeKeyboard
         }
 
         $rowNumber = floor($count / self::BUTTONS_IN_A_ROW);
-        $buttons[$rowNumber+1][] = KeyboardButtonType::create(self::BACK_BUTTON_LABEL);
+        $buttons[$rowNumber + 1][] = KeyboardButtonType::create(self::BACK_BUTTON_LABEL);
 
         return ReplyKeyboardMarkupType::create($buttons);
     }
