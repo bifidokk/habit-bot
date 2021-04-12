@@ -12,9 +12,8 @@ use App\Service\Habit\CreationHabitState;
 use App\Service\Habit\CreationHabitStateTransition;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindDayService;
-use App\Service\Keyboard\HabitPeriodMenuKeyboard;
+use App\Service\Keyboard\HabitRemindDayKeyboard;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
@@ -28,20 +27,17 @@ class AddRemindDayCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private HabitService $habitService;
-    private ValidatorInterface $validator;
     private RemindDayService $remindDayService;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
-        ValidatorInterface $validator,
         RemindDayService $remindDayService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
-        $this->validator = $validator;
         $this->remindDayService = $remindDayService;
     }
 
@@ -69,18 +65,18 @@ class AddRemindDayCommand implements CommandInterface
         $habit = $user->getDraftHabit();
 
         $dayName = trim($message->text);
-        $dayName = str_replace(HabitPeriodMenuKeyboard::MARK_CODE, '', $dayName);
-        $dayNumber = array_search($dayName, HabitPeriodMenuKeyboard::WEEK_DAYS, true);
+        $dayName = str_replace(HabitRemindDayKeyboard::MARK_CODE, '', $dayName);
+        $dayNumber = array_search($dayName, HabitRemindDayKeyboard::WEEK_DAYS, true);
 
         if ($dayNumber !== false) {
             $this->remindDayService->toggleDay($habit, (int) $dayNumber);
         }
 
-        if ($message->text === HabitPeriodMenuKeyboard::CHOOSE_ALL_BUTTON_LABEL) {
+        if ($message->text === HabitRemindDayKeyboard::CHOOSE_ALL_BUTTON_LABEL) {
             $this->remindDayService->markAll($habit);
         }
 
-        if ($message->text === HabitPeriodMenuKeyboard::NEXT_BUTTON_LABEL) {
+        if ($message->text === HabitRemindDayKeyboard::NEXT_BUTTON_LABEL) {
             $this->goNextStep($message, $habit);
 
             return;
@@ -104,7 +100,7 @@ class AddRemindDayCommand implements CommandInterface
             SendMessageMethod::create(
                 $message->chat->id,
                 self::COMMAND_RESPONSE_NEXT_TEXT, [
-                    'replyMarkup' => HabitPeriodMenuKeyboard::generate($habit->getRemindWeekDays()),
+                    'replyMarkup' => HabitRemindDayKeyboard::generate($habit->getRemindWeekDays()),
                 ])
         );
     }
@@ -115,7 +111,7 @@ class AddRemindDayCommand implements CommandInterface
             SendMessageMethod::create(
                 $message->chat->id,
                 self::COMMAND_RESPONSE_TEXT, [
-                    'replyMarkup' => HabitPeriodMenuKeyboard::generate($habit->getRemindWeekDays()),
+                    'replyMarkup' => HabitRemindDayKeyboard::generate($habit->getRemindWeekDays()),
                 ])
         );
     }

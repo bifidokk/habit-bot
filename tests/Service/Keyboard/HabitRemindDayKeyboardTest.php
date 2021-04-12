@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Keyboard;
 
-use App\Service\Keyboard\HabitPeriodMenuKeyboard;
+use App\Service\Keyboard\HabitRemindDayKeyboard;
 use PHPUnit\Framework\TestCase;
 
-class HabitPeriodMenuKeyboardTest extends TestCase
+class HabitRemindDayKeyboardTest extends TestCase
 {
     /**
      * @test
@@ -16,12 +16,12 @@ class HabitPeriodMenuKeyboardTest extends TestCase
     {
         $days = '0100100';
         $actualDays = '';
-        $keyboard = HabitPeriodMenuKeyboard::generate((int) bindec($days));
+        $keyboard = HabitRemindDayKeyboard::generate((int) bindec($days));
 
         $daysRow = $keyboard->keyboard[0];
 
         foreach ($daysRow as $dayButton) {
-            if (strpos($dayButton->text, HabitPeriodMenuKeyboard::MARK_CODE) !== false) {
+            if (strpos($dayButton->text, HabitRemindDayKeyboard::MARK_CODE) !== false) {
                 $actualDays .= '1';
             } else {
                 $actualDays .= '0';

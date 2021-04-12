@@ -43,4 +43,9 @@ class HabitService
         $this->habitCreationStateMachine->apply($habit, (string) $state->getValue());
         $this->habitRepository->save($habit);
     }
+
+    public function save(Habit $habit): void
+    {
+        $this->habitRepository->save($habit);
+    }
 }

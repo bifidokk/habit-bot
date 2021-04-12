@@ -48,7 +48,7 @@ class Habit
     private int $remindWeekDays = 0;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="time_immutable", nullable=true)
      */
     private ?\DateTimeImmutable $remindAt = null;
 

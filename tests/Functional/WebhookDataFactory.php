@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
-use App\Service\Keyboard\HabitPeriodMenuKeyboard;
+use App\Service\Keyboard\HabitRemindDayKeyboard;
 
 class WebhookDataFactory
 {
@@ -58,7 +58,7 @@ class WebhookDataFactory
     public static function getHabitCreationAddRemindDayNextCommandData(): string
     {
         $data = self::getCommonData();
-        $data['message']['text'] = HabitPeriodMenuKeyboard::NEXT_BUTTON_LABEL;
+        $data['message']['text'] = HabitRemindDayKeyboard::NEXT_BUTTON_LABEL;
 
         return json_encode($data);
     }
@@ -66,7 +66,7 @@ class WebhookDataFactory
     public static function getHabitCreationAddAllRemindDaysCommandData(): string
     {
         $data = self::getCommonData();
-        $data['message']['text'] = HabitPeriodMenuKeyboard::CHOOSE_ALL_BUTTON_LABEL;
+        $data['message']['text'] = HabitRemindDayKeyboard::CHOOSE_ALL_BUTTON_LABEL;
 
         return json_encode($data);
     }

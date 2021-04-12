@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\Command\HabitCreation\AddRemindDayCommand;
 use App\Service\Habit\CreationHabitState;
-use App\Service\Keyboard\HabitPeriodMenuKeyboard;
+use App\Service\Keyboard\HabitRemindDayKeyboard;
 use App\Service\User\UserState;
 use App\Tests\Functional\CommandTest;
 use App\Tests\Functional\WebhookDataFactory;
@@ -25,7 +25,7 @@ class AddRemindDayCommandTest extends CommandTest
         $methodAddRemindDay = SendMessageMethod::create(
             1,
             AddRemindDayCommand::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => HabitPeriodMenuKeyboard::generate(64),
+                'replyMarkup' => HabitRemindDayKeyboard::generate(64),
             ]);
 
         $this->botApiCompleteMock->expects($this->once())
@@ -57,7 +57,7 @@ class AddRemindDayCommandTest extends CommandTest
         $methodAddRemindDay = SendMessageMethod::create(
             1,
             AddRemindDayCommand::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => HabitPeriodMenuKeyboard::generate(127),
+                'replyMarkup' => HabitRemindDayKeyboard::generate(127),
             ]);
 
         $this->botApiCompleteMock->expects($this->once())
@@ -111,7 +111,7 @@ class AddRemindDayCommandTest extends CommandTest
         $messageMethod = SendMessageMethod::create(
             1,
             AddRemindDayCommand::COMMAND_RESPONSE_NEXT_TEXT, [
-                'replyMarkup' => HabitPeriodMenuKeyboard::generate(0),
+                'replyMarkup' => HabitRemindDayKeyboard::generate(0),
             ]);
 
         $this->botApiCompleteMock->expects($this->once())

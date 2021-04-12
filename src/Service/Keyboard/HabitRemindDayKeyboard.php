@@ -7,11 +7,12 @@ namespace App\Service\Keyboard;
 use TgBotApi\BotApiBase\Type\KeyboardButtonType;
 use TgBotApi\BotApiBase\Type\ReplyKeyboardMarkupType;
 
-class HabitPeriodMenuKeyboard
+class HabitRemindDayKeyboard
 {
     public const MARK_CODE = "\xE2\x9C\x85";
     public const CHOOSE_ALL_BUTTON_LABEL = 'Choose all';
     public const NEXT_BUTTON_LABEL = 'Next';
+    public const BACK_BUTTON_LABEL = 'Back';
 
     public const WEEK_DAYS = [
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
@@ -33,7 +34,10 @@ class HabitPeriodMenuKeyboard
         return ReplyKeyboardMarkupType::create([
             $buttons,
             [KeyboardButtonType::create(self::CHOOSE_ALL_BUTTON_LABEL)],
-            [KeyboardButtonType::create('Back'), KeyboardButtonType::create(self::NEXT_BUTTON_LABEL)],
+            [
+                KeyboardButtonType::create(self::BACK_BUTTON_LABEL),
+                KeyboardButtonType::create(self::NEXT_BUTTON_LABEL),
+            ],
         ]);
     }
 

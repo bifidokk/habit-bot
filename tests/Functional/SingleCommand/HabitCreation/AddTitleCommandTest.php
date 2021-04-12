@@ -12,7 +12,7 @@ use App\Service\Command\HabitCreation\AddTitleCommand;
 use App\Service\Command\HabitCreation\StartCommand;
 use App\Service\Habit\CreationHabitState;
 use App\Service\Habit\HabitState;
-use App\Service\Keyboard\HabitPeriodMenuKeyboard;
+use App\Service\Keyboard\HabitRemindDayKeyboard;
 use App\Service\Keyboard\NewHabitKeyboard;
 use App\Service\User\UserState;
 use App\Tests\Functional\CommandTest;
@@ -29,7 +29,7 @@ class AddTitleCommandTest extends CommandTest
         $methodAddRemindDay = SendMessageMethod::create(
             1,
             AddRemindDayCommand::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => HabitPeriodMenuKeyboard::generate(0),
+                'replyMarkup' => HabitRemindDayKeyboard::generate(0),
             ]);
 
         $this->botApiCompleteMock->expects($this->once())
