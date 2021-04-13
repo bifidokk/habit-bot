@@ -108,6 +108,11 @@ class Habit
         return $this->state->equals(HabitState::get(HabitState::DRAFT));
     }
 
+    public function isPublished(): bool
+    {
+        return $this->state->equals(HabitState::get(HabitState::PUBLISHED));
+    }
+
     public function getRemindWeekDays(): int
     {
         return $this->remindWeekDays;

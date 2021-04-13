@@ -12,4 +12,5 @@ class CreationHabitStateTransition extends Enum
     use AutoDiscoveredValuesTrait;
 
     public const PERIOD_ADDED = 'period_added';
+    public const TIME_ADDED = 'time_added';
 }

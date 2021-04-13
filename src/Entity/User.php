@@ -132,6 +132,21 @@ class User
         return $draftHabits->first();
     }
 
+    public function getLastPublishedHabit(): ?Habit
+    {
+        $publishedHabits = $this->habits->filter(
+            function ($habit) {
+                return $habit->isPublished();
+            }
+        );
+
+        if ($publishedHabits->count() === 0) {
+            return null;
+        }
+
+        return $publishedHabits->first();
+    }
+
     public function addHabit(Habit $habit): void
     {
         $this->habits->add($habit);

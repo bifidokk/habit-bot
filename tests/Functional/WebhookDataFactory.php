@@ -71,6 +71,14 @@ class WebhookDataFactory
         return json_encode($data);
     }
 
+    public static function getHabitCreationAddRemindTimeCommandData(): string
+    {
+        $data = self::getCommonData();
+        $data['message']['text'] = '4:20';
+
+        return json_encode($data);
+    }
+
     private static function getCommonData(): array
     {
         return [

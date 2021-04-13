@@ -44,6 +44,12 @@ class HabitService
         $this->habitRepository->save($habit);
     }
 
+    public function changeHabitState(Habit $habit, Enum $state): void
+    {
+        $this->habitStateMachine->apply($habit, (string) $state->getValue());
+        $this->habitRepository->save($habit);
+    }
+
     public function save(Habit $habit): void
     {
         $this->habitRepository->save($habit);

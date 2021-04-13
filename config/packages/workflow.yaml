@@ -43,7 +43,11 @@ framework:
             places:
                 - title_added
                 - period_added
+                - time_added
             transitions:
                 period_added:
                     from: title_added
                     to: period_added
+                time_added:
+                    from: period_added
+                    to: time_added

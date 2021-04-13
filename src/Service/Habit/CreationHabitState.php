@@ -13,4 +13,5 @@ class CreationHabitState extends Enum
 
     public const TITLE_ADDED = 'title_added';
     public const PERIOD_ADDED = 'period_added';
+    public const TIME_ADDED = 'time_added';
 }
