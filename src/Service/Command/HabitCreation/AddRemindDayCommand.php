@@ -13,6 +13,7 @@ use App\Service\Habit\CreationHabitStateTransition;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindDayService;
 use App\Service\Keyboard\HabitRemindDayKeyboard;
+use App\Service\Router;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -28,17 +29,20 @@ class AddRemindDayCommand implements CommandInterface
     private LoggerInterface $logger;
     private HabitService $habitService;
     private RemindDayService $remindDayService;
+    private Router $router;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
-        RemindDayService $remindDayService
+        RemindDayService $remindDayService,
+        Router $router
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
         $this->remindDayService = $remindDayService;
+        $this->router = $router;
     }
 
     public function getName(): string
@@ -77,7 +81,7 @@ class AddRemindDayCommand implements CommandInterface
         }
 
         if ($message->text === HabitRemindDayKeyboard::NEXT_BUTTON_LABEL) {
-            $this->goNextStep($message, $habit);
+            $this->goNextStep($message, $habit, $user);
 
             return;
         }
@@ -85,13 +89,16 @@ class AddRemindDayCommand implements CommandInterface
         $this->updateKeyboard($message, $habit);
     }
 
-    private function goNextStep(MessageType $message, Habit $habit): void
+    private function goNextStep(MessageType $message, Habit $habit, User $user): void
     {
         if ($habit->getRemindWeekDays() > 0) {
             $this->habitService->changeHabitCreationState(
                 $habit,
                 CreationHabitStateTransition::get(CreationHabitStateTransition::PERIOD_ADDED)
             );
+
+            $command = $this->router->getCommandByName(AddRemindTimeCommand::COMMAND_NAME);
+            $command->run($message, $user);
 
             return;
         }

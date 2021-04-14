@@ -79,6 +79,14 @@ class WebhookDataFactory
         return json_encode($data);
     }
 
+    public static function getHabitCreationAddInvalidRemindTimeCommandData(): string
+    {
+        $data = self::getCommonData();
+        $data['message']['text'] = 'qwerty';
+
+        return json_encode($data);
+    }
+
     private static function getCommonData(): array
     {
         return [

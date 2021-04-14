@@ -11,6 +11,7 @@ use App\Service\Command\HabitCreation\AddRemindTimeCommand;
 use App\Service\Command\MainMenuCommand;
 use App\Service\Habit\CreationHabitState;
 use App\Service\Habit\HabitState;
+use App\Service\Keyboard\HabitRemindTimeKeyboard;
 use App\Service\Keyboard\MainMenuKeyboard;
 use App\Service\User\UserState;
 use App\Tests\Functional\CommandTest;
@@ -24,7 +25,7 @@ class AddRemindTimeCommandTest extends CommandTest
     {
         $this->prepareState();
 
-        $sendMethod = SendMessageMethod::create(1, AddRemindTimeCommand::COMMAND_RESPONSE_TEXT);
+        $sendMethod = SendMessageMethod::create(1, AddRemindTimeCommand::COMMAND_SUCCESS_TEXT);
 
         $mainMenuMethod = SendMessageMethod::create(
             1,
@@ -56,6 +57,25 @@ class AddRemindTimeCommandTest extends CommandTest
         $this->assertInstanceOf(Habit::class, $habit);
         $remindAt = new \DateTimeImmutable('4:20');
         $this->assertEquals($remindAt, $habit->getRemindAt());
+    }
+
+    public function testAddInvalidRemindTimeCommand(): void
+    {
+        $this->prepareState();
+
+        $sendMethod = SendMessageMethod::create(
+            1,
+            AddRemindTimeCommand::COMMAND_RESPONSE_TEXT, [
+            'replyMarkup' => HabitRemindTimeKeyboard::generate(),
+        ]);
+
+        $this->botApiCompleteMock->expects($this->once())
+            ->method('sendMessage')
+            ->withConsecutive(
+                [$sendMethod]
+            );
+
+        $this->sendRequest(WebhookDataFactory::getHabitCreationAddInvalidRemindTimeCommandData());
     }
 
     private function prepareState(): void

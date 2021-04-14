@@ -8,8 +8,10 @@ use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\Command\HabitCreation\AddRemindDayCommand;
+use App\Service\Command\HabitCreation\AddRemindTimeCommand;
 use App\Service\Habit\CreationHabitState;
 use App\Service\Keyboard\HabitRemindDayKeyboard;
+use App\Service\Keyboard\HabitRemindTimeKeyboard;
 use App\Service\User\UserState;
 use App\Tests\Functional\CommandTest;
 use App\Tests\Functional\WebhookDataFactory;
@@ -87,6 +89,19 @@ class AddRemindDayCommandTest extends CommandTest
         $this->prepareState();
 
         $this->sendRequest(WebhookDataFactory::getHabitCreationAddRemindDayCommandData());
+
+        $methodAddRemindTime = SendMessageMethod::create(
+            1,
+            AddRemindTimeCommand::COMMAND_RESPONSE_TEXT, [
+            'replyMarkup' => HabitRemindTimeKeyboard::generate(),
+        ]);
+
+        $this->botApiCompleteMock->expects($this->once())
+            ->method('sendMessage')
+            ->withConsecutive(
+                [$methodAddRemindTime]
+            );
+
         $this->sendRequest(WebhookDataFactory::getHabitCreationAddRemindDayNextCommandData());
 
         $userRepository = static::$container->get(UserRepository::class);

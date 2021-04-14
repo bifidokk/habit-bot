@@ -13,8 +13,8 @@ use App\Service\Habit\CreationHabitStateTransition;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitStateTransition;
 use App\Service\Keyboard\HabitRemindTimeKeyboard;
+use App\Service\Router;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
@@ -22,24 +22,24 @@ use TgBotApi\BotApiBase\Type\MessageType;
 class AddRemindTimeCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_remind_time';
-    public const ERROR_TIME_MESSAGE = 'It doesn\'t look like the time, let\'s try again in the format - Hours: Minutes (example - 04:20)';
-    public const COMMAND_RESPONSE_TEXT = 'The habit was created successfully';
+    public const COMMAND_RESPONSE_TEXT = 'Select remind time or text it in the format - Hours: Minutes (example - 04:20)';
+    public const COMMAND_SUCCESS_TEXT = 'The habit was created successfully';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private HabitService $habitService;
-    private $commandLocator;
+    private Router $router;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
-        ServiceLocator $commandLocator
+        Router $router
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
-        $this->commandLocator = $commandLocator;
+        $this->router = $router;
     }
 
     public function getName(): string
@@ -69,7 +69,7 @@ class AddRemindTimeCommand implements CommandInterface
         try {
             $remindAt = new \DateTimeImmutable($remindAtString);
         } catch (\Throwable $exception) {
-            $this->handleError($message, self::ERROR_TIME_MESSAGE);
+            $this->handleError($message, self::COMMAND_RESPONSE_TEXT);
 
             return;
         }
@@ -88,11 +88,11 @@ class AddRemindTimeCommand implements CommandInterface
         );
 
         $this->bot->sendMessage(
-            SendMessageMethod::create($message->chat->id, self::COMMAND_RESPONSE_TEXT)
+            SendMessageMethod::create($message->chat->id, self::COMMAND_SUCCESS_TEXT)
         );
 
-        $nextCommand = $this->commandLocator->get(MainMenuCommand::COMMAND_NAME);
-        $nextCommand->run($message, $user);
+        $command = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
+        $command->run($message, $user);
     }
 
     private function handleError(MessageType $message, string $error): void
