@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Service\Command;
 
 use App\Entity\User;
+use App\Service\Router;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
@@ -20,18 +20,18 @@ class StartCommand extends AbstractTelegramCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private UserService $userService;
-    private ServiceLocator $commandLocator;
+    private Router $router;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         UserService $userService,
-        ServiceLocator $commandLocator
+        Router $router
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->userService = $userService;
-        $this->commandLocator = $commandLocator;
+        $this->router = $router;
     }
 
     public function getName(): string
@@ -51,7 +51,7 @@ class StartCommand extends AbstractTelegramCommand implements CommandInterface
         $method = $this->createSendMethod($message);
         $this->bot->sendMessage($method);
 
-        $nextCommand = $this->commandLocator->get(MainMenuCommand::COMMAND_NAME);
+        $nextCommand = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
         $nextCommand->run($message, $user);
     }
 

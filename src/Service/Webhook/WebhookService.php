@@ -7,26 +7,22 @@ namespace App\Service\Webhook;
 use App\Service\Router;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class WebhookService
 {
     private string $token;
-    private ServiceLocator $commandLocator;
     private LoggerInterface $logger;
     private UserService $userService;
     private Router $router;
 
     public function __construct(
         string $token,
-        ServiceLocator $commandLocator,
         LoggerInterface $logger,
         UserService $userService,
         Router $router
     ) {
         $this->token = $token;
-        $this->commandLocator = $commandLocator;
         $this->logger = $logger;
         $this->userService = $userService;
         $this->router = $router;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Command;
 
 use App\Entity\User;
-use Symfony\Component\DependencyInjection\ServiceLocator;
+use App\Service\Router;
 use TgBotApi\BotApiBase\Type\MessageType;
 
 class BackCommand implements CommandInterface
@@ -13,12 +13,12 @@ class BackCommand implements CommandInterface
     public const COMMAND_NAME = 'back';
     public const COMMAND_PHRASE = 'Back';
 
-    private ServiceLocator $commandLocator;
+    private Router $router;
 
     public function __construct(
-        ServiceLocator $commandLocator
+        Router $router
     ) {
-        $this->commandLocator = $commandLocator;
+        $this->router = $router;
     }
 
     public function getName(): string
@@ -43,7 +43,7 @@ class BackCommand implements CommandInterface
                 $commandName = MainMenuCommand::COMMAND_NAME;
         }
 
-        $command = $this->commandLocator->get($commandName);
+        $command = $this->router->getCommandByName($commandName);
         $command->run($message, $user);
     }
 }
