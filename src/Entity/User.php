@@ -8,6 +8,7 @@ use App\Service\User\UserState;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use TgBotApi\BotApiBase\Type\UserType;
 
@@ -22,7 +23,7 @@ class User
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      */
-    private string $id = '';
+    private ?Uuid $id = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -85,7 +86,7 @@ class User
         $this->habits = new ArrayCollection();
     }
 
-    public function getId(): string
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

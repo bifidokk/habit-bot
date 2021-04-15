@@ -7,6 +7,7 @@ namespace App\Service\Command\HabitCreation;
 use App\Entity\User;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
+use App\Service\Habit\HabitService;
 use App\Service\Keyboard\NewHabitKeyboard;
 use App\Service\User\UserService;
 use App\Service\User\UserStateTransition;
@@ -24,15 +25,18 @@ class StartCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private UserService $userService;
+    private HabitService $habitService;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        UserService $userService
+        UserService $userService,
+        HabitService $habitService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->userService = $userService;
+        $this->habitService = $habitService;
     }
 
     public function getName(): string
@@ -52,6 +56,7 @@ class StartCommand implements CommandInterface
 
     public function run(MessageType $message, User $user): void
     {
+        $this->habitService->removeUserDraftHabits($user);
         $this->userService->changeUserState($user, UserStateTransition::get(UserStateTransition::NEW_HABIT));
 
         $method = $this->createSendMethod($message);

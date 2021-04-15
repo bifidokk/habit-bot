@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Habit;
+use App\Entity\User;
+use App\Service\Habit\HabitState;
 use Doctrine\ORM\EntityRepository;
 
 class HabitRepository extends EntityRepository
@@ -17,6 +19,18 @@ class HabitRepository extends EntityRepository
     public function find($id, $lockMode = null, $lockVersion = null): ?Habit
     {
         return parent::find($id, $lockMode, $lockVersion);
+    }
+
+    public function removeUserHabitsWithState(User $user, HabitState $state): int
+    {
+        return $this->createQueryBuilder('h')
+            ->delete()
+            ->where('h.user = :user')
+            ->andWhere('h.state = :state')
+            ->setParameter('user', $user->getId()->toBinary())
+            ->setParameter('state', $state->getValue())
+            ->getQuery()
+            ->execute();
     }
 
     public function save(Habit $habit): void
