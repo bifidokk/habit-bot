@@ -12,7 +12,7 @@ use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
 
-class StartCommand extends AbstractTelegramCommand implements CommandInterface
+class StartCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'start';
     public const COMMAND_RESPONSE_TEXT = 'Hey there! You can add a new habit here';
@@ -44,6 +44,11 @@ class StartCommand extends AbstractTelegramCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::HIGH);
     }
 
+    public function canRun(MessageType $message, User $user): bool
+    {
+        return sprintf('/%s', $this->getName()) === $message->text;
+    }
+
     public function run(MessageType $message, User $user): void
     {
         $this->userService->moveUserToStart($user);
@@ -53,6 +58,10 @@ class StartCommand extends AbstractTelegramCommand implements CommandInterface
 
         $nextCommand = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
         $nextCommand->run($message, $user);
+    }
+
+    public function back(MessageType $message, User $user): void
+    {
     }
 
     private function createSendMethod(MessageType $message): SendMessageMethod

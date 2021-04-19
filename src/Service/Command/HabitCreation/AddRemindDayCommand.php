@@ -81,7 +81,7 @@ class AddRemindDayCommand implements CommandInterface
         }
 
         if ($message->text === HabitRemindDayKeyboard::NEXT_BUTTON_LABEL) {
-            $this->goNextStep($message, $habit, $user);
+            $this->next($message, $habit, $user);
 
             return;
         }
