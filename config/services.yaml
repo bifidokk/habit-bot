@@ -46,9 +46,9 @@ services:
             -
                 start: '@App\Service\Command\StartCommand'
                 main_menu: '@App\Service\Command\MainMenuCommand'
-                back: '@App\Service\Command\BackCommand'
                 habit_creation_start: '@App\Service\Command\HabitCreation\StartCommand'
-                habit_creation_add_title: '@App\Service\Command\HabitCreation\AddTitleCommand'
+                habit_creation_description_form: '@App\Service\Command\HabitCreation\DescriptionFormCommand'
+                habit_creation_add_description: '@App\Service\Command\HabitCreation\AddDescriptionCommand'
                 habit_creation_add_remind_day: '@App\Service\Command\HabitCreation\AddRemindDayCommand'
                 habit_creation_add_remind_time: '@App\Service\Command\HabitCreation\AddRemindTimeCommand'
 
@@ -60,3 +60,7 @@ services:
         arguments:
             $habitStateMachine: '@state_machine.habit'
             $habitCreationStateMachine: '@state_machine.habit_creation'
+
+    App\Service\InputHandler:
+        arguments:
+            $cacheClient: '@app.my_custom_redis_provider'

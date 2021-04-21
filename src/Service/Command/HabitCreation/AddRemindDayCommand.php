@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\UpdateType;
 
 class AddRemindDayCommand implements CommandInterface
 {
@@ -55,7 +56,7 @@ class AddRemindDayCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(MessageType $message, User $user): bool
+    public function canRun(UpdateType $update, User $user): bool
     {
         $draftHabit = $user->getDraftHabit();
 
@@ -64,11 +65,11 @@ class AddRemindDayCommand implements CommandInterface
             && $draftHabit->getCreationState() === CreationHabitState::TITLE_ADDED;
     }
 
-    public function run(MessageType $message, User $user): void
+    public function run(UpdateType $update, User $user): void
     {
         $habit = $user->getDraftHabit();
 
-        $dayName = trim($message->text);
+        $dayName = trim($update->message->text);
         $dayName = str_replace(HabitRemindDayKeyboard::MARK_CODE, '', $dayName);
         $dayNumber = array_search($dayName, HabitRemindDayKeyboard::WEEK_DAYS, true);
 
@@ -76,40 +77,17 @@ class AddRemindDayCommand implements CommandInterface
             $this->remindDayService->toggleDay($habit, (int) $dayNumber);
         }
 
-        if ($message->text === HabitRemindDayKeyboard::CHOOSE_ALL_BUTTON_LABEL) {
+        if ($update->message->text === HabitRemindDayKeyboard::CHOOSE_ALL_BUTTON_LABEL) {
             $this->remindDayService->markAll($habit);
         }
 
-        if ($message->text === HabitRemindDayKeyboard::NEXT_BUTTON_LABEL) {
-            $this->next($message, $habit, $user);
+        if ($update->message->text === HabitRemindDayKeyboard::NEXT_BUTTON_LABEL) {
+
 
             return;
         }
 
-        $this->updateKeyboard($message, $habit);
-    }
-
-    private function goNextStep(MessageType $message, Habit $habit, User $user): void
-    {
-        if ($habit->getRemindWeekDays() > 0) {
-            $this->habitService->changeHabitCreationState(
-                $habit,
-                CreationHabitStateTransition::get(CreationHabitStateTransition::PERIOD_ADDED)
-            );
-
-            $command = $this->router->getCommandByName(AddRemindTimeCommand::COMMAND_NAME);
-            $command->run($message, $user);
-
-            return;
-        }
-
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
-                $message->chat->id,
-                self::COMMAND_RESPONSE_NEXT_TEXT, [
-                    'replyMarkup' => HabitRemindDayKeyboard::generate($habit->getRemindWeekDays()),
-                ])
-        );
+        $this->updateKeyboard($update->message, $habit);
     }
 
     private function updateKeyboard(MessageType $message, Habit $habit): void

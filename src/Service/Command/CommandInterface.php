@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Command;
 
 use App\Entity\User;
-use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\UpdateType;
 
 interface CommandInterface
 {
@@ -13,7 +13,7 @@ interface CommandInterface
 
     public function getPriority(): CommandPriority;
 
-    public function canRun(MessageType $message, User $user): bool;
+    public function canRun(UpdateType $update, User $user): bool;
 
-    public function run(MessageType $message, User $user): void;
+    public function run(UpdateType $update, User $user): void;
 }

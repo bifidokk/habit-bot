@@ -152,4 +152,9 @@ class User
     {
         $this->habits->add($habit);
     }
+
+    public function getTelegramId(): int
+    {
+        return $this->telegramId;
+    }
 }

@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\UpdateType;
 
 class MainMenuCommand implements CommandInterface
 {
@@ -41,16 +42,16 @@ class MainMenuCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(MessageType $message, User $user): bool
+    public function canRun(UpdateType $update, User $user): bool
     {
         return false;
     }
 
-    public function run(MessageType $message, User $user): void
+    public function run(UpdateType $update, User $user): void
     {
         $this->userService->moveUserToStart($user);
 
-        $method = $this->createSendMethod($message);
+        $method = $this->createSendMethod($update->message);
         $this->bot->sendMessage($method);
     }
 

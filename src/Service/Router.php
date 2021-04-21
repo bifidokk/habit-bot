@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Service\Command\CommandInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
-use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\UpdateType;
 
 class Router
 {
@@ -18,7 +18,7 @@ class Router
         $this->commandLocator = $commandLocator;
     }
 
-    public function getCommand(MessageType $message, User $user): ?CommandInterface
+    public function getCommand(UpdateType $update, User $user): ?CommandInterface
     {
         $commandServices = $this->commandLocator->getProvidedServices();
         $commands = [];
@@ -32,7 +32,7 @@ class Router
         });
 
         foreach ($commands as $command) {
-            if ($command->canRun($message, $user)) {
+            if ($command->canRun($update, $user)) {
                 return $command;
             }
         }

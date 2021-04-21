@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\UpdateType;
 
 class StartCommand implements CommandInterface
 {
@@ -44,24 +45,20 @@ class StartCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::HIGH);
     }
 
-    public function canRun(MessageType $message, User $user): bool
+    public function canRun(UpdateType $update, User $user): bool
     {
-        return sprintf('/%s', $this->getName()) === $message->text;
+        return $update->message !== null && sprintf('/%s', $this->getName()) === $update->message->text;
     }
 
-    public function run(MessageType $message, User $user): void
+    public function run(UpdateType $update, User $user): void
     {
         $this->userService->moveUserToStart($user);
 
-        $method = $this->createSendMethod($message);
+        $method = $this->createSendMethod($update->message);
         $this->bot->sendMessage($method);
 
         $nextCommand = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
-        $nextCommand->run($message, $user);
-    }
-
-    public function back(MessageType $message, User $user): void
-    {
+        $nextCommand->run($update, $user);
     }
 
     private function createSendMethod(MessageType $message): SendMessageMethod

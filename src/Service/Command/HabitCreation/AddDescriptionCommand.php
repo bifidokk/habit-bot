@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
-use App\Service\Habit\NewHabitDto;
+use App\Service\Habit\HabitDto;
 use App\Service\Keyboard\NewHabitKeyboard;
 use App\Service\Router;
 use Psr\Log\LoggerInterface;
@@ -16,8 +16,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\UpdateType;
 
-class AddTitleCommand implements CommandInterface
+class AddDescriptionCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_title';
     public const ERROR_TEMPLATE_TEXT = 'There is an error: %s';
@@ -54,20 +55,18 @@ class AddTitleCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(MessageType $message, User $user): bool
+    public function canRun(UpdateType $update, User $user): bool
     {
-        $draftHabit = $user->getDraftHabit();
-
-        return $user->inHabitCreationFlow() && $draftHabit === null;
+        return $user->inHabitCreationFlow();
     }
 
-    public function run(MessageType $message, User $user): void
+    public function run(UpdateType $update, User $user): void
     {
-        $newHabit = NewHabitDto::fromMessage($message);
+        $newHabit = HabitDto::fromMessage($update->message);
         $errors = $this->validator->validate($newHabit);
 
         if (count($errors) > 0) {
-            $this->handleError($message, self::ERROR_DESCRIPTION_TEXT);
+            $this->handleError($update->message, self::ERROR_DESCRIPTION_TEXT);
 
             return;
         }
@@ -76,13 +75,13 @@ class AddTitleCommand implements CommandInterface
             $habit = $this->habitService->createHabit($newHabit, $user);
             $user->addHabit($habit);
         } catch (\Throwable $e) {
-            $this->handleError($message, self::ERROR_TEXT);
+            $this->handleError($update->message, self::ERROR_TEXT);
 
             return;
         }
 
         $command = $this->router->getCommandByName(AddRemindDayCommand::COMMAND_NAME);
-        $command->run($message, $user);
+        $command->run($update, $user);
     }
 
     private function handleError(MessageType $message, string $error): void

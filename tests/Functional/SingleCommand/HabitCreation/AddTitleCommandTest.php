@@ -8,7 +8,7 @@ use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\Command\HabitCreation\AddRemindDayCommand;
-use App\Service\Command\HabitCreation\AddTitleCommand;
+use App\Service\Command\HabitCreation\AddDescriptionCommand;
 use App\Service\Command\HabitCreation\StartCommand;
 use App\Service\Habit\CreationHabitState;
 use App\Service\Habit\HabitState;
@@ -62,7 +62,7 @@ class AddTitleCommandTest extends CommandTest
 
         $errorMessageMethod = SendMessageMethod::create(
             1,
-            sprintf(AddTitleCommand::ERROR_TEMPLATE_TEXT, AddTitleCommand::ERROR_DESCRIPTION_TEXT)
+            sprintf(AddDescriptionCommand::ERROR_TEMPLATE_TEXT, AddDescriptionCommand::ERROR_DESCRIPTION_TEXT)
         );
 
         $retryMessageMethod = SendMessageMethod::create(

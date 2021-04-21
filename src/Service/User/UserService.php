@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use Elao\Enum\Enum;
 use Symfony\Component\Workflow\StateMachine;
 use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\UpdateType;
 use TgBotApi\BotApiBase\Type\UserType;
 
 class UserService
@@ -24,8 +25,9 @@ class UserService
         $this->stateMachine = $stateMachine;
     }
 
-    public function getUser(MessageType $message): ?User
+    public function getUser(UpdateType $update): ?User
     {
+        $message = $update->message ? $update->message : $update->callbackQuery->message;
         $from = $message->from;
 
         if ($from === null) {

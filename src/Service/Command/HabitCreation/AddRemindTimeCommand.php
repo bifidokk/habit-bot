@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
+use TgBotApi\BotApiBase\Type\UpdateType;
 
 class AddRemindTimeCommand implements CommandInterface
 {
@@ -52,7 +53,7 @@ class AddRemindTimeCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(MessageType $message, User $user): bool
+    public function canRun(UpdateType $update, User $user): bool
     {
         $draftHabit = $user->getDraftHabit();
 
@@ -61,15 +62,15 @@ class AddRemindTimeCommand implements CommandInterface
             && $draftHabit->getCreationState() === CreationHabitState::PERIOD_ADDED;
     }
 
-    public function run(MessageType $message, User $user): void
+    public function run(UpdateType $update, User $user): void
     {
         $habit = $user->getDraftHabit();
-        $remindAtString = trim($message->text);
+        $remindAtString = trim($update->message->text);
 
         try {
             $remindAt = new \DateTimeImmutable($remindAtString);
         } catch (\Throwable $exception) {
-            $this->handleError($message, self::COMMAND_RESPONSE_TEXT);
+            $this->handleError($update->message, self::COMMAND_RESPONSE_TEXT);
 
             return;
         }

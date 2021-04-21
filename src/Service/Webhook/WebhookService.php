@@ -35,24 +35,24 @@ class WebhookService
 
     public function handleMessage(UpdateType $update): void
     {
-        if ($update->message === null) {
+        if ($update->message === null && $update->callbackQuery === null) {
             return;
         }
 
-        $user = $this->userService->getUser($update->message);
+        $user = $this->userService->getUser($update);
 
         if ($user === null) {
             return;
         }
 
-        $command = $this->router->getCommand($update->message, $user);
+        $command = $this->router->getCommand($update, $user);
 
         if ($command === null) {
             return;
         }
 
         try {
-            $command->run($update->message, $user);
+            $command->run($update, $user);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }

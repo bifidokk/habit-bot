@@ -26,7 +26,7 @@ class HabitService
         $this->habitCreationStateMachine = $habitCreationStateMachine;
     }
 
-    public function createHabit(NewHabitDto $newHabit, User $user): Habit
+    public function createHabit(HabitDto $newHabit, User $user): Habit
     {
         $habit = new Habit();
         $habit->setDescription($newHabit->description);
