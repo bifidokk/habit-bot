@@ -6,7 +6,6 @@ namespace App\Service\Command;
 
 use App\Entity\User;
 use App\Service\Keyboard\MainMenuKeyboard;
-use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -20,16 +19,13 @@ class MainMenuCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private UserService $userService;
 
     public function __construct(
         BotApiComplete $bot,
-        LoggerInterface $logger,
-        UserService $userService
+        LoggerInterface $logger
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
-        $this->userService = $userService;
     }
 
     public function getName(): string
@@ -49,8 +45,6 @@ class MainMenuCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $this->userService->moveUserToStart($user);
-
         $method = $this->createSendMethod($update->message);
         $this->bot->sendMessage($method);
     }

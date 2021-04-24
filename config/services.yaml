@@ -54,15 +54,6 @@ services:
                 habit_creation_remind_time_form: '@App\Service\Command\HabitCreation\RemindTimeFormCommand'
                 habit_creation_add_remind_time: '@App\Service\Command\HabitCreation\AddRemindTimeCommand'
 
-    App\Service\User\UserService:
-        arguments:
-            $stateMachine: '@state_machine.user'
-
-    App\Service\Habit\HabitService:
-        arguments:
-            $habitStateMachine: '@state_machine.habit'
-            $habitCreationStateMachine: '@state_machine.habit_creation'
-
     App\Service\InputHandler:
         arguments:
             $cacheClient: '@app.my_custom_redis_provider'

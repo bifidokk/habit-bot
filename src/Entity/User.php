@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Service\User\UserState;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
@@ -62,11 +61,6 @@ class User
     private ?string $languageCode = null;
 
     /**
-     * @ORM\Column(type="user_state", length=64, options={"default"="start"})
-     */
-    private UserState $state;
-
-    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private \DateTimeImmutable $createdAt;
@@ -81,7 +75,6 @@ class User
 
     public function __construct()
     {
-        $this->state = UserState::get(UserState::START);
         $this->createdAt = new \DateTimeImmutable();
         $this->habits = new ArrayCollection();
     }
@@ -89,16 +82,6 @@ class User
     public function getId(): ?Uuid
     {
         return $this->id;
-    }
-
-    public function getState(): string
-    {
-        return (string) $this->state->getValue();
-    }
-
-    public function setState(string $state): void
-    {
-        $this->state = UserState::get($state);
     }
 
     public static function createFromUserType(UserType $userType): User
@@ -111,11 +94,6 @@ class User
         $user->telegramId = $userType->id;
 
         return $user;
-    }
-
-    public function inHabitCreationFlow(): bool
-    {
-        return $this->state->equals(UserState::get(UserState::NEW_HABIT));
     }
 
     public function getDraftHabit(): ?Habit
@@ -131,21 +109,6 @@ class User
         }
 
         return $draftHabits->first();
-    }
-
-    public function getLastPublishedHabit(): ?Habit
-    {
-        $publishedHabits = $this->habits->filter(
-            function ($habit) {
-                return $habit->isPublished();
-            }
-        );
-
-        if ($publishedHabits->count() === 0) {
-            return null;
-        }
-
-        return $publishedHabits->first();
     }
 
     public function addHabit(Habit $habit): void

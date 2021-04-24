@@ -7,7 +7,6 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Service\InputHandler;
 use App\Service\Router;
-use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -21,20 +20,17 @@ class StartCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private UserService $userService;
     private Router $router;
     private InputHandler $inputHandler;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        UserService $userService,
         Router $router,
         InputHandler $inputHandler
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
-        $this->userService = $userService;
         $this->router = $router;
         $this->inputHandler = $inputHandler;
     }
@@ -56,7 +52,6 @@ class StartCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $this->userService->moveUserToStart($user);
         $this->inputHandler->unwaitForInput($user);
 
         $method = $this->createSendMethod($update->message);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Service\Habit\CreationHabitState;
 use App\Service\Habit\HabitState;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
@@ -36,11 +35,6 @@ class Habit
      * @ORM\Column(type="habit_state", length=32, options={"default"="draft"})
      */
     private HabitState $state;
-
-    /**
-     * @ORM\Column(type="creation_habit_state", length=32, nullable=true)
-     */
-    private ?CreationHabitState $creationState = null;
 
     /**
      * @ORM\Column(type="smallint")
@@ -91,16 +85,6 @@ class Habit
     public function setState(string $state): void
     {
         $this->state = HabitState::get($state);
-    }
-
-    public function getCreationState(): string
-    {
-        return (string) $this->creationState->getValue();
-    }
-
-    public function setCreationState(string $creationState): void
-    {
-        $this->creationState = CreationHabitState::get($creationState);
     }
 
     public function isDraft(): bool

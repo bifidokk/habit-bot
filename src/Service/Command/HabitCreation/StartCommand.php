@@ -11,7 +11,6 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
 use App\Service\Keyboard\HabitInlineKeyboard;
-use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -26,18 +25,15 @@ class StartCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private UserService $userService;
     private HabitService $habitService;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        UserService $userService,
         HabitService $habitService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
-        $this->userService = $userService;
         $this->habitService = $habitService;
     }
 

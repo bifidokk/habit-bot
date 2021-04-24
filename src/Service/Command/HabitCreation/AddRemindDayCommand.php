@@ -10,7 +10,6 @@ use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
-use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindDayService;
 use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
@@ -25,18 +24,15 @@ class AddRemindDayCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private HabitService $habitService;
     private RemindDayService $remindDayService;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        HabitService $habitService,
         RemindDayService $remindDayService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
-        $this->habitService = $habitService;
         $this->remindDayService = $remindDayService;
     }
 
@@ -63,7 +59,6 @@ class AddRemindDayCommand implements CommandInterface
         }
 
         $habit = $user->getDraftHabit();
-
         $dayName = trim($commandCallback->parameters['day'] ?? null);
         $dayNumber = array_search($dayName, HabitRemindDayInlineKeyboard::WEEK_DAYS, true);
 

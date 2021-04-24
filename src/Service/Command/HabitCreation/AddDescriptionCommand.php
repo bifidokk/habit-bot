@@ -14,7 +14,6 @@ use App\Service\Habit\HabitDescriptionDto;
 use App\Service\Habit\HabitService;
 use App\Service\InputHandler;
 use App\Service\Keyboard\HabitInlineKeyboard;
-use App\Service\Router;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
@@ -33,7 +32,6 @@ class AddDescriptionCommand implements CommandInterface
     private LoggerInterface $logger;
     private HabitService $habitService;
     private ValidatorInterface $validator;
-    private Router $router;
     private InputHandler $inputHandler;
 
     public function __construct(
@@ -41,14 +39,12 @@ class AddDescriptionCommand implements CommandInterface
         LoggerInterface $logger,
         HabitService $habitService,
         ValidatorInterface $validator,
-        Router $router,
         InputHandler $inputHandler
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
         $this->validator = $validator;
-        $this->router = $router;
         $this->inputHandler = $inputHandler;
     }
 

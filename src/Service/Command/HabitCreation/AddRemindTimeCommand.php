@@ -12,7 +12,6 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
 use App\Service\Keyboard\HabitInlineKeyboard;
-use App\Service\Router;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -25,18 +24,15 @@ class AddRemindTimeCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private HabitService $habitService;
-    private Router $router;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        HabitService $habitService,
-        Router $router
+        HabitService $habitService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
-        $this->router = $router;
     }
 
     public function getName(): string
