@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\BotApiNormalizer;
-use TgBotApi\BotApiBase\Method\SetWebhookMethod;
 use TgBotApi\BotApiBase\WebhookFetcher;
 
 class WebhookController
@@ -45,13 +44,5 @@ class WebhookController
         }
 
         return new JsonResponse();
-    }
-
-    /**
-     * @Route("/add-webhook")
-     */
-    public function addWebhook(): JsonResponse
-    {
-        $this->bot->setWebhook(SetWebhookMethod::create('https://5016605a2570.ngrok.io/webhook/jc95oyvlRZtieaPLQRodolDTeXXs1Ek3'));
     }
 }

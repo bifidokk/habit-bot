@@ -8,7 +8,6 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Elao\Enum\Enum;
 use Symfony\Component\Workflow\StateMachine;
-use TgBotApi\BotApiBase\Type\MessageType;
 use TgBotApi\BotApiBase\Type\UpdateType;
 use TgBotApi\BotApiBase\Type\UserType;
 

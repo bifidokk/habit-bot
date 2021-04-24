@@ -12,10 +12,8 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitDescriptionDto;
 use App\Service\Habit\HabitService;
-use App\Service\Habit\HabitDto;
 use App\Service\InputHandler;
 use App\Service\Keyboard\HabitInlineKeyboard;
-use App\Service\Keyboard\NewHabitKeyboard;
 use App\Service\Router;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -101,8 +99,8 @@ class AddDescriptionCommand implements CommandInterface
         return SendMessageMethod::create(
             $message->chat->id,
             StartCommand::COMMAND_RESPONSE_TEXT, [
-            'replyMarkup' => HabitInlineKeyboard::generate($habit),
-        ]);
+                'replyMarkup' => HabitInlineKeyboard::generate($habit),
+            ]);
     }
 
     private function handleError(MessageType $message, string $error): void
@@ -111,15 +109,6 @@ class AddDescriptionCommand implements CommandInterface
             SendMessageMethod::create(
                 $message->chat->id,
                 sprintf(self::ERROR_TEMPLATE_TEXT, $error)
-            )
-        );
-
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
-                $message->chat->id,
-                StartCommand::COMMAND_RESPONSE_TEXT, [
-                    'replyMarkup' => NewHabitKeyboard::generate(),
-                ]
             )
         );
     }

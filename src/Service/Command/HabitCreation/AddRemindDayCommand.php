@@ -17,7 +17,6 @@ use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
-use TgBotApi\BotApiBase\Type\MessageType;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class AddRemindDayCommand implements CommandInterface
@@ -93,8 +92,8 @@ class AddRemindDayCommand implements CommandInterface
         return SendMessageMethod::create(
             $update->callbackQuery->message->chat->id,
             StartCommand::COMMAND_RESPONSE_TEXT, [
-            'replyMarkup' => HabitInlineKeyboard::generate($habit),
-        ]);
+                'replyMarkup' => HabitInlineKeyboard::generate($habit),
+            ]);
     }
 
     private function updateKeyboard(UpdateType $update, Habit $habit): void

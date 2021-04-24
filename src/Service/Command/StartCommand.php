@@ -57,8 +57,7 @@ class StartCommand implements CommandInterface
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $this->userService->moveUserToStart($user);
-        $this->logger->info($this->inputHandler->unwaitForInput($user));
-        $this->logger->info($this->inputHandler->checkForInput($user));
+        $this->inputHandler->unwaitForInput($user);
 
         $method = $this->createSendMethod($update->message);
         $this->bot->sendMessage($method);

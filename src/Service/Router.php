@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\User;
-use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandCallback;
+use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -87,7 +87,7 @@ class Router
     {
         $callbackData = parse_url($data);
 
-        if (!isset($callbackData['path'])) {
+        if (!is_array($callbackData) || !isset($callbackData['path'])) {
             return null;
         }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Keyboard;
 
-use App\Service\Keyboard\HabitRemindTimeKeyboard;
+use App\Service\Keyboard\HabitRemindTimeInlineKeyboard;
 use PHPUnit\Framework\TestCase;
 use TgBotApi\BotApiBase\Type\KeyboardButtonType;
 
@@ -19,18 +19,18 @@ class HabitRemindTimeKeyboardTest extends TestCase
         $expectedRowSecond = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
         $expectedRowThird = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
 
-        $keyboard = HabitRemindTimeKeyboard::generate();
-        $this->assertIsArray($keyboard->keyboard);
+        $keyboard = HabitRemindTimeInlineKeyboard::generate();
+        $this->assertIsArray($keyboard->inlineKeyboard);
 
-        $row = $keyboard->keyboard[0];
+        $row = $keyboard->inlineKeyboard[0];
         $this->assertIsArray($row);
         $this->assertEquals($expectedRowFirst, $this->getButtonLabels($row));
 
-        $row = $keyboard->keyboard[1];
+        $row = $keyboard->inlineKeyboard[1];
         $this->assertIsArray($row);
         $this->assertEquals($expectedRowSecond, $this->getButtonLabels($row));
 
-        $row = $keyboard->keyboard[2];
+        $row = $keyboard->inlineKeyboard[2];
         $this->assertIsArray($row);
         $this->assertEquals($expectedRowThird, $this->getButtonLabels($row));
     }
