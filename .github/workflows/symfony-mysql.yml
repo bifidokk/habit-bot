@@ -31,6 +31,10 @@ jobs:
           tools: cs2pr, phpstan
       - name: Start mysql service
         run: sudo /etc/init.d/mysql start
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.2.0
+        with:
+          redis-version: 6
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
