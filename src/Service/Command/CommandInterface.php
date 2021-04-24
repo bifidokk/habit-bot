@@ -15,5 +15,5 @@ interface CommandInterface
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool;
 
-    public function run(UpdateType $update, User $user): void;
+    public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void;
 }

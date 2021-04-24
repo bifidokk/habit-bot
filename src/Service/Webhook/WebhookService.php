@@ -45,14 +45,8 @@ class WebhookService
             return;
         }
 
-        $command = $this->router->getCommand($update, $user);
-
-        if ($command === null) {
-            return;
-        }
-
         try {
-            $command->run($update, $user);
+            $this->router->run($update, $user);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), $e->getTrace());
         }

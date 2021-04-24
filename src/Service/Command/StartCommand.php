@@ -54,7 +54,7 @@ class StartCommand implements CommandInterface
         return $update->message !== null && sprintf('/%s', $this->getName()) === $update->message->text;
     }
 
-    public function run(UpdateType $update, User $user): void
+    public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $this->userService->moveUserToStart($user);
         $this->logger->info($this->inputHandler->unwaitForInput($user));
@@ -64,7 +64,7 @@ class StartCommand implements CommandInterface
         $this->bot->sendMessage($method);
 
         $nextCommand = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
-        $nextCommand->run($update, $user);
+        $nextCommand->run($update, $user, $commandCallback);
     }
 
     private function createSendMethod(MessageType $message): SendMessageMethod

@@ -7,6 +7,7 @@ namespace App\Service\Command\HabitCreation;
 use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Command\CommandCallback;
+use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
@@ -56,7 +57,7 @@ class StartCommand implements CommandInterface
         return $update->message !== null && $update->message->text === self::COMMAND_PHRASE;
     }
 
-    public function run(UpdateType $update, User $user): void
+    public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $this->habitService->removeUserDraftHabits($user);
 

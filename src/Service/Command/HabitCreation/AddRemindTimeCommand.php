@@ -6,6 +6,7 @@ namespace App\Service\Command\HabitCreation;
 
 use App\Entity\User;
 use App\Service\Command\CommandCallback;
+use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Command\MainMenuCommand;
@@ -63,7 +64,7 @@ class AddRemindTimeCommand implements CommandInterface
             && $draftHabit->getCreationState() === CreationHabitState::PERIOD_ADDED;
     }
 
-    public function run(UpdateType $update, User $user): void
+    public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $habit = $user->getDraftHabit();
         $remindAtString = trim($update->message->text);
@@ -94,7 +95,7 @@ class AddRemindTimeCommand implements CommandInterface
         );
 
         $command = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
-        $command->run($message, $user);
+        $command->run($message, $user, $commandCallback);
     }
 
     private function handleError(MessageType $message, string $error): void

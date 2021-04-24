@@ -7,6 +7,7 @@ namespace App\Service\Command\HabitCreation;
 use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Command\CommandCallback;
+use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitDescriptionDto;
@@ -65,12 +66,11 @@ class AddDescriptionCommand implements CommandInterface
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
-        $expectedCallback = CommandCallback::get(CommandCallback::SET_HABIT_DESCRIPTION);
-
-        return $commandCallback instanceof CommandCallback && $commandCallback->equals($expectedCallback);
+        return $commandCallback !== null
+            && $commandCallback->command->getValue() === CommandCallbackEnum::SET_HABIT_DESCRIPTION;
     }
 
-    public function run(UpdateType $update, User $user): void
+    public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $habitDescription = HabitDescriptionDto::fromMessage($update->message);
         $errors = $this->validator->validate($habitDescription);

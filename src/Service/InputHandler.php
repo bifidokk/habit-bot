@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\User;
-use App\Service\Command\CommandCallback;
+use App\Service\Command\CommandCallbackEnum;
 
 class InputHandler
 {
@@ -18,7 +18,7 @@ class InputHandler
         $this->cacheClient = $cacheClient;
     }
 
-    public function waitForInput(User $user, CommandCallback $callback): void
+    public function waitForInput(User $user, CommandCallbackEnum $callback): void
     {
         $this->cacheClient->set(
             sprintf(self::WAIT_FOR_INPUT_KEY, $user->getTelegramId()),
@@ -33,7 +33,7 @@ class InputHandler
         );
     }
 
-    public function checkForInput(User $user): ?CommandCallback
+    public function checkForInput(User $user): ?CommandCallbackEnum
     {
         $command = $this->cacheClient->get(sprintf(self::WAIT_FOR_INPUT_KEY, $user->getTelegramId()));
 
@@ -41,6 +41,6 @@ class InputHandler
             return null;
         }
 
-        return CommandCallback::get($command);
+        return CommandCallbackEnum::get($command);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Keyboard;
 
 use App\Entity\Habit;
-use App\Service\Command\CommandCallback;
+use App\Service\Command\CommandCallbackEnum;
 use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
 use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
@@ -16,10 +16,10 @@ class HabitInlineKeyboard
     public const PREVIEW_CODE = "👀️";
 
     public const STEPS = [
-        CommandCallback::HABIT_DESCRIPTION_FORM => 'Add habit\'s description',
-        CommandCallback::HABIT_REMIND_DAY_FORM => 'Add habit\'s remind day',
-        CommandCallback::HABIT_REMIND_TIME_FORM => 'Add habit\'s remind time',
-        CommandCallback::HABIT_PREVIEW => 'Preview',
+        CommandCallbackEnum::HABIT_DESCRIPTION_FORM => 'Add habit\'s description',
+        CommandCallbackEnum::HABIT_REMIND_DAY_FORM => 'Add habit\'s remind day',
+        CommandCallbackEnum::HABIT_REMIND_TIME_FORM => 'Add habit\'s remind time',
+        CommandCallbackEnum::HABIT_PREVIEW => 'Preview',
     ];
 
     public static function generate(Habit $habit): InlineKeyboardMarkupType
@@ -29,7 +29,7 @@ class HabitInlineKeyboard
         foreach (self::STEPS as $step => $description) {
             $icon = self::isStepButtonMarked($step, $habit) ? self::MARKED_CODE : self::UNMARKED_CODE;
 
-            if ($step === CommandCallback::HABIT_PREVIEW) {
+            if ($step === CommandCallbackEnum::HABIT_PREVIEW) {
                 $icon = self::PREVIEW_CODE;
             }
 
@@ -49,11 +49,11 @@ class HabitInlineKeyboard
         }
 
         switch ($step) {
-            case CommandCallback::HABIT_DESCRIPTION_FORM:
+            case CommandCallbackEnum::HABIT_DESCRIPTION_FORM:
                return $habit->getDescription() !== '';
-            case CommandCallback::HABIT_REMIND_DAY_FORM:
+            case CommandCallbackEnum::HABIT_REMIND_DAY_FORM:
                 return (int)$habit->getRemindWeekDays() > 0;
-            case CommandCallback::HABIT_REMIND_TIME_FORM:
+            case CommandCallbackEnum::HABIT_REMIND_TIME_FORM:
                 return $habit->getRemindAt() instanceof \DateTimeImmutable;
             default:
                 return false;

@@ -47,7 +47,7 @@ class MainMenuCommand implements CommandInterface
         return false;
     }
 
-    public function run(UpdateType $update, User $user): void
+    public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $this->userService->moveUserToStart($user);
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Keyboard;
 
-use App\Service\Keyboard\HabitRemindDayKeyboard;
+use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use PHPUnit\Framework\TestCase;
 
 class HabitRemindDayKeyboardTest extends TestCase
@@ -16,12 +16,12 @@ class HabitRemindDayKeyboardTest extends TestCase
     {
         $days = '0100100';
         $actualDays = '';
-        $keyboard = HabitRemindDayKeyboard::generate((int) bindec($days));
+        $keyboard = HabitRemindDayInlineKeyboard::generate((int) bindec($days));
 
-        $daysRow = $keyboard->keyboard[0];
+        $daysRow = $keyboard->inlineKeyboard[0];
 
         foreach ($daysRow as $dayButton) {
-            if (strpos($dayButton->text, HabitRemindDayKeyboard::MARK_CODE) !== false) {
+            if (strpos($dayButton->text, HabitRemindDayInlineKeyboard::MARK_CODE) !== false) {
                 $actualDays .= '1';
             } else {
                 $actualDays .= '0';

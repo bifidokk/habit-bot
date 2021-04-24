@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
-use App\Service\Keyboard\HabitRemindDayKeyboard;
+use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 
 class WebhookDataFactory
 {
@@ -20,69 +20,6 @@ class WebhookDataFactory
                 'type' => 'bot_command',
             ],
         ];
-
-        return json_encode($data);
-    }
-
-    public static function getHabitCreationStartCommandData(): string
-    {
-        $data = self::getCommonData();
-        $data['message']['text'] = 'Add a new habit';
-
-        return json_encode($data);
-    }
-
-    public static function getHabitCreationAddTitleCommandData(): string
-    {
-        $data = self::getCommonData();
-        $data['message']['text'] = 'This a new habit';
-
-        return json_encode($data);
-    }
-
-    public static function getEmptyHabitCreationAddTitleCommandData(): string
-    {
-        $data = self::getCommonData();
-
-        return json_encode($data);
-    }
-
-    public static function getHabitCreationAddRemindDayCommandData(): string
-    {
-        $data = self::getCommonData();
-        $data['message']['text'] = 'Sun';
-
-        return json_encode($data);
-    }
-
-    public static function getHabitCreationAddRemindDayNextCommandData(): string
-    {
-        $data = self::getCommonData();
-        $data['message']['text'] = HabitRemindDayKeyboard::NEXT_BUTTON_LABEL;
-
-        return json_encode($data);
-    }
-
-    public static function getHabitCreationAddAllRemindDaysCommandData(): string
-    {
-        $data = self::getCommonData();
-        $data['message']['text'] = HabitRemindDayKeyboard::CHOOSE_ALL_BUTTON_LABEL;
-
-        return json_encode($data);
-    }
-
-    public static function getHabitCreationAddRemindTimeCommandData(): string
-    {
-        $data = self::getCommonData();
-        $data['message']['text'] = '4:20';
-
-        return json_encode($data);
-    }
-
-    public static function getHabitCreationAddInvalidRemindTimeCommandData(): string
-    {
-        $data = self::getCommonData();
-        $data['message']['text'] = 'qwerty';
 
         return json_encode($data);
     }

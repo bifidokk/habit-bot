@@ -7,14 +7,13 @@ namespace App\Service\Command\HabitCreation;
 use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Command\CommandCallback;
+use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
-use App\Service\Habit\CreationHabitState;
-use App\Service\Habit\CreationHabitStateTransition;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindDayService;
-use App\Service\Keyboard\HabitRemindDayKeyboard;
-use App\Service\Router;
+use App\Service\Keyboard\HabitInlineKeyboard;
+use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -24,27 +23,22 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 class AddRemindDayCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_remind_day';
-    public const COMMAND_RESPONSE_TEXT = 'Select remind days';
-    public const COMMAND_RESPONSE_NEXT_TEXT = 'You have to choose at least on day';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private HabitService $habitService;
     private RemindDayService $remindDayService;
-    private Router $router;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
-        RemindDayService $remindDayService,
-        Router $router
+        RemindDayService $remindDayService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
         $this->remindDayService = $remindDayService;
-        $this->router = $router;
     }
 
     public function getName(): string
@@ -59,45 +53,57 @@ class AddRemindDayCommand implements CommandInterface
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
-        $draftHabit = $user->getDraftHabit();
-
-        return $user->inHabitCreationFlow()
-            && $draftHabit !== null
-            && $draftHabit->getCreationState() === CreationHabitState::TITLE_ADDED;
+        return $commandCallback !== null
+            && $commandCallback->command->getValue() === CommandCallbackEnum::SET_HABIT_REMIND_DAY;
     }
 
-    public function run(UpdateType $update, User $user): void
+    public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
+        if ($commandCallback === null) {
+            return;
+        }
+
         $habit = $user->getDraftHabit();
 
-        $dayName = trim($update->message->text);
-        $dayName = str_replace(HabitRemindDayKeyboard::MARK_CODE, '', $dayName);
-        $dayNumber = array_search($dayName, HabitRemindDayKeyboard::WEEK_DAYS, true);
+        $dayName = trim($commandCallback->parameters['day'] ?? null);
+        $dayNumber = array_search($dayName, HabitRemindDayInlineKeyboard::WEEK_DAYS, true);
 
         if ($dayNumber !== false) {
             $this->remindDayService->toggleDay($habit, (int) $dayNumber);
         }
 
-        if ($update->message->text === HabitRemindDayKeyboard::CHOOSE_ALL_BUTTON_LABEL) {
+        if ($dayName === HabitRemindDayInlineKeyboard::CHOOSE_ALL_BUTTON_LABEL) {
             $this->remindDayService->markAll($habit);
         }
 
-        if ($update->message->text === HabitRemindDayKeyboard::NEXT_BUTTON_LABEL) {
+        if ($dayName === HabitRemindDayInlineKeyboard::NEXT_BUTTON_LABEL) {
+            if ($habit->getRemindWeekDays() > 0) {
+                $method = $this->createHabitMenuSendMethod($update, $habit);
+                $this->bot->sendMessage($method);
 
-
-            return;
+                return;
+            }
         }
 
-        $this->updateKeyboard($update->message, $habit);
+        $this->updateKeyboard($update, $habit);
     }
 
-    private function updateKeyboard(MessageType $message, Habit $habit): void
+    private function createHabitMenuSendMethod(UpdateType $update, Habit $habit): SendMessageMethod
+    {
+        return SendMessageMethod::create(
+            $update->callbackQuery->message->chat->id,
+            StartCommand::COMMAND_RESPONSE_TEXT, [
+            'replyMarkup' => HabitInlineKeyboard::generate($habit),
+        ]);
+    }
+
+    private function updateKeyboard(UpdateType $update, Habit $habit): void
     {
         $this->bot->sendMessage(
             SendMessageMethod::create(
-                $message->chat->id,
-                self::COMMAND_RESPONSE_TEXT, [
-                    'replyMarkup' => HabitRemindDayKeyboard::generate($habit->getRemindWeekDays()),
+                $update->callbackQuery->message->chat->id,
+                RemindDayFormCommand::COMMAND_RESPONSE, [
+                    'replyMarkup' => HabitRemindDayInlineKeyboard::generate($habit->getRemindWeekDays()),
                 ])
         );
     }

@@ -49,6 +49,7 @@ services:
                 habit_creation_start: '@App\Service\Command\HabitCreation\StartCommand'
                 habit_creation_description_form: '@App\Service\Command\HabitCreation\DescriptionFormCommand'
                 habit_creation_add_description: '@App\Service\Command\HabitCreation\AddDescriptionCommand'
+                habit_creation_remind_day_form: '@App\Service\Command\HabitCreation\RemindDayFormCommand'
                 habit_creation_add_remind_day: '@App\Service\Command\HabitCreation\AddRemindDayCommand'
                 habit_creation_add_remind_time: '@App\Service\Command\HabitCreation\AddRemindTimeCommand'
 
