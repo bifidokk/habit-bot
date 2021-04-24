@@ -26,12 +26,11 @@ class HabitService
         $this->habitCreationStateMachine = $habitCreationStateMachine;
     }
 
-    public function createHabit(HabitDto $newHabit, User $user): Habit
+    public function createHabit(HabitDescriptionDto $habitDescription, User $user): Habit
     {
         $habit = new Habit();
-        $habit->setDescription($newHabit->description);
+        $habit->setDescription($habitDescription->description);
         $habit->setUser($user);
-        $habit->setCreationState(CreationHabitState::TITLE_ADDED);
 
         $this->habitRepository->save($habit);
 

@@ -4,29 +4,34 @@ declare(strict_types=1);
 
 namespace App\Service\Keyboard;
 
+use App\Entity\Habit;
 use App\Service\Command\CommandCallback;
-use App\Service\Habit\HabitDto;
 use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
 use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitInlineKeyboard
 {
-    private const MARKED_CODE = "✅";
-    private const UNMARKED_CODE = "☑️";
+    public const MARKED_CODE = "✅";
+    public const UNMARKED_CODE = "☑️";
+    public const PREVIEW_CODE = "👀️";
 
-    private const STEPS = [
+    public const STEPS = [
         CommandCallback::HABIT_DESCRIPTION_FORM => 'Add habit\'s description',
-        '/setHabitRemindDay' => 'Add habit\'s remind day',
-        '/setHabitRemindTime' => 'Add habit\'s remind time',
-        '/habitPreview' => 'Preview',
+        CommandCallback::HABIT_REMIND_DAY_FORM => 'Add habit\'s remind day',
+        CommandCallback::HABIT_REMIND_TIME_FORM => 'Add habit\'s remind time',
+        CommandCallback::HABIT_PREVIEW => 'Preview',
     ];
 
-    public static function generate(HabitDto $habit): InlineKeyboardMarkupType
+    public static function generate(Habit $habit): InlineKeyboardMarkupType
     {
         $steps = [];
 
         foreach (self::STEPS as $step => $description) {
-            $icon = self::isStepButtonMarked($step, $description, $habit) ? self::MARKED_CODE : self::UNMARKED_CODE;
+            $icon = self::isStepButtonMarked($step, $habit) ? self::MARKED_CODE : self::UNMARKED_CODE;
+
+            if ($step === CommandCallback::HABIT_PREVIEW) {
+                $icon = self::PREVIEW_CODE;
+            }
 
             $steps[] = [InlineKeyboardButtonType::create(
                 sprintf('%s%s', $icon, $description),
@@ -37,19 +42,19 @@ class HabitInlineKeyboard
         return InlineKeyboardMarkupType::create($steps);
     }
 
-    private static function isStepButtonMarked(string $step, string $description, HabitDto $habit): bool
+    private static function isStepButtonMarked(string $step, Habit $habit): bool
     {
         if ($habit === null) {
             return false;
         }
 
         switch ($step) {
-            case 'habit_description':
-               return $habit->description !== null;
-            case 'habit_remind_day':
-                return (int)$habit->remindDay > 0;
-            case 'habit_remind_time':
-                return $habit->remindAt instanceof \DateTimeImmutable;
+            case CommandCallback::HABIT_DESCRIPTION_FORM:
+               return $habit->getDescription() !== '';
+            case CommandCallback::HABIT_REMIND_DAY_FORM:
+                return (int)$habit->getRemindWeekDays() > 0;
+            case CommandCallback::HABIT_REMIND_TIME_FORM:
+                return $habit->getRemindAt() instanceof \DateTimeImmutable;
             default:
                 return false;
         }

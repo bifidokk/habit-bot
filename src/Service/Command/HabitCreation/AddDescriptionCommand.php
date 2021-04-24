@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service\Command\HabitCreation;
 
+use App\Entity\Habit;
 use App\Entity\User;
+use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
+use App\Service\Habit\HabitDescriptionDto;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitDto;
+use App\Service\InputHandler;
+use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\NewHabitKeyboard;
 use App\Service\Router;
 use Psr\Log\LoggerInterface;
@@ -30,19 +35,22 @@ class AddDescriptionCommand implements CommandInterface
     private HabitService $habitService;
     private ValidatorInterface $validator;
     private Router $router;
+    private InputHandler $inputHandler;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
         ValidatorInterface $validator,
-        Router $router
+        Router $router,
+        InputHandler $inputHandler
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
         $this->validator = $validator;
         $this->router = $router;
+        $this->inputHandler = $inputHandler;
     }
 
     public function getName(): string
@@ -55,15 +63,17 @@ class AddDescriptionCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(UpdateType $update, User $user): bool
+    public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
-        return $user->inHabitCreationFlow();
+        $expectedCallback = CommandCallback::get(CommandCallback::SET_HABIT_DESCRIPTION);
+
+        return $commandCallback instanceof CommandCallback && $commandCallback->equals($expectedCallback);
     }
 
     public function run(UpdateType $update, User $user): void
     {
-        $newHabit = HabitDto::fromMessage($update->message);
-        $errors = $this->validator->validate($newHabit);
+        $habitDescription = HabitDescriptionDto::fromMessage($update->message);
+        $errors = $this->validator->validate($habitDescription);
 
         if (count($errors) > 0) {
             $this->handleError($update->message, self::ERROR_DESCRIPTION_TEXT);
@@ -72,7 +82,7 @@ class AddDescriptionCommand implements CommandInterface
         }
 
         try {
-            $habit = $this->habitService->createHabit($newHabit, $user);
+            $habit = $this->habitService->createHabit($habitDescription, $user);
             $user->addHabit($habit);
         } catch (\Throwable $e) {
             $this->handleError($update->message, self::ERROR_TEXT);
@@ -80,8 +90,19 @@ class AddDescriptionCommand implements CommandInterface
             return;
         }
 
-        $command = $this->router->getCommandByName(AddRemindDayCommand::COMMAND_NAME);
-        $command->run($update, $user);
+        $this->inputHandler->unwaitForInput($user);
+
+        $method = $this->createSendMethod($update->message, $habit);
+        $this->bot->sendMessage($method);
+    }
+
+    private function createSendMethod(MessageType $message, Habit $habit): SendMessageMethod
+    {
+        return SendMessageMethod::create(
+            $message->chat->id,
+            StartCommand::COMMAND_RESPONSE_TEXT, [
+            'replyMarkup' => HabitInlineKeyboard::generate($habit),
+        ]);
     }
 
     private function handleError(MessageType $message, string $error): void

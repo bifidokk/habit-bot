@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\Command\HabitCreation;
 
+use App\Entity\Habit;
 use App\Entity\User;
+use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
-use App\Service\Habit\HabitDto;
 use App\Service\Habit\HabitService;
 use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\User\UserService;
-use App\Service\User\UserStateTransition;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -51,7 +51,7 @@ class StartCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(UpdateType $update, User $user): bool
+    public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $update->message !== null && $update->message->text === self::COMMAND_PHRASE;
     }
@@ -69,7 +69,7 @@ class StartCommand implements CommandInterface
         return SendMessageMethod::create(
             $message->chat->id,
             self::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => HabitInlineKeyboard::generate(new HabitDto()),
+                'replyMarkup' => HabitInlineKeyboard::generate(new Habit()),
             ]);
     }
 }

@@ -27,8 +27,7 @@ class UserService
 
     public function getUser(UpdateType $update): ?User
     {
-        $message = $update->message ? $update->message : $update->callbackQuery->message;
-        $from = $message->from;
+        $from = $update->message ? $update->message->from : $update->callbackQuery->from;
 
         if ($from === null) {
             return null;

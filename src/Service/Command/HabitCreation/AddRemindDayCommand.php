@@ -6,6 +6,7 @@ namespace App\Service\Command\HabitCreation;
 
 use App\Entity\Habit;
 use App\Entity\User;
+use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\CreationHabitState;
@@ -56,7 +57,7 @@ class AddRemindDayCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(UpdateType $update, User $user): bool
+    public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         $draftHabit = $user->getDraftHabit();
 

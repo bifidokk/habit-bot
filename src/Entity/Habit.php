@@ -123,7 +123,7 @@ class Habit
         $this->remindWeekDays = $remindWeekDays;
     }
 
-    public function getRemindAt(): \DateTimeImmutable
+    public function getRemindAt(): ?\DateTimeImmutable
     {
         return $this->remindAt;
     }

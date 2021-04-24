@@ -43,7 +43,7 @@ class DescriptionFormCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(UpdateType $update, User $user): bool
+    public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $update->callbackQuery !== null
             && $update->callbackQuery->data === CommandCallback::HABIT_DESCRIPTION_FORM;
@@ -52,6 +52,7 @@ class DescriptionFormCommand implements CommandInterface
     public function run(UpdateType $update, User $user): void
     {
         $this->inputHandler->waitForInput($user, CommandCallback::get(CommandCallback::SET_HABIT_DESCRIPTION));
+
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,

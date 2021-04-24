@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Command;
 
 use App\Entity\User;
+use App\Service\InputHandler;
 use App\Service\Router;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
@@ -22,17 +23,20 @@ class StartCommand implements CommandInterface
     private LoggerInterface $logger;
     private UserService $userService;
     private Router $router;
+    private InputHandler $inputHandler;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         UserService $userService,
-        Router $router
+        Router $router,
+        InputHandler $inputHandler
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->userService = $userService;
         $this->router = $router;
+        $this->inputHandler = $inputHandler;
     }
 
     public function getName(): string
@@ -45,7 +49,7 @@ class StartCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::HIGH);
     }
 
-    public function canRun(UpdateType $update, User $user): bool
+    public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $update->message !== null && sprintf('/%s', $this->getName()) === $update->message->text;
     }
@@ -53,6 +57,8 @@ class StartCommand implements CommandInterface
     public function run(UpdateType $update, User $user): void
     {
         $this->userService->moveUserToStart($user);
+        $this->logger->info($this->inputHandler->unwaitForInput($user));
+        $this->logger->info($this->inputHandler->checkForInput($user));
 
         $method = $this->createSendMethod($update->message);
         $this->bot->sendMessage($method);

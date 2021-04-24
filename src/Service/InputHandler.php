@@ -26,9 +26,20 @@ class InputHandler
         );
     }
 
-    public function checkForInput(User $user): CommandCallback
+    public function unwaitForInput(User $user): int
+    {
+        return $this->cacheClient->del(
+            sprintf(self::WAIT_FOR_INPUT_KEY, $user->getTelegramId())
+        );
+    }
+
+    public function checkForInput(User $user): ?CommandCallback
     {
         $command = $this->cacheClient->get(sprintf(self::WAIT_FOR_INPUT_KEY, $user->getTelegramId()));
+
+        if (!is_string($command)) {
+            return null;
+        }
 
         return CommandCallback::get($command);
     }

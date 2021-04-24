@@ -13,7 +13,7 @@ interface CommandInterface
 
     public function getPriority(): CommandPriority;
 
-    public function canRun(UpdateType $update, User $user): bool;
+    public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool;
 
     public function run(UpdateType $update, User $user): void;
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Command\HabitCreation;
 
 use App\Entity\User;
+use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Command\MainMenuCommand;
@@ -53,7 +54,7 @@ class AddRemindTimeCommand implements CommandInterface
         return CommandPriority::get(CommandPriority::LOW);
     }
 
-    public function canRun(UpdateType $update, User $user): bool
+    public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         $draftHabit = $user->getDraftHabit();
 
