@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
-use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
-
 class WebhookDataFactory
 {
     public static function getStartCommandData(): string

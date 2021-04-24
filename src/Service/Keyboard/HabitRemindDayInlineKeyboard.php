@@ -33,7 +33,7 @@ class HabitRemindDayInlineKeyboard
             $buttons[] = InlineKeyboardButtonType::create(
                 $dayLabel,
                 [
-                    'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, $day)
+                    'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, $day),
                 ]
             );
         }
@@ -44,15 +44,15 @@ class HabitRemindDayInlineKeyboard
                 InlineKeyboardButtonType::create(
                     self::CHOOSE_ALL_BUTTON_LABEL,
                     [
-                        'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, self::CHOOSE_ALL_BUTTON_LABEL)
+                        'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, self::CHOOSE_ALL_BUTTON_LABEL),
                     ]
-                )
+                ),
             ],
             [
                 InlineKeyboardButtonType::create(
                     self::NEXT_BUTTON_LABEL,
                     [
-                        'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, self::NEXT_BUTTON_LABEL)
+                        'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, self::NEXT_BUTTON_LABEL),
                     ]
                 ),
             ],

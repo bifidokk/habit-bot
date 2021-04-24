@@ -34,7 +34,7 @@ class HabitInlineKeyboardTest extends TestCase
             $description = $steps[$rowCount];
             $this->assertStringContainsString($description, $button->text);
 
-            $rowCount++;
+            ++$rowCount;
         }
     }
 

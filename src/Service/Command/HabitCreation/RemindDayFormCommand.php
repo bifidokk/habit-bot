@@ -55,8 +55,8 @@ class RemindDayFormCommand implements CommandInterface
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
                 self::COMMAND_RESPONSE, [
-                'replyMarkup' => HabitRemindDayInlineKeyboard::generate($habit->getRemindWeekDays()),
-            ])
+                    'replyMarkup' => HabitRemindDayInlineKeyboard::generate($habit->getRemindWeekDays()),
+                ])
         );
     }
 }
