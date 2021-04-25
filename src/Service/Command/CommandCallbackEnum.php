@@ -11,6 +11,7 @@ class CommandCallbackEnum extends Enum
 {
     use AutoDiscoveredValuesTrait;
 
+    public const HABIT_FORM = '/formHabit';
     public const HABIT_DESCRIPTION_FORM = '/formHabitDescription';
     public const SET_HABIT_DESCRIPTION = '/setHabitDescription';
     public const HABIT_REMIND_DAY_FORM = '/formHabitRemindDay';
@@ -18,4 +19,5 @@ class CommandCallbackEnum extends Enum
     public const HABIT_REMIND_TIME_FORM = '/formHabitRemindTime';
     public const SET_HABIT_REMIND_TIME = '/setHabitRemindTime';
     public const HABIT_PREVIEW = '/habitPreview';
+    public const HABIT_PUBLISH = '/habitPublish';
 }

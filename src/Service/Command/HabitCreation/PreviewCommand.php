@@ -11,8 +11,11 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\RemindDayService;
+use App\Service\Keyboard\HabitInlineKeyboard;
+use App\Service\Keyboard\HabitPreviewInlineKeyboard;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
@@ -54,18 +57,31 @@ class PreviewCommand implements CommandInterface
     {
         $habit = $user->getDraftHabit();
 
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
-                $update->callbackQuery->message->chat->id,
-                $this->getHabitPreviewText($habit))
-        );
+        if ($habit->readyForPublishing()) {
+            $this->bot->sendMessage(
+                SendMessageMethod::create(
+                    $update->callbackQuery->message->chat->id,
+                    $this->getHabitPreviewText($habit), [
+                        'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
+                        'replyMarkup' => HabitPreviewInlineKeyboard::generate($habit),
+                    ]
+                )
+            );
+        } else {
+            $this->bot->sendMessage(
+                SendMessageMethod::create(
+                    $update->callbackQuery->message->chat->id,
+                    StartCommand::COMMAND_RESPONSE_TEXT, [
+                        'replyMarkup' => HabitInlineKeyboard::generate($habit),
+                    ])
+            );
+        }
     }
 
     private function getHabitPreviewText(Habit $habit): string
     {
         return sprintf(
-            '*%s*
-            every %s at %s',
+            "*%s*\nRemind every *%s* at *%s*",
             $habit->getDescription(),
             $this->remindDayService->getRemindDaysAsString($habit),
             $habit->getRemindAt() ? $habit->getRemindAt()->format('H:i') : ''

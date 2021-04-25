@@ -76,4 +76,27 @@ class RemindDayServiceTest extends TestCase
         $this->remindDayService->markAll($habit);
         $this->assertEquals(127, $habit->getRemindWeekDays());
     }
+
+    /**
+     * @test
+     */
+    public function itConvertsRemindDaysToListWithDayNamesTest(): void
+    {
+        $habit = new Habit();
+
+        $this->remindDayService->toggleDay($habit, 1);
+        $days = $this->remindDayService->getRemindDaysAsString($habit);
+        $this->assertEquals('Mon', $days);
+
+        $habit = new Habit();
+        $this->remindDayService->toggleDay($habit, 1);
+        $this->remindDayService->toggleDay($habit, 3);
+        $days = $this->remindDayService->getRemindDaysAsString($habit);
+        $this->assertEquals('Mon, Wed', $days);
+
+        $habit = new Habit();
+        $this->remindDayService->markAll($habit);
+        $days = $this->remindDayService->getRemindDaysAsString($habit);
+        $this->assertEquals('Sun, Mon, Tue, Wed, Thu, Fri, Sat', $days);
+    }
 }

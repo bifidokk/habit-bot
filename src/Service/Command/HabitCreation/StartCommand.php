@@ -7,6 +7,7 @@ namespace App\Service\Command\HabitCreation;
 use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Command\CommandCallback;
+use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
@@ -49,7 +50,8 @@ class StartCommand implements CommandInterface
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
-        return $update->message !== null && $update->message->text === self::COMMAND_PHRASE;
+        return ($update->message !== null && $update->message->text === self::COMMAND_PHRASE)
+            || ($commandCallback !== null && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_FORM);
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -58,7 +60,7 @@ class StartCommand implements CommandInterface
         $habit = $this->habitService->createHabit($user);
         $user->addHabit($habit);
 
-        $method = $this->createSendMethod($update->message);
+        $method = $this->createSendMethod($update->message ? $update->message : $update->callbackQuery->message);
         $this->bot->sendMessage($method);
     }
 

@@ -47,7 +47,7 @@ class RemindDayService
         $remindDayNames = [];
 
         foreach ($remindDays as $number => $day) {
-            if ($day === 1) {
+            if ((int) $day === 1) {
                 $remindDayNames[] = HabitRemindDayInlineKeyboard::WEEK_DAYS[$number];
             }
         }

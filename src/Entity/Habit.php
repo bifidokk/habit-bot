@@ -116,4 +116,11 @@ class Habit
     {
         $this->remindAt = $remindAt;
     }
+
+    public function readyForPublishing(): bool
+    {
+        return $this->description !== ''
+            && $this->remindWeekDays > 0
+            && $this->remindAt instanceof \DateTimeImmutable;
+    }
 }
