@@ -6,6 +6,7 @@ namespace App\Service\Habit;
 
 use App\Entity\Habit;
 use App\Repository\HabitRepository;
+use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 
 class RemindDayService
 {
@@ -38,6 +39,20 @@ class RemindDayService
     {
         $habit->setRemindWeekDays(self::ALL_DAYS_MARKED_INT);
         $this->habitRepository->save($habit);
+    }
+
+    public function getRemindDaysAsString(Habit $habit): string
+    {
+        $remindDays = $this->getRemindDayArray($habit);
+        $remindDayNames = [];
+
+        foreach ($remindDays as $number => $day) {
+            if ($day === 1) {
+                $remindDayNames[] = HabitRemindDayInlineKeyboard::WEEK_DAYS[$number];
+            }
+        }
+
+        return implode(', ', $remindDayNames);
     }
 
     private function getRemindDayArray(Habit $habit): array

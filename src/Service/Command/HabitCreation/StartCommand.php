@@ -55,6 +55,8 @@ class StartCommand implements CommandInterface
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $this->habitService->removeUserDraftHabits($user);
+        $habit = $this->habitService->createHabit($user);
+        $user->addHabit($habit);
 
         $method = $this->createSendMethod($update->message);
         $this->bot->sendMessage($method);

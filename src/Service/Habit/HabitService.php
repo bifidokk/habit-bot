@@ -18,10 +18,9 @@ class HabitService
         $this->habitRepository = $habitRepository;
     }
 
-    public function createHabit(HabitDescriptionDto $habitDescription, User $user): Habit
+    public function createHabit(User $user): Habit
     {
         $habit = new Habit();
-        $habit->setDescription($habitDescription->description);
         $habit->setUser($user);
 
         $this->habitRepository->save($habit);

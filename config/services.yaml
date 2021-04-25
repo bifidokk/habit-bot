@@ -53,6 +53,7 @@ services:
                 habit_creation_add_remind_day: '@App\Service\Command\HabitCreation\AddRemindDayCommand'
                 habit_creation_remind_time_form: '@App\Service\Command\HabitCreation\RemindTimeFormCommand'
                 habit_creation_add_remind_time: '@App\Service\Command\HabitCreation\AddRemindTimeCommand'
+                habit_creation_preview: '@App\Service\Command\HabitCreation\PreviewCommand'
 
     App\Service\InputHandler:
         arguments:

@@ -66,6 +66,10 @@ class AddDescriptionCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
+        if ($update->message === null) {
+            return;
+        }
+
         $habitDescription = HabitDescriptionDto::fromMessage($update->message);
         $errors = $this->validator->validate($habitDescription);
 
@@ -76,8 +80,9 @@ class AddDescriptionCommand implements CommandInterface
         }
 
         try {
-            $habit = $this->habitService->createHabit($habitDescription, $user);
-            $user->addHabit($habit);
+            $habit = $user->getDraftHabit();
+            $habit->setDescription($habitDescription->description);
+            $this->habitService->save($habit);
         } catch (\Throwable $e) {
             $this->handleError($update->message, self::ERROR_TEXT);
 
