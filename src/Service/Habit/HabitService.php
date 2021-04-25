@@ -33,6 +33,12 @@ class HabitService
         $this->habitRepository->removeUserHabitsWithState($user, HabitState::get(HabitState::DRAFT));
     }
 
+    public function publish(Habit $habit): void
+    {
+        $habit->publish();
+        $this->habitRepository->save($habit);
+    }
+
     public function save(Habit $habit): void
     {
         $this->habitRepository->save($habit);

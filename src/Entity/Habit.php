@@ -57,11 +57,6 @@ class Habit
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
     public function setUser(?User $user): void
     {
         $this->user = $user;
@@ -75,16 +70,6 @@ class Habit
     public function setDescription(string $description): void
     {
         $this->description = $description;
-    }
-
-    public function getState(): string
-    {
-        return (string) $this->state->getValue();
-    }
-
-    public function setState(string $state): void
-    {
-        $this->state = HabitState::get($state);
     }
 
     public function isDraft(): bool
@@ -122,5 +107,10 @@ class Habit
         return $this->description !== ''
             && $this->remindWeekDays > 0
             && $this->remindAt instanceof \DateTimeImmutable;
+    }
+
+    public function publish(): void
+    {
+        $this->state = HabitState::get(HabitState::PUBLISHED);
     }
 }

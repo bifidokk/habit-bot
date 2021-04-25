@@ -45,7 +45,7 @@ class MainMenuCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $method = $this->createSendMethod($update->message);
+        $method = $this->createSendMethod($update->message ? $update->message : $update->callbackQuery->message);
         $this->bot->sendMessage($method);
     }
 
