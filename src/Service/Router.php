@@ -67,13 +67,10 @@ class Router
 
     private function getCommandCallback(UpdateType $update, User $user): ?CommandCallback
     {
-        $commandCallbackEnum = $this->inputHandler->checkForInput($user);
+        $commandCallbackData = $this->inputHandler->checkForInput($user);
 
-        if ($commandCallbackEnum !== null) {
-            $commandCallback = new CommandCallback();
-            $commandCallback->command = $commandCallbackEnum;
-
-            return $commandCallback;
+        if ($commandCallbackData !== null) {
+            return $this->parseCallbackQueryData($commandCallbackData);
         }
 
         if ($update->callbackQuery !== null && $update->callbackQuery->data !== null) {

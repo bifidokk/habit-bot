@@ -36,7 +36,7 @@ class HabitInlineKeyboard
             $steps[] = [InlineKeyboardButtonType::create(
                 sprintf('%s%s', $icon, $description),
                 [
-                    'callbackData' => $step,
+                    'callbackData' => sprintf('%s?%s', $step, $habit->getQueryParameter()),
                 ]
             )];
         }

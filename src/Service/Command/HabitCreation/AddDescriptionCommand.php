@@ -80,7 +80,7 @@ class AddDescriptionCommand implements CommandInterface
         }
 
         try {
-            $habit = $user->getDraftHabit();
+            $habit = $this->habitService->getHabit((string) $commandCallback->parameters['id']);
             $habit->setDescription($habitDescription->description);
             $this->habitService->save($habit);
         } catch (\Throwable $e) {

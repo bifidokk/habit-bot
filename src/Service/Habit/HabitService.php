@@ -7,6 +7,7 @@ namespace App\Service\Habit;
 use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\HabitRepository;
+use App\Service\Habit\Exception\CouldNotGetHabit;
 
 class HabitService
 {
@@ -37,6 +38,17 @@ class HabitService
     {
         $habit->publish();
         $this->habitRepository->save($habit);
+    }
+
+    public function getHabit(string $id): Habit
+    {
+        $habit = $this->habitRepository->find($id);
+
+        if ($habit === null) {
+            throw new CouldNotGetHabit();
+        }
+
+        return $habit;
     }
 
     public function save(Habit $habit): void

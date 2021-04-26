@@ -9,6 +9,7 @@ use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
+use App\Service\Habit\HabitService;
 use App\Service\InputHandler;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
@@ -23,15 +24,18 @@ class DescriptionFormCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private InputHandler $inputHandler;
+    private HabitService $habitService;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        InputHandler $inputHandler
+        InputHandler $inputHandler,
+        HabitService $habitService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->inputHandler = $inputHandler;
+        $this->habitService = $habitService;
     }
 
     public function getName(): string
@@ -52,7 +56,12 @@ class DescriptionFormCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $this->inputHandler->waitForInput($user, CommandCallbackEnum::get(CommandCallbackEnum::SET_HABIT_DESCRIPTION));
+        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
+
+        $this->inputHandler->waitForInput(
+            $user,
+            sprintf('%s?%s', CommandCallbackEnum::SET_HABIT_DESCRIPTION, $habit->getQueryParameter())
+        );
 
         $this->bot->sendMessage(
             SendMessageMethod::create(

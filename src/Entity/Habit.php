@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Service\Habit\HabitState;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidV4Generator;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HabitRepository")
@@ -19,7 +20,7 @@ class Habit
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidV4Generator::class)
      */
-    private string $id = '';
+    private ?Uuid $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="habits")
@@ -55,6 +56,11 @@ class Habit
     {
         $this->state = HabitState::get(HabitState::DRAFT);
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getId(): ?Uuid
+    {
+        return $this->id;
     }
 
     public function setUser(?User $user): void
@@ -112,5 +118,10 @@ class Habit
     public function publish(): void
     {
         $this->state = HabitState::get(HabitState::PUBLISHED);
+    }
+
+    public function getQueryParameter(): string
+    {
+        return sprintf('id=%s', $this->id ? $this->id->toRfc4122() : '');
     }
 }

@@ -56,20 +56,29 @@ class StartCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $this->habitService->removeUserDraftHabits($user);
-        $habit = $this->habitService->createHabit($user);
+        $habit = null;
+
+        if ($commandCallback !== null && isset($commandCallback->parameters['id'])) {
+            $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
+        }
+
+        if ($habit === null) {
+            $this->habitService->removeUserDraftHabits($user);
+            $habit = $this->habitService->createHabit($user);
+        }
+
         $user->addHabit($habit);
 
-        $method = $this->createSendMethod($update->message ? $update->message : $update->callbackQuery->message);
+        $method = $this->createSendMethod($update->message ? $update->message : $update->callbackQuery->message, $habit);
         $this->bot->sendMessage($method);
     }
 
-    private function createSendMethod(MessageType $message): SendMessageMethod
+    private function createSendMethod(MessageType $message, Habit $habit): SendMessageMethod
     {
         return SendMessageMethod::create(
             $message->chat->id,
             self::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => HabitInlineKeyboard::generate(new Habit()),
+                'replyMarkup' => HabitInlineKeyboard::generate($habit),
             ]);
     }
 }
