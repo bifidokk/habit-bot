@@ -10,6 +10,7 @@ use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
+use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindDayService;
 use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitPreviewInlineKeyboard;
@@ -26,15 +27,18 @@ class PreviewCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private RemindDayService $remindDayService;
+    private HabitService $habitService;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        RemindDayService $remindDayService
+        RemindDayService $remindDayService,
+        HabitService $habitService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->remindDayService = $remindDayService;
+        $this->habitService = $habitService;
     }
 
     public function getName(): string
@@ -55,7 +59,7 @@ class PreviewCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $habit = $user->getDraftHabit();
+        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
 
         if ($habit->readyForPublishing()) {
             $this->bot->sendMessage(

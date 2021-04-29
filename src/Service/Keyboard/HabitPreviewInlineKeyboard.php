@@ -16,10 +16,18 @@ class HabitPreviewInlineKeyboard
         return InlineKeyboardMarkupType::create([
             [
                 InlineKeyboardButtonType::create('⬅️Back', [
-                    'callbackData' => CommandCallbackEnum::HABIT_FORM,
+                    'callbackData' => sprintf(
+                        '%s?id=%s',
+                        CommandCallbackEnum::HABIT_FORM,
+                        $habit->getId()->toRfc4122()
+                    ),
                 ]),
                 InlineKeyboardButtonType::create('✅Submit', [
-                    'callbackData' => CommandCallbackEnum::HABIT_PUBLISH,
+                    'callbackData' => sprintf(
+                        '%s?id=%s',
+                        CommandCallbackEnum::HABIT_PUBLISH,
+                        $habit->getId()->toRfc4122()
+                    ),
                 ]),
             ],
         ]);

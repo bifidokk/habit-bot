@@ -6,6 +6,7 @@ namespace App\Tests\Service\Keyboard;
 
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Uid\Uuid;
 
 class HabitRemindDayKeyboardTest extends TestCase
 {
@@ -16,7 +17,7 @@ class HabitRemindDayKeyboardTest extends TestCase
     {
         $days = '0100100';
         $actualDays = '';
-        $keyboard = HabitRemindDayInlineKeyboard::generate((int) bindec($days));
+        $keyboard = HabitRemindDayInlineKeyboard::generate((int) bindec($days), Uuid::v4()->toRfc4122());
 
         $daysRow = $keyboard->inlineKeyboard[0];
 

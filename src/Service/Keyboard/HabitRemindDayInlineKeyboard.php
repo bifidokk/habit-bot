@@ -18,7 +18,7 @@ class HabitRemindDayInlineKeyboard
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
     ];
 
-    public static function generate(int $chosenWeekDays): InlineKeyboardMarkupType
+    public static function generate(int $chosenWeekDays, string $habitId): InlineKeyboardMarkupType
     {
         $buttons = [];
         $chosenWeekDaysBin = sprintf('%07d', decbin($chosenWeekDays));
@@ -33,7 +33,12 @@ class HabitRemindDayInlineKeyboard
             $buttons[] = InlineKeyboardButtonType::create(
                 $dayLabel,
                 [
-                    'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, $day),
+                    'callbackData' => sprintf(
+                        '%s?id=%s&day=%s',
+                        CommandCallbackEnum::SET_HABIT_REMIND_DAY,
+                        $habitId,
+                        $day
+                    ),
                 ]
             );
         }
@@ -44,7 +49,12 @@ class HabitRemindDayInlineKeyboard
                 InlineKeyboardButtonType::create(
                     self::CHOOSE_ALL_BUTTON_LABEL,
                     [
-                        'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, self::CHOOSE_ALL_BUTTON_LABEL),
+                        'callbackData' => sprintf(
+                            '%s?id=%s&day=%s',
+                            CommandCallbackEnum::SET_HABIT_REMIND_DAY,
+                            $habitId,
+                            self::CHOOSE_ALL_BUTTON_LABEL
+                        ),
                     ]
                 ),
             ],
@@ -52,7 +62,12 @@ class HabitRemindDayInlineKeyboard
                 InlineKeyboardButtonType::create(
                     self::NEXT_BUTTON_LABEL,
                     [
-                        'callbackData' => sprintf('%s?day=%s', CommandCallbackEnum::SET_HABIT_REMIND_DAY, self::NEXT_BUTTON_LABEL),
+                        'callbackData' => sprintf(
+                            '%s?id=%s&day=%s',
+                            CommandCallbackEnum::SET_HABIT_REMIND_DAY,
+                            $habitId,
+                            self::NEXT_BUTTON_LABEL
+                        ),
                     ]
                 ),
             ],

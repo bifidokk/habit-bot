@@ -9,6 +9,7 @@ use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
+use App\Service\Habit\HabitService;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
@@ -22,13 +23,16 @@ class RemindDayFormCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
+    private HabitService $habitService;
 
     public function __construct(
         BotApiComplete $bot,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        HabitService $habitService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
+        $this->habitService = $habitService;
     }
 
     public function getName(): string
@@ -49,13 +53,16 @@ class RemindDayFormCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $habit = $user->getDraftHabit();
+        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
 
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
                 self::COMMAND_RESPONSE, [
-                    'replyMarkup' => HabitRemindDayInlineKeyboard::generate($habit->getRemindWeekDays()),
+                    'replyMarkup' => HabitRemindDayInlineKeyboard::generate(
+                        $habit->getRemindWeekDays(),
+                        $habit->getId()->toRfc4122()
+                    ),
                 ])
         );
     }

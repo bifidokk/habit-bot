@@ -57,8 +57,7 @@ class AddRemindTimeCommand implements CommandInterface
             return;
         }
 
-        $habit = $user->getDraftHabit();
-
+        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
         $remindAtString = trim($commandCallback->parameters['time'] ?? null);
 
         try {

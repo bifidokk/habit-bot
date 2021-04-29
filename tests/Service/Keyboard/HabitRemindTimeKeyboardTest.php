@@ -6,6 +6,7 @@ namespace App\Tests\Service\Keyboard;
 
 use App\Service\Keyboard\HabitRemindTimeInlineKeyboard;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Uid\Uuid;
 use TgBotApi\BotApiBase\Type\KeyboardButtonType;
 
 class HabitRemindTimeKeyboardTest extends TestCase
@@ -19,7 +20,7 @@ class HabitRemindTimeKeyboardTest extends TestCase
         $expectedRowSecond = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
         $expectedRowThird = ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
 
-        $keyboard = HabitRemindTimeInlineKeyboard::generate();
+        $keyboard = HabitRemindTimeInlineKeyboard::generate(Uuid::v4()->toRfc4122());
         $this->assertIsArray($keyboard->inlineKeyboard);
 
         $row = $keyboard->inlineKeyboard[0];

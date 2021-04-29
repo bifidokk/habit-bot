@@ -55,7 +55,7 @@ class PublishCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $habit = $user->getDraftHabit();
+        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
 
         if (!$habit->readyForPublishing()) {
             return;

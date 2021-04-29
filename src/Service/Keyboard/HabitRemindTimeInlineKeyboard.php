@@ -14,7 +14,7 @@ class HabitRemindTimeInlineKeyboard
     private const MAX_HOUR = 23;
     private const BUTTONS_IN_A_ROW = 6;
 
-    public static function generate(): InlineKeyboardMarkupType
+    public static function generate(string $habitId): InlineKeyboardMarkupType
     {
         $buttons = [];
         $count = 0;
@@ -26,7 +26,12 @@ class HabitRemindTimeInlineKeyboard
             $buttons[$rowNumber][] = InlineKeyboardButtonType::create(
                 $timeLabel,
                 [
-                    'callbackData' => sprintf('%s?time=%s', CommandCallbackEnum::SET_HABIT_REMIND_TIME, $timeLabel),
+                    'callbackData' => sprintf(
+                        '%s?id=%stime=%s',
+                        CommandCallbackEnum::SET_HABIT_REMIND_TIME,
+                        $habitId,
+                        $timeLabel
+                    ),
                 ]
             );
         }

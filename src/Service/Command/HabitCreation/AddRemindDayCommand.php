@@ -10,6 +10,7 @@ use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
+use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindDayService;
 use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
@@ -25,15 +26,18 @@ class AddRemindDayCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private RemindDayService $remindDayService;
+    private HabitService $habitService;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        RemindDayService $remindDayService
+        RemindDayService $remindDayService,
+        HabitService $habitService
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->remindDayService = $remindDayService;
+        $this->habitService = $habitService;
     }
 
     public function getName(): string
@@ -58,7 +62,7 @@ class AddRemindDayCommand implements CommandInterface
             return;
         }
 
-        $habit = $user->getDraftHabit();
+        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
         $dayName = trim($commandCallback->parameters['day'] ?? null);
         $dayNumber = array_search($dayName, HabitRemindDayInlineKeyboard::WEEK_DAYS, true);
 
@@ -97,7 +101,10 @@ class AddRemindDayCommand implements CommandInterface
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
                 RemindDayFormCommand::COMMAND_RESPONSE, [
-                    'replyMarkup' => HabitRemindDayInlineKeyboard::generate($habit->getRemindWeekDays()),
+                    'replyMarkup' => HabitRemindDayInlineKeyboard::generate(
+                        $habit->getRemindWeekDays(),
+                        $habit->getId()->toRfc4122()
+                    ),
                 ])
         );
     }
