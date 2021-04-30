@@ -19,15 +19,21 @@ class WebhookController
     private BotApiComplete $bot;
     private WebhookService $webhookService;
     private LoggerInterface $logger;
+    private string $baseUrl;
+    private string $token;
 
     public function __construct(
         BotApiComplete $bot,
         WebhookService $webhookService,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        string $baseUrl,
+        string $token
     ) {
         $this->bot = $bot;
         $this->webhookService = $webhookService;
         $this->logger = $logger;
+        $this->baseUrl = $baseUrl;
+        $this->token = $token;
     }
 
     /**
@@ -52,6 +58,14 @@ class WebhookController
      */
     public function addWebhook(): JsonResponse
     {
-        $this->bot->setWebhook(SetWebhookMethod::create('https://7142a94e9e50.ngrok.io/webhook/jc95oyvlRZtieaPLQRodolDTeXXs1Ek3'));
+        $url = sprintf(
+            '%s/webhook/%s',
+            $this->baseUrl,
+            $this->token
+        );
+
+        $this->bot->setWebhook(SetWebhookMethod::create($url));
+
+        return new JsonResponse();
     }
 }

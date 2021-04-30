@@ -59,3 +59,8 @@ services:
     App\Service\InputHandler:
         arguments:
             $cacheClient: '@app.my_custom_redis_provider'
+
+    App\Controller\WebhookController:
+        arguments:
+            $baseUrl: '%env(WEBHOOK_BASE_URL)%'
+            $token: '%env(TG_BOT_WEBHOOK_TOKEN)%'
