@@ -14,7 +14,7 @@ class MainMenuKeyboard
         return ReplyKeyboardMarkupType::create([
             [
                 KeyboardButtonType::create(sprintf('%s Habits', EmojiCode::ALARM)),
-                KeyboardButtonType::create(sprintf('%s Settings', EmojiCode::SETTINGS))
+                KeyboardButtonType::create(sprintf('%s Settings', EmojiCode::SETTINGS)),
             ],
         ]);
     }

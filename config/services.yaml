@@ -46,6 +46,7 @@ services:
             -
                 start: '@App\Service\Command\StartCommand'
                 main_menu: '@App\Service\Command\MainMenuCommand'
+                habit_menu: '@App\Service\Command\HabitMenuCommand'
                 habit_creation_start: '@App\Service\Command\HabitCreation\StartCommand'
                 habit_creation_description_form: '@App\Service\Command\HabitCreation\DescriptionFormCommand'
                 habit_creation_add_description: '@App\Service\Command\HabitCreation\AddDescriptionCommand'

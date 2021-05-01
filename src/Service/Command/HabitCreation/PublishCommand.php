@@ -11,7 +11,6 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Command\MainMenuCommand;
 use App\Service\Habit\HabitService;
-use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Router;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;

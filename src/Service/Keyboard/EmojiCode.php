@@ -17,4 +17,5 @@ class EmojiCode extends Enum
     public const UNMARKED = '☑️';
     public const PREVIEW = '👀️';
     public const BACK = '⬅️';
+    public const PLUS = '➕️';
 }
