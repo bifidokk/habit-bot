@@ -15,7 +15,9 @@ class MainMenuKeyboard
             [
                 KeyboardButtonType::create(sprintf('%s Habits', EmojiCode::ALARM)),
                 KeyboardButtonType::create(sprintf('%s Settings', EmojiCode::SETTINGS)),
-            ],
+            ]
+        ], [
+            'resizeKeyboard' => true,
         ]);
     }
 }
