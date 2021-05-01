@@ -27,7 +27,7 @@ class HabitRemindTimeInlineKeyboard
                 $timeLabel,
                 [
                     'callbackData' => sprintf(
-                        '%s?id=%stime=%s',
+                        '%s?id=%s&time=%s',
                         CommandCallbackEnum::SET_HABIT_REMIND_TIME,
                         $habitId,
                         $timeLabel

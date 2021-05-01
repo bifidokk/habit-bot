@@ -11,14 +11,17 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Command\MainMenuCommand;
 use App\Service\Habit\HabitService;
+use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Router;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class PublishCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_publish';
+    public const COMMAND_RESPONSE_TEXT = 'The habit is added successfully';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
@@ -62,6 +65,14 @@ class PublishCommand implements CommandInterface
         }
 
         $this->habitService->publish($habit);
+
+        $this->bot->sendMessage(
+            SendMessageMethod::create(
+                $update->callbackQuery->message->chat->id,
+                self::COMMAND_RESPONSE_TEXT
+            )
+        );
+
         $nextCommand = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
         $nextCommand->run($update, $user, $commandCallback);
     }
