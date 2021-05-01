@@ -11,10 +11,6 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitInlineKeyboard
 {
-    public const MARKED_CODE = '✅';
-    public const UNMARKED_CODE = '☑️';
-    public const PREVIEW_CODE = '👀️';
-
     public const STEPS = [
         CommandCallbackEnum::HABIT_DESCRIPTION_FORM => 'Add habit\'s description',
         CommandCallbackEnum::HABIT_REMIND_DAY_FORM => 'Add habit\'s remind day',
@@ -27,10 +23,10 @@ class HabitInlineKeyboard
         $steps = [];
 
         foreach (self::STEPS as $step => $description) {
-            $icon = self::isStepButtonMarked($step, $habit) ? self::MARKED_CODE : self::UNMARKED_CODE;
+            $icon = self::isStepButtonMarked($step, $habit) ? EmojiCode::MARKED : EmojiCode::UNMARKED;
 
             if ($step === CommandCallbackEnum::HABIT_PREVIEW) {
-                $icon = self::PREVIEW_CODE;
+                $icon = EmojiCode::PREVIEW;
             }
 
             $steps[] = [InlineKeyboardButtonType::create(

@@ -10,7 +10,6 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitRemindDayInlineKeyboard
 {
-    public const MARK_CODE = "\xE2\x9C\x85";
     public const CHOOSE_ALL_BUTTON_LABEL = 'Choose all';
     public const NEXT_BUTTON_LABEL = 'Next';
 
@@ -27,7 +26,7 @@ class HabitRemindDayInlineKeyboard
             $dayLabel = $day;
 
             if (self::dayIsChosen($chosenWeekDaysBin, $number)) {
-                $dayLabel = sprintf('%s%s', self::MARK_CODE, $day);
+                $dayLabel = sprintf('%s%s', EmojiCode::MARKED, $day);
             }
 
             $buttons[] = InlineKeyboardButtonType::create(

@@ -15,14 +15,14 @@ class HabitPreviewInlineKeyboard
     {
         return InlineKeyboardMarkupType::create([
             [
-                InlineKeyboardButtonType::create('⬅️Back', [
+                InlineKeyboardButtonType::create(sprintf('️%sBack', EmojiCode::BACK), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
                         CommandCallbackEnum::HABIT_FORM,
                         $habit->getId()->toRfc4122()
                     ),
                 ]),
-                InlineKeyboardButtonType::create('✅Submit', [
+                InlineKeyboardButtonType::create(sprintf('%sSubmit', EmojiCode::MARKED), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
                         CommandCallbackEnum::HABIT_PUBLISH,

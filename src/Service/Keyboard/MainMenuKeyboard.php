@@ -12,7 +12,10 @@ class MainMenuKeyboard
     public static function generate(): ReplyKeyboardMarkupType
     {
         return ReplyKeyboardMarkupType::create([
-            [KeyboardButtonType::create('Add a new habit')],
+            [
+                KeyboardButtonType::create(sprintf('%s Habits', EmojiCode::ALARM)),
+                KeyboardButtonType::create(sprintf('%s Settings', EmojiCode::SETTINGS))
+            ],
         ]);
     }
 }

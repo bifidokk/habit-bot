@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Keyboard;
 
+use App\Service\Keyboard\EmojiCode;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Uuid;
@@ -22,7 +23,7 @@ class HabitRemindDayKeyboardTest extends TestCase
         $daysRow = $keyboard->inlineKeyboard[0];
 
         foreach ($daysRow as $dayButton) {
-            if (strpos($dayButton->text, HabitRemindDayInlineKeyboard::MARK_CODE) !== false) {
+            if (strpos($dayButton->text, EmojiCode::MARKED) !== false) {
                 $actualDays .= '1';
             } else {
                 $actualDays .= '0';
