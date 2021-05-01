@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Service\Keyboard;
 
 use App\Entity\Habit;
+use App\Service\Keyboard\EmojiCode;
 use App\Service\Keyboard\HabitInlineKeyboard;
 use PHPUnit\Framework\TestCase;
 use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
@@ -49,7 +50,7 @@ class HabitInlineKeyboardTest extends TestCase
 
         $rows = $keyboard->inlineKeyboard;
         $button = $rows[0][0];
-        $this->assertStringContainsString(HabitInlineKeyboard::MARKED_CODE, $button->text);
+        $this->assertStringContainsString(EmojiCode::MARKED, $button->text);
     }
 
     /**
@@ -63,7 +64,7 @@ class HabitInlineKeyboardTest extends TestCase
 
         $rows = $keyboard->inlineKeyboard;
         $button = $rows[1][0];
-        $this->assertStringContainsString(HabitInlineKeyboard::MARKED_CODE, $button->text);
+        $this->assertStringContainsString(EmojiCode::MARKED, $button->text);
     }
 
     /**
@@ -77,6 +78,6 @@ class HabitInlineKeyboardTest extends TestCase
 
         $rows = $keyboard->inlineKeyboard;
         $button = $rows[2][0];
-        $this->assertStringContainsString(HabitInlineKeyboard::MARKED_CODE, $button->text);
+        $this->assertStringContainsString(EmojiCode::MARKED, $button->text);
     }
 }
