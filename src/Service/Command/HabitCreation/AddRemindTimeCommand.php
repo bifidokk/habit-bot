@@ -11,6 +11,7 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
+use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitInlineKeyboard;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
@@ -57,7 +58,11 @@ class AddRemindTimeCommand implements CommandInterface
             return;
         }
 
-        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
+        $habit = $this->habitService->getHabitByIdWithState(
+            $commandCallback->parameters['id'],
+            HabitState::get(HabitState::DRAFT)
+        );
+
         $remindAtString = trim($commandCallback->parameters['time'] ?? null);
 
         try {

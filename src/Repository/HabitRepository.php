@@ -8,6 +8,7 @@ use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Habit\HabitState;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Uid\Uuid;
 
 class HabitRepository extends EntityRepository
 {
@@ -31,6 +32,17 @@ class HabitRepository extends EntityRepository
             ->setParameter('state', $state->getValue())
             ->getQuery()
             ->execute();
+    }
+
+    public function findByIdWithState(string $id, HabitState $state): ?Habit
+    {
+        return $this->createQueryBuilder('h')
+            ->where('h.id = :id')
+            ->andWhere('h.state = :state')
+            ->setParameter('id', Uuid::fromString($id)->toBinary())
+            ->setParameter('state', $state->getValue())
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function save(Habit $habit): void

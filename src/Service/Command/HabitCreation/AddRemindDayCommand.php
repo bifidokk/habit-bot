@@ -11,6 +11,7 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
+use App\Service\Habit\HabitState;
 use App\Service\Habit\RemindDayService;
 use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
@@ -62,7 +63,11 @@ class AddRemindDayCommand implements CommandInterface
             return;
         }
 
-        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
+        $habit = $this->habitService->getHabitByIdWithState(
+            $commandCallback->parameters['id'],
+            HabitState::get(HabitState::DRAFT)
+        );
+
         $dayName = trim($commandCallback->parameters['day'] ?? null);
         $dayNumber = array_search($dayName, HabitRemindDayInlineKeyboard::WEEK_DAYS, true);
 

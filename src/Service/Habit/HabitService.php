@@ -40,9 +40,9 @@ class HabitService
         $this->habitRepository->save($habit);
     }
 
-    public function getHabit(string $id): Habit
+    public function getHabitByIdWithState(string $id, HabitState $state): Habit
     {
-        $habit = $this->habitRepository->find($id);
+        $habit = $this->habitRepository->findByIdWithState($id, $state);
 
         if ($habit === null) {
             throw new CouldNotGetHabit();

@@ -12,6 +12,7 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitDescriptionDto;
 use App\Service\Habit\HabitService;
+use App\Service\Habit\HabitState;
 use App\Service\InputHandler;
 use App\Service\Keyboard\HabitInlineKeyboard;
 use Psr\Log\LoggerInterface;
@@ -80,7 +81,11 @@ class AddDescriptionCommand implements CommandInterface
         }
 
         try {
-            $habit = $this->habitService->getHabit((string) $commandCallback->parameters['id']);
+            $habit = $this->habitService->getHabitByIdWithState(
+                (string) $commandCallback->parameters['id'],
+                HabitState::get(HabitState::DRAFT)
+            );
+
             $habit->setDescription($habitDescription->description);
             $this->habitService->save($habit);
         } catch (\Throwable $e) {

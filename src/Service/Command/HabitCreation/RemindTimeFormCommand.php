@@ -10,6 +10,7 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
+use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitRemindTimeInlineKeyboard;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
@@ -53,7 +54,10 @@ class RemindTimeFormCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $habit = $this->habitService->getHabit($commandCallback->parameters['id']);
+        $habit = $this->habitService->getHabitByIdWithState(
+            $commandCallback->parameters['id'],
+            HabitState::get(HabitState::DRAFT)
+        );
 
         $this->bot->sendMessage(
             SendMessageMethod::create(

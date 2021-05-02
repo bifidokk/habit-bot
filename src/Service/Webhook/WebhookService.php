@@ -48,7 +48,7 @@ class WebhookService
         try {
             $this->router->run($update, $user);
         } catch (\Throwable $e) {
-            $this->logger->error($e->getMessage(), $e->getTrace());
+            $this->logger->error($e->getMessage());
         }
     }
 }
