@@ -34,19 +34,22 @@ class AddDescriptionCommand implements CommandInterface
     private HabitService $habitService;
     private ValidatorInterface $validator;
     private InputHandler $inputHandler;
+    private HabitInlineKeyboard $habitInlineKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
         ValidatorInterface $validator,
-        InputHandler $inputHandler
+        InputHandler $inputHandler,
+        HabitInlineKeyboard $habitInlineKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
         $this->validator = $validator;
         $this->inputHandler = $inputHandler;
+        $this->habitInlineKeyboard = $habitInlineKeyboard;
     }
 
     public function getName(): string
@@ -105,7 +108,7 @@ class AddDescriptionCommand implements CommandInterface
         return SendMessageMethod::create(
             $message->chat->id,
             StartCommand::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => HabitInlineKeyboard::generate($habit),
+                'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
             ]);
     }
 

@@ -1,0 +1,6 @@
+habit:
+    creation:
+        add_description: Add habit's description
+        add_remind_day: Add habit's remind day
+        add_remind_time: Add habit's remind time
+preview: Preview

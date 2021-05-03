@@ -28,15 +28,18 @@ class StartCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private HabitService $habitService;
+    private HabitInlineKeyboard $habitInlineKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        HabitService $habitService
+        HabitService $habitService,
+        HabitInlineKeyboard $habitInlineKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
+        $this->habitInlineKeyboard = $habitInlineKeyboard;
     }
 
     public function getName(): string
@@ -82,7 +85,7 @@ class StartCommand implements CommandInterface
         return SendMessageMethod::create(
             $message->chat->id,
             self::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => HabitInlineKeyboard::generate($habit),
+                'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
             ]);
     }
 }

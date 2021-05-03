@@ -6,24 +6,25 @@ namespace App\Service\Keyboard;
 
 use App\Entity\Habit;
 use App\Service\Command\CommandCallbackEnum;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
 use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitInlineKeyboard
 {
-    public const STEPS = [
-        CommandCallbackEnum::HABIT_DESCRIPTION_FORM => 'Add habit\'s description',
-        CommandCallbackEnum::HABIT_REMIND_DAY_FORM => 'Add habit\'s remind day',
-        CommandCallbackEnum::HABIT_REMIND_TIME_FORM => 'Add habit\'s remind time',
-        CommandCallbackEnum::HABIT_PREVIEW => 'Preview',
-    ];
+    private TranslatorInterface $translator;
 
-    public static function generate(Habit $habit): InlineKeyboardMarkupType
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    public function generate(Habit $habit): InlineKeyboardMarkupType
     {
         $steps = [];
 
-        foreach (self::STEPS as $step => $description) {
-            $icon = self::isStepButtonMarked($step, $habit) ? EmojiCode::MARKED : EmojiCode::UNMARKED;
+        foreach ($this->getSteps() as $step => $description) {
+            $icon = $this->isStepButtonMarked($step, $habit) ? EmojiCode::MARKED : EmojiCode::UNMARKED;
 
             if ($step === CommandCallbackEnum::HABIT_PREVIEW) {
                 $icon = EmojiCode::PREVIEW;
@@ -40,7 +41,17 @@ class HabitInlineKeyboard
         return InlineKeyboardMarkupType::create($steps);
     }
 
-    private static function isStepButtonMarked(string $step, Habit $habit): bool
+    public function getSteps(): array
+    {
+        return [
+            CommandCallbackEnum::HABIT_DESCRIPTION_FORM => $this->translator->trans('habit.creation.add_description'),
+            CommandCallbackEnum::HABIT_REMIND_DAY_FORM => $this->translator->trans('habit.creation.add_remind_day'),
+            CommandCallbackEnum::HABIT_REMIND_TIME_FORM => $this->translator->trans('habit.creation.add_remind_time'),
+            CommandCallbackEnum::HABIT_PREVIEW => $this->translator->trans('preview'),
+        ];
+    }
+
+    private function isStepButtonMarked(string $step, Habit $habit): bool
     {
         switch ($step) {
             case CommandCallbackEnum::HABIT_DESCRIPTION_FORM:

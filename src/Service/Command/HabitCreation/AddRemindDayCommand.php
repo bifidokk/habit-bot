@@ -28,17 +28,20 @@ class AddRemindDayCommand implements CommandInterface
     private LoggerInterface $logger;
     private RemindDayService $remindDayService;
     private HabitService $habitService;
+    private HabitInlineKeyboard $habitInlineKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         RemindDayService $remindDayService,
-        HabitService $habitService
+        HabitService $habitService,
+        HabitInlineKeyboard $habitInlineKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->remindDayService = $remindDayService;
         $this->habitService = $habitService;
+        $this->habitInlineKeyboard = $habitInlineKeyboard;
     }
 
     public function getName(): string
@@ -96,7 +99,7 @@ class AddRemindDayCommand implements CommandInterface
         return SendMessageMethod::create(
             $update->callbackQuery->message->chat->id,
             StartCommand::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => HabitInlineKeyboard::generate($habit),
+                'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
             ]);
     }
 
