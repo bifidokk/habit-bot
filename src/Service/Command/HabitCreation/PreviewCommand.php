@@ -30,19 +30,22 @@ class PreviewCommand implements CommandInterface
     private RemindDayService $remindDayService;
     private HabitService $habitService;
     private HabitInlineKeyboard $habitInlineKeyboard;
+    private HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         RemindDayService $remindDayService,
         HabitService $habitService,
-        HabitInlineKeyboard $habitInlineKeyboard
+        HabitInlineKeyboard $habitInlineKeyboard,
+        HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->remindDayService = $remindDayService;
         $this->habitService = $habitService;
         $this->habitInlineKeyboard = $habitInlineKeyboard;
+        $this->habitPreviewInlineKeyboard = $habitPreviewInlineKeyboard;
     }
 
     public function getName(): string
@@ -74,7 +77,7 @@ class PreviewCommand implements CommandInterface
                     $update->callbackQuery->message->chat->id,
                     $this->getHabitPreviewText($habit), [
                         'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
-                        'replyMarkup' => HabitPreviewInlineKeyboard::generate($habit),
+                        'replyMarkup' => $this->habitPreviewInlineKeyboard->generate($habit),
                     ]
                 )
             );

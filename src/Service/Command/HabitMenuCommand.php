@@ -18,13 +18,16 @@ class HabitMenuCommand extends AbstractCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
+    private HabitMenuInlineKeyboard $habitMenuInlineKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        HabitMenuInlineKeyboard $habitMenuInlineKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
+        $this->habitMenuInlineKeyboard = $habitMenuInlineKeyboard;
     }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
@@ -39,7 +42,7 @@ class HabitMenuCommand extends AbstractCommand implements CommandInterface
             SendMessageMethod::create(
                 $update->message->chat->id,
                 $update->message->text, [
-                    'replyMarkup' => HabitMenuInlineKeyboard::generate(),
+                    'replyMarkup' => $this->habitMenuInlineKeyboard->generate(),
                 ])
         );
     }

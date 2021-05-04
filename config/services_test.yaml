@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        public: true
+
+    app.decorating_translator:
+        class: App\Translator\NoTranslator
+        decorates: translator

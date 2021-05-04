@@ -6,23 +6,39 @@ namespace App\Service\Keyboard;
 
 use App\Entity\Habit;
 use App\Service\Command\CommandCallbackEnum;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
 use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitPreviewInlineKeyboard
 {
-    public static function generate(Habit $habit): InlineKeyboardMarkupType
+    private TranslatorInterface $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    public function generate(Habit $habit): InlineKeyboardMarkupType
     {
         return InlineKeyboardMarkupType::create([
             [
-                InlineKeyboardButtonType::create(sprintf('️%sBack', EmojiCode::BACK), [
+                InlineKeyboardButtonType::create(sprintf(
+                    '️%s%s',
+                    EmojiCode::BACK,
+                    $this->translator->trans('back')
+                ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
                         CommandCallbackEnum::HABIT_FORM,
                         $habit->getId()->toRfc4122()
                     ),
                 ]),
-                InlineKeyboardButtonType::create(sprintf('%sSubmit', EmojiCode::MARKED), [
+                InlineKeyboardButtonType::create(sprintf(
+                    '%s%s',
+                    EmojiCode::MARKED,
+                    $this->translator->trans('submit')
+                ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
                         CommandCallbackEnum::HABIT_PUBLISH,

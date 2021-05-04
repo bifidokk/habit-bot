@@ -3,4 +3,10 @@ habit:
         add_description: Add habit's description
         add_remind_day: Add habit's remind day
         add_remind_time: Add habit's remind time
+    menu:
+        add_new_habit: Add a new habit
 preview: Preview
+back: Back
+submit: Submit
+habits: Habits
+settings: Settings

@@ -19,13 +19,16 @@ class MainMenuCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
+    private MainMenuKeyboard $mainMenuKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        MainMenuKeyboard $mainMenuKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
+        $this->mainMenuKeyboard = $mainMenuKeyboard;
     }
 
     public function getName(): string
@@ -54,7 +57,7 @@ class MainMenuCommand implements CommandInterface
         return SendMessageMethod::create(
             $message->chat->id,
             self::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => MainMenuKeyboard::generate(),
+                'replyMarkup' => $this->mainMenuKeyboard->generate(),
             ]);
     }
 }

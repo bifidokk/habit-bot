@@ -25,15 +25,18 @@ class RemindTimeFormCommand implements CommandInterface
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private HabitService $habitService;
+    private HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        HabitService $habitService
+        HabitService $habitService,
+        HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
+        $this->habitRemindTimeInlineKeyboard = $habitRemindTimeInlineKeyboard;
     }
 
     public function getName(): string
@@ -63,7 +66,7 @@ class RemindTimeFormCommand implements CommandInterface
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
                 self::COMMAND_RESPONSE, [
-                    'replyMarkup' => HabitRemindTimeInlineKeyboard::generate($habit->getId()->toRfc4122()),
+                    'replyMarkup' => $this->habitRemindTimeInlineKeyboard->generate($habit->getId()->toRfc4122()),
                 ])
         );
     }
