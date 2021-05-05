@@ -13,8 +13,8 @@ use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Habit\RemindDayService;
-use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
+use App\Service\Message\SendMessageMethodFactory;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -28,23 +28,24 @@ class AddRemindDayCommand implements CommandInterface
     private LoggerInterface $logger;
     private RemindDayService $remindDayService;
     private HabitService $habitService;
-    private HabitInlineKeyboard $habitInlineKeyboard;
     private HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard;
+
+    private SendMessageMethodFactory $sendMessageMethodFactory;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         RemindDayService $remindDayService,
         HabitService $habitService,
-        HabitInlineKeyboard $habitInlineKeyboard,
-        HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard
+        HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
+        SendMessageMethodFactory $sendMessageMethodFactory
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->remindDayService = $remindDayService;
         $this->habitService = $habitService;
-        $this->habitInlineKeyboard = $habitInlineKeyboard;
         $this->habitRemindDayInlineKeyboard = $habitRemindDayInlineKeyboard;
+        $this->sendMessageMethodFactory = $sendMessageMethodFactory;
     }
 
     public function getName(): string
@@ -87,23 +88,18 @@ class AddRemindDayCommand implements CommandInterface
 
         if ($dayName === HabitRemindDayInlineKeyboard::NEXT_BUTTON_LABEL) {
             if ($habit->getRemindWeekDays() > 0) {
-                $method = $this->createHabitMenuSendMethod($update, $habit);
-                $this->bot->sendMessage($method);
+                $this->bot->sendMessage(
+                    $this->sendMessageMethodFactory->createHabitMenuMethod(
+                        $update->callbackQuery->message->chat->id,
+                        $habit
+                    )
+                );
 
                 return;
             }
         }
 
         $this->updateKeyboard($update, $habit);
-    }
-
-    private function createHabitMenuSendMethod(UpdateType $update, Habit $habit): SendMessageMethod
-    {
-        return SendMessageMethod::create(
-            $update->callbackQuery->message->chat->id,
-            StartCommand::COMMAND_RESPONSE_TEXT, [
-                'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
-            ]);
     }
 
     private function updateKeyboard(UpdateType $update, Habit $habit): void

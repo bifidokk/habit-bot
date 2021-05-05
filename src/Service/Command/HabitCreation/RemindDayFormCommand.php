@@ -13,6 +13,7 @@ use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
@@ -26,17 +27,20 @@ class RemindDayFormCommand implements CommandInterface
     private LoggerInterface $logger;
     private HabitService $habitService;
     private HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard;
+    private TranslatorInterface $translator;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
-        HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard
+        HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
+        TranslatorInterface $translator
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
         $this->habitRemindDayInlineKeyboard = $habitRemindDayInlineKeyboard;
+        $this->translator = $translator;
     }
 
     public function getName(): string
@@ -65,12 +69,14 @@ class RemindDayFormCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                self::COMMAND_RESPONSE, [
+                $this->translator->trans('command.response.habit_remind_day'),
+                [
                     'replyMarkup' => $this->habitRemindDayInlineKeyboard->generate(
                         $habit->getRemindWeekDays(),
                         $habit->getId()->toRfc4122()
                     ),
-                ])
+                ]
+            )
         );
     }
 }

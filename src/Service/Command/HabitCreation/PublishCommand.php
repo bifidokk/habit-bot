@@ -16,6 +16,7 @@ use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
 use App\Service\Router;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendAnimationMethod;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -24,26 +25,28 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 class PublishCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_publish';
-    public const COMMAND_RESPONSE_TEXT = 'The habit is added successfully';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private HabitService $habitService;
     private Router $router;
     private Animation $animation;
+    private TranslatorInterface $translator;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
         Router $router,
-        Animation $animation
+        Animation $animation,
+        TranslatorInterface $translator
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
         $this->router = $router;
         $this->animation = $animation;
+        $this->translator = $translator;
     }
 
     public function getName(): string
@@ -78,7 +81,7 @@ class PublishCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                self::COMMAND_RESPONSE_TEXT
+                $this->translator->trans('command.response.habit_published'),
             )
         );
 

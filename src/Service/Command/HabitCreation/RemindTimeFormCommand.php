@@ -13,6 +13,7 @@ use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitRemindTimeInlineKeyboard;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
@@ -20,23 +21,25 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 class RemindTimeFormCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_remind_time_form';
-    public const COMMAND_RESPONSE = 'Choose remind time';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private HabitService $habitService;
     private HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard;
+    private TranslatorInterface $translator;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         HabitService $habitService,
-        HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard
+        HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard,
+        TranslatorInterface $translator
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->habitService = $habitService;
         $this->habitRemindTimeInlineKeyboard = $habitRemindTimeInlineKeyboard;
+        $this->translator = $translator;
     }
 
     public function getName(): string
@@ -65,7 +68,7 @@ class RemindTimeFormCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                self::COMMAND_RESPONSE, [
+                $this->translator->trans('command.response.habit_remind_time'), [
                     'replyMarkup' => $this->habitRemindTimeInlineKeyboard->generate($habit->getId()->toRfc4122()),
                 ])
         );

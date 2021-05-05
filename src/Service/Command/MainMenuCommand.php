@@ -7,6 +7,7 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Service\Keyboard\MainMenuKeyboard;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
@@ -15,20 +16,22 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 class MainMenuCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'main_menu';
-    public const COMMAND_RESPONSE_TEXT = 'You are in the main menu';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private MainMenuKeyboard $mainMenuKeyboard;
+    private TranslatorInterface $translator;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        MainMenuKeyboard $mainMenuKeyboard
+        MainMenuKeyboard $mainMenuKeyboard,
+        TranslatorInterface $translator
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->mainMenuKeyboard = $mainMenuKeyboard;
+        $this->translator = $translator;
     }
 
     public function getName(): string
@@ -56,7 +59,7 @@ class MainMenuCommand implements CommandInterface
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            self::COMMAND_RESPONSE_TEXT, [
+            $this->translator->trans('command.response.main_menu'), [
                 'replyMarkup' => $this->mainMenuKeyboard->generate(),
             ]);
     }

@@ -13,8 +13,8 @@ use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Habit\RemindDayService;
-use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitPreviewInlineKeyboard;
+use App\Service\Message\SendMessageMethodFactory;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
@@ -29,23 +29,23 @@ class PreviewCommand implements CommandInterface
     private LoggerInterface $logger;
     private RemindDayService $remindDayService;
     private HabitService $habitService;
-    private HabitInlineKeyboard $habitInlineKeyboard;
     private HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard;
+    private SendMessageMethodFactory $sendMessageMethodFactory;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         RemindDayService $remindDayService,
         HabitService $habitService,
-        HabitInlineKeyboard $habitInlineKeyboard,
-        HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard
+        HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard,
+        SendMessageMethodFactory $sendMessageMethodFactory
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->remindDayService = $remindDayService;
         $this->habitService = $habitService;
-        $this->habitInlineKeyboard = $habitInlineKeyboard;
         $this->habitPreviewInlineKeyboard = $habitPreviewInlineKeyboard;
+        $this->sendMessageMethodFactory = $sendMessageMethodFactory;
     }
 
     public function getName(): string
@@ -83,11 +83,10 @@ class PreviewCommand implements CommandInterface
             );
         } else {
             $this->bot->sendMessage(
-                SendMessageMethod::create(
+                $this->sendMessageMethodFactory->createHabitMenuMethod(
                     $update->callbackQuery->message->chat->id,
-                    StartCommand::COMMAND_RESPONSE_TEXT, [
-                        'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
-                    ])
+                    $habit
+                )
             );
         }
     }

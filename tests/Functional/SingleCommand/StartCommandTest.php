@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\SingleCommand;
 
-use App\Service\Command\MainMenuCommand;
-use App\Service\Command\StartCommand;
 use App\Service\Keyboard\MainMenuKeyboard;
 use App\Tests\Functional\CommandTest;
 use App\Tests\Functional\WebhookDataFactory;
@@ -22,12 +20,12 @@ class StartCommandTest extends CommandTest
         $chatId = 1;
         $methodStart = SendMessageMethod::create(
             $chatId,
-            StartCommand::COMMAND_RESPONSE_TEXT
+            $translator->trans('command.response.start')
         );
 
         $methodMainMenu = SendMessageMethod::create(
             $chatId,
-            MainMenuCommand::COMMAND_RESPONSE_TEXT, [
+            $translator->trans('command.response.main_menu'), [
                 'replyMarkup' => $mainMenuKeyboard->generate(),
             ]);
 

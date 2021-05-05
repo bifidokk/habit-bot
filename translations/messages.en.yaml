@@ -18,3 +18,16 @@ weekday:
     thu: Thursday
     fri: Friday
     sat: Saturday
+command:
+    response:
+        start: Hey there! You can add a new habit here
+        main_menu: You are in the main menu
+        habit_creation: Please fill all fields
+        habit_remind_time: Choose remind time
+        habit_remind_day: Choose remind day
+        habit_published: The habit is added successfully
+        habit_description: Enter the habit's description
+    error:
+        common: Something went wrong
+        description: Invalid habit description
+        template: 'There is an error: %s'

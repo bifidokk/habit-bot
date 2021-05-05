@@ -13,6 +13,7 @@ use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\InputHandler;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
@@ -26,17 +27,20 @@ class DescriptionFormCommand implements CommandInterface
     private LoggerInterface $logger;
     private InputHandler $inputHandler;
     private HabitService $habitService;
+    private TranslatorInterface $translator;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         InputHandler $inputHandler,
-        HabitService $habitService
+        HabitService $habitService,
+        TranslatorInterface $translator
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->inputHandler = $inputHandler;
         $this->habitService = $habitService;
+        $this->translator = $translator;
     }
 
     public function getName(): string
@@ -70,7 +74,7 @@ class DescriptionFormCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                self::COMMAND_RESPONSE
+                $this->translator->trans('command.response.habit_description')
             )
         );
     }
