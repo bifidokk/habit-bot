@@ -6,6 +6,7 @@ namespace App\Tests\Service\Keyboard;
 
 use App\Service\Keyboard\EmojiCode;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
+use App\Translator\NoTranslator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Uuid;
 
@@ -18,7 +19,9 @@ class HabitRemindDayKeyboardTest extends TestCase
     {
         $days = '0100100';
         $actualDays = '';
-        $keyboard = HabitRemindDayInlineKeyboard::generate((int) bindec($days), Uuid::v4()->toRfc4122());
+
+        $habitRemindDayInlineKeyboard = new HabitRemindDayInlineKeyboard(new NoTranslator());
+        $keyboard = $habitRemindDayInlineKeyboard->generate((int) bindec($days), Uuid::v4()->toRfc4122());
 
         $daysRow = $keyboard->inlineKeyboard[0];
 

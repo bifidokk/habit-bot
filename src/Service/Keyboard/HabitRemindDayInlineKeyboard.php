@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Keyboard;
 
 use App\Service\Command\CommandCallbackEnum;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
 use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
@@ -17,7 +18,14 @@ class HabitRemindDayInlineKeyboard
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
     ];
 
-    public static function generate(int $chosenWeekDays, string $habitId): InlineKeyboardMarkupType
+    private TranslatorInterface $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    public function generate(int $chosenWeekDays, string $habitId): InlineKeyboardMarkupType
     {
         $buttons = [];
         $chosenWeekDaysBin = sprintf('%07d', decbin($chosenWeekDays));
@@ -25,8 +33,12 @@ class HabitRemindDayInlineKeyboard
         foreach (self::WEEK_DAYS as $number => $day) {
             $dayLabel = $day;
 
-            if (self::dayIsChosen($chosenWeekDaysBin, $number)) {
-                $dayLabel = sprintf('%s%s', EmojiCode::MARKED, $day);
+            if ($this->dayIsChosen($chosenWeekDaysBin, $number)) {
+                $dayLabel = sprintf(
+                    '%s%s',
+                    EmojiCode::MARKED,
+                    $this->translator->trans(strtolower(sprintf('weekday.%s', $day)))
+                );
             }
 
             $buttons[] = InlineKeyboardButtonType::create(
@@ -73,7 +85,7 @@ class HabitRemindDayInlineKeyboard
         ]);
     }
 
-    private static function dayIsChosen(string $chosenWeekDaysBin, int $dayNumberInWeek): bool
+    private function dayIsChosen(string $chosenWeekDaysBin, int $dayNumberInWeek): bool
     {
         return isset($chosenWeekDaysBin[$dayNumberInWeek]) && (int) $chosenWeekDaysBin[$dayNumberInWeek] === 1;
     }

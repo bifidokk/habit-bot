@@ -10,3 +10,11 @@ back: Back
 submit: Submit
 habits: Habits
 settings: Settings
+weekday:
+    sun: Sunday
+    mon: Monday
+    tue: Tuesday
+    wed: Wednesday
+    thu: Thursday
+    fri: Friday
+    sat: Saturday
