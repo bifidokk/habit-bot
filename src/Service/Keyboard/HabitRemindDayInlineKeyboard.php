@@ -11,8 +11,8 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitRemindDayInlineKeyboard
 {
-    public const CHOOSE_ALL_BUTTON_LABEL = 'Choose all';
-    public const NEXT_BUTTON_LABEL = 'Next';
+    public const ALL_BUTTON = 'all';
+    public const NEXT_BUTTON = 'next';
 
     public const WEEK_DAYS = [
         'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
@@ -58,26 +58,26 @@ class HabitRemindDayInlineKeyboard
             $buttons,
             [
                 InlineKeyboardButtonType::create(
-                    self::CHOOSE_ALL_BUTTON_LABEL,
+                    $this->translator->trans('choose_all'),
                     [
                         'callbackData' => sprintf(
                             '%s?id=%s&day=%s',
                             CommandCallbackEnum::SET_HABIT_REMIND_DAY,
                             $habitId,
-                            self::CHOOSE_ALL_BUTTON_LABEL
+                            self::ALL_BUTTON
                         ),
                     ]
                 ),
             ],
             [
                 InlineKeyboardButtonType::create(
-                    self::NEXT_BUTTON_LABEL,
+                    $this->translator->trans('next'),
                     [
                         'callbackData' => sprintf(
                             '%s?id=%s&day=%s',
                             CommandCallbackEnum::SET_HABIT_REMIND_DAY,
                             $habitId,
-                            self::NEXT_BUTTON_LABEL
+                            self::NEXT_BUTTON
                         ),
                     ]
                 ),

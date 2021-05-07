@@ -1,0 +1,35 @@
+habit:
+    creation:
+        add_description: Описание привычки
+        add_remind_day: Период
+        add_remind_time: Время
+    menu:
+        add_new_habit: Добавить привычку
+preview: Предпросмотр
+back: Назад
+submit: Сохранить
+choose_all: Выбрать все
+next: Далее
+habits: Привычки
+settings: Настройки
+weekday:
+    sun: Воскресенье
+    mon: Понедельник
+    tue: Вторник
+    wed: Среда
+    thu: Четверг
+    fri: Пятница
+    sat: Суббота
+command:
+    response:
+        start: Привет! Давай добавим новую привычку
+        main_menu: Ты в главном меню
+        habit_creation: Заполни все поля
+        habit_remind_time: Выбери время для напоминания
+        habit_remind_day: Выбери дни для напоминания
+        habit_published: Привычка успешно добавлена!
+        habit_description: Введи описание привычки
+    error:
+        common: Что-то пошло не так
+        description: Некорректное описани привычки
+        template: 'Произошла ошибка: %s'

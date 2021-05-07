@@ -21,7 +21,6 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 class RemindDayFormCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_remind_day_form';
-    public const COMMAND_RESPONSE = 'Choose remind day';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;

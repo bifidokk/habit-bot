@@ -16,6 +16,7 @@ use App\Service\Habit\RemindDayService;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use App\Service\Message\SendMessageMethodFactory;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
@@ -29,8 +30,8 @@ class AddRemindDayCommand implements CommandInterface
     private RemindDayService $remindDayService;
     private HabitService $habitService;
     private HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard;
-
     private SendMessageMethodFactory $sendMessageMethodFactory;
+    private TranslatorInterface $translator;
 
     public function __construct(
         BotApiComplete $bot,
@@ -38,7 +39,8 @@ class AddRemindDayCommand implements CommandInterface
         RemindDayService $remindDayService,
         HabitService $habitService,
         HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
-        SendMessageMethodFactory $sendMessageMethodFactory
+        SendMessageMethodFactory $sendMessageMethodFactory,
+        TranslatorInterface $translator
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
@@ -46,6 +48,7 @@ class AddRemindDayCommand implements CommandInterface
         $this->habitService = $habitService;
         $this->habitRemindDayInlineKeyboard = $habitRemindDayInlineKeyboard;
         $this->sendMessageMethodFactory = $sendMessageMethodFactory;
+        $this->translator = $translator;
     }
 
     public function getName(): string
@@ -82,11 +85,11 @@ class AddRemindDayCommand implements CommandInterface
             $this->remindDayService->toggleDay($habit, (int) $dayNumber);
         }
 
-        if ($dayName === HabitRemindDayInlineKeyboard::CHOOSE_ALL_BUTTON_LABEL) {
+        if ($dayName === HabitRemindDayInlineKeyboard::ALL_BUTTON) {
             $this->remindDayService->markAll($habit);
         }
 
-        if ($dayName === HabitRemindDayInlineKeyboard::NEXT_BUTTON_LABEL) {
+        if ($dayName === HabitRemindDayInlineKeyboard::NEXT_BUTTON) {
             if ($habit->getRemindWeekDays() > 0) {
                 $this->bot->sendMessage(
                     $this->sendMessageMethodFactory->createHabitMenuMethod(
@@ -107,7 +110,7 @@ class AddRemindDayCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                RemindDayFormCommand::COMMAND_RESPONSE, [
+                $this->translator->trans('command.response.habit_remind_day'), [
                     'replyMarkup' => $this->habitRemindDayInlineKeyboard->generate(
                         $habit->getRemindWeekDays(),
                         $habit->getId()->toRfc4122()
