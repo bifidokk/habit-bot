@@ -66,3 +66,6 @@ services:
             $baseUrl: '%env(WEBHOOK_BASE_URL)%'
             $token: '%env(TG_BOT_WEBHOOK_TOKEN)%'
         tags: ['controller.service_arguments']
+
+    App\EventListener\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']

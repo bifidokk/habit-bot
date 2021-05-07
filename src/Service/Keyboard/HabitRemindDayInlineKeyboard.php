@@ -31,7 +31,7 @@ class HabitRemindDayInlineKeyboard
         $chosenWeekDaysBin = sprintf('%07d', decbin($chosenWeekDays));
 
         foreach (self::WEEK_DAYS as $number => $day) {
-            $dayLabel = $day;
+            $dayLabel = $this->translator->trans(strtolower(sprintf('weekday.%s', $day)));
 
             if ($this->dayIsChosen($chosenWeekDaysBin, $number)) {
                 $dayLabel = sprintf(

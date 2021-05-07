@@ -13,13 +13,13 @@ next: Далее
 habits: Привычки
 settings: Настройки
 weekday:
-    sun: Воскресенье
-    mon: Понедельник
-    tue: Вторник
-    wed: Среда
-    thu: Четверг
-    fri: Пятница
-    sat: Суббота
+    sun: Вс
+    mon: Пн
+    tue: Вт
+    wed: Ср
+    thu: Чт
+    fri: Пт
+    sat: Сб
 command:
     response:
         start: Привет! Давай добавим новую привычку

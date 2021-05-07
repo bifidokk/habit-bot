@@ -13,13 +13,13 @@ next: Next
 habits: Habits
 settings: Settings
 weekday:
-    sun: Sunday
-    mon: Monday
-    tue: Tuesday
-    wed: Wednesday
-    thu: Thursday
-    fri: Friday
-    sat: Saturday
+    sun: Sun
+    mon: Mon
+    tue: Tue
+    wed: Wed
+    thu: Thu
+    fri: Fri
+    sat: Sat
 command:
     response:
         start: Hey there! You can add a new habit here
