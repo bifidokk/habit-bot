@@ -11,6 +11,9 @@ use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HabitRepository")
+ * @ORM\Table(indexes={
+ *     @ORM\Index(columns={"next_remind_at"})
+ * })
  */
 class Habit
 {
@@ -46,6 +49,11 @@ class Habit
      * @ORM\Column(type="time_immutable", nullable=true)
      */
     private ?\DateTimeImmutable $remindAt = null;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?\DateTimeImmutable $nextRemindAt = null;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -123,5 +131,10 @@ class Habit
     public function getQueryParameter(): string
     {
         return sprintf('id=%s', $this->id ? $this->id->toRfc4122() : '');
+    }
+
+    public function setNextRemindAt(?\DateTimeImmutable $nextRemindAt): void
+    {
+        $this->nextRemindAt = $nextRemindAt;
     }
 }

@@ -12,11 +12,14 @@ use App\Service\Habit\Exception\CouldNotGetHabit;
 class HabitService
 {
     private HabitRepository $habitRepository;
+    private RemindService $remindService;
 
     public function __construct(
-        HabitRepository $habitRepository
+        HabitRepository $habitRepository,
+        RemindService $remindService
     ) {
         $this->habitRepository = $habitRepository;
+        $this->remindService = $remindService;
     }
 
     public function createHabit(User $user): Habit
@@ -37,6 +40,8 @@ class HabitService
     public function publish(Habit $habit): void
     {
         $habit->publish();
+        $habit->setNextRemindAt($this->remindService->getNextRemindTime(new \DateTimeImmutable(), $habit));
+
         $this->habitRepository->save($habit);
     }
 
