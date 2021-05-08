@@ -12,7 +12,7 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
-use App\Service\Habit\RemindDayService;
+use App\Service\Habit\RemindService;
 use App\Service\Keyboard\HabitPreviewInlineKeyboard;
 use App\Service\Message\SendMessageMethodFactory;
 use Psr\Log\LoggerInterface;
@@ -27,7 +27,7 @@ class PreviewCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private RemindDayService $remindDayService;
+    private RemindService $remindDayService;
     private HabitService $habitService;
     private HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard;
     private SendMessageMethodFactory $sendMessageMethodFactory;
@@ -35,7 +35,7 @@ class PreviewCommand implements CommandInterface
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        RemindDayService $remindDayService,
+        RemindService $remindDayService,
         HabitService $habitService,
         HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard,
         SendMessageMethodFactory $sendMessageMethodFactory

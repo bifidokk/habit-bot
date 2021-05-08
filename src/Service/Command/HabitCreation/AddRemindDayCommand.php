@@ -12,7 +12,7 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
-use App\Service\Habit\RemindDayService;
+use App\Service\Habit\RemindService;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use App\Service\Message\SendMessageMethodFactory;
 use Psr\Log\LoggerInterface;
@@ -27,7 +27,7 @@ class AddRemindDayCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private RemindDayService $remindDayService;
+    private RemindService $remindDayService;
     private HabitService $habitService;
     private HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard;
     private SendMessageMethodFactory $sendMessageMethodFactory;
@@ -36,7 +36,7 @@ class AddRemindDayCommand implements CommandInterface
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        RemindDayService $remindDayService,
+        RemindService $remindDayService,
         HabitService $habitService,
         HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
         SendMessageMethodFactory $sendMessageMethodFactory,

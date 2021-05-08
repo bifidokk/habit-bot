@@ -8,7 +8,7 @@ use App\Entity\Habit;
 use App\Repository\HabitRepository;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 
-class RemindDayService
+class RemindService
 {
     private const ALL_DAYS_MARKED_INT = 127;
 
@@ -53,6 +53,36 @@ class RemindDayService
         }
 
         return implode(', ', $remindDayNames);
+    }
+
+    public function getNextRemindTime(\DateTimeImmutable $currentTime, Habit $habit): \DateTimeImmutable
+    {
+        $remindDays = $this->getRemindDayArray($habit);
+        $nextRemindTime = [];
+
+        foreach ($remindDays as $number => $day) {
+            if ((int) $day === 0) {
+                continue;
+            }
+
+            $remindTime = new \DateTimeImmutable(
+                sprintf(
+                    '%s %s',
+                    HabitRemindDayInlineKeyboard::WEEK_DAYS[$number],
+                    $habit->getRemindAt()->format('H:i')
+                )
+            );
+
+            if ($remindTime >= $currentTime) {
+                $nextRemindTime[] = $remindTime;
+            }
+        }
+
+        usort($nextRemindTime, function ($a, $b) {
+            return $a <=> $b;
+        });
+
+        return array_shift($nextRemindTime);
     }
 
     private function getRemindDayArray(Habit $habit): array
