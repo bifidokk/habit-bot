@@ -45,6 +45,20 @@ class HabitRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findReadyForRemindHabits(): array
+    {
+        $currentTime = new \DateTimeImmutable();
+
+        return $this->createQueryBuilder('h')
+            ->select('h, u')
+            ->where('h.nextRemindAt is not null')
+            ->andWhere('h.nextRemindAt <= :currentTime')
+            ->setParameter('currentTime', $currentTime)
+            ->leftJoin('h.user', 'u')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Habit $habit): void
     {
         $em = $this->getEntityManager();

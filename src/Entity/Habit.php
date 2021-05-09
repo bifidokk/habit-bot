@@ -71,6 +71,11 @@ class Habit
         return $this->id;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
     public function setUser(?User $user): void
     {
         $this->user = $user;
