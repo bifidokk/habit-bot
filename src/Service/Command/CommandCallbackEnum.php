@@ -20,4 +20,6 @@ class CommandCallbackEnum extends Enum
     public const SET_HABIT_REMIND_TIME = '/setTime';
     public const HABIT_PREVIEW = '/habitPreview';
     public const HABIT_PUBLISH = '/habitPublish';
+    public const SETTINGS_TIMEZONE_FORM = '/settingsTimezone';
+    public const SET_TIMEZONE = '/setTimezone';
 }

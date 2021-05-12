@@ -56,6 +56,8 @@ services:
                 habit_creation_add_remind_time: '@App\Service\Command\HabitCreation\AddRemindTimeCommand'
                 habit_creation_preview: '@App\Service\Command\HabitCreation\PreviewCommand'
                 habit_creation_publish: '@App\Service\Command\HabitCreation\PublishCommand'
+                settings_menu: '@App\Service\Command\Settings\SettingsCommand'
+                settings_timezone_form: '@App\Service\Command\Settings\SettingsTimezoneFormCommand'
 
     App\Service\InputHandler:
         arguments:

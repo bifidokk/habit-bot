@@ -29,7 +29,10 @@ command:
         habit_remind_day: Choose remind day
         habit_published: The habit is added successfully
         habit_description: Enter the habit's description
+        settings_timezone: 'Enter your timezone. Format: +3, -2 etc.'
     error:
         common: Something went wrong
         description: Invalid habit description
         template: 'There is an error: %s'
+settings_menu:
+    timezone: Timezone

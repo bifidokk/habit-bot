@@ -29,7 +29,10 @@ command:
         habit_remind_day: Выбери дни для напоминания
         habit_published: Привычка успешно добавлена!
         habit_description: Введи описание привычки
+        settings_timezone: Введи свой часовой пояс в формате +3, -2 итд
     error:
         common: Что-то пошло не так
         description: Некорректное описани привычки
         template: 'Произошла ошибка: %s'
+settings_menu:
+    timezone: Часовой пояс
