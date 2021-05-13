@@ -67,7 +67,7 @@ class RemindService
 
             $remindTime = new \DateTimeImmutable(
                 sprintf(
-                    '%s %s',
+                    '%s this week %s',
                     HabitRemindDayInlineKeyboard::WEEK_DAYS[$number],
                     $habit->getRemindAt()->format('H:i')
                 )
@@ -75,6 +75,18 @@ class RemindService
 
             if ($remindTime >= $currentTime) {
                 $nextRemindTime[] = $remindTime;
+            }
+
+            $remindTimeNextWeek = new \DateTimeImmutable(
+                sprintf(
+                    '%s next week %s',
+                    HabitRemindDayInlineKeyboard::WEEK_DAYS[$number],
+                    $habit->getRemindAt()->format('H:i')
+                )
+            );
+
+            if ($remindTimeNextWeek >= $currentTime) {
+                $nextRemindTime[] = $remindTimeNextWeek;
             }
         }
 

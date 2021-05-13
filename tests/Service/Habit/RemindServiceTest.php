@@ -109,7 +109,7 @@ class RemindServiceTest extends TestCase
         $this->remindService->toggleDay($habit, 1); //mon
         $habit->setRemindAt(new \DateTimeImmutable('15:00'));
 
-        $currentTime = new \DateTimeImmutable('Sun');
+        $currentTime = new \DateTimeImmutable('Sun this week');
         $nextRemindTime = $this->remindService->getNextRemindTime($currentTime, $habit);
         $this->assertEquals('Mon 15:00', $nextRemindTime->format('D H:i'));
 
@@ -119,23 +119,23 @@ class RemindServiceTest extends TestCase
         $this->remindService->toggleDay($habit, 5); //fri
         $habit->setRemindAt(new \DateTimeImmutable('09:00'));
 
-        $currentTime = new \DateTimeImmutable('Thu');
+        $currentTime = new \DateTimeImmutable('Thu this week');
         $nextRemindTime = $this->remindService->getNextRemindTime($currentTime, $habit);
         $this->assertEquals('Fri 09:00', $nextRemindTime->format('D H:i'));
 
-        $currentTime = new \DateTimeImmutable('Tue');
+        $currentTime = new \DateTimeImmutable('Tue this week');
         $nextRemindTime = $this->remindService->getNextRemindTime($currentTime, $habit);
         $this->assertEquals('Wed 09:00', $nextRemindTime->format('D H:i'));
 
-        $currentTime = new \DateTimeImmutable('Fri 08:00');
+        $currentTime = new \DateTimeImmutable('Fri 08:00 this week');
         $nextRemindTime = $this->remindService->getNextRemindTime($currentTime, $habit);
         $this->assertEquals('Fri 09:00', $nextRemindTime->format('D H:i'));
 
-        $currentTime = new \DateTimeImmutable('Fri 09:00');
+        $currentTime = new \DateTimeImmutable('Fri 09:00 this week');
         $nextRemindTime = $this->remindService->getNextRemindTime($currentTime, $habit);
         $this->assertEquals('Fri 09:00', $nextRemindTime->format('D H:i'));
 
-        $currentTime = new \DateTimeImmutable('Sun 09:00');
+        $currentTime = new \DateTimeImmutable('Sun 09:00 this week');
         $nextRemindTime = $this->remindService->getNextRemindTime($currentTime, $habit);
         $this->assertEquals('Mon 09:00', $nextRemindTime->format('D H:i'));
     }
