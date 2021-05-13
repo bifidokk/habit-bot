@@ -77,6 +77,7 @@ class RemindService
                 $nextRemindTime[] = $remindTime;
             }
 
+            // add next week if there are not days in this week (for example today is the end of the week)
             $remindTimeNextWeek = new \DateTimeImmutable(
                 sprintf(
                     '%s next week %s',
