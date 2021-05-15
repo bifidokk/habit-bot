@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Service\Habit;
 
 use App\Entity\Habit;
+use App\Entity\User;
 use App\Repository\HabitRepository;
 use App\Service\Habit\RemindService;
 use PHPUnit\Framework\TestCase;
@@ -106,6 +107,9 @@ class RemindServiceTest extends TestCase
     public function itCreatesNextRemindTime(): void
     {
         $habit = new Habit();
+        $user = new User();
+        $habit->setUser($user);
+
         $this->remindService->toggleDay($habit, 1); //mon
         $habit->setRemindAt(new \DateTimeImmutable('15:00'));
 
@@ -114,6 +118,9 @@ class RemindServiceTest extends TestCase
         $this->assertEquals('Mon 15:00', $nextRemindTime->format('D H:i'));
 
         $habit = new Habit();
+        $user = new User();
+        $habit->setUser($user);
+
         $this->remindService->toggleDay($habit, 1); //mon
         $this->remindService->toggleDay($habit, 3); //wed
         $this->remindService->toggleDay($habit, 5); //fri

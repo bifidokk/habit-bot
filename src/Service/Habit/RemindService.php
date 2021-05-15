@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Habit;
 
 use App\Entity\Habit;
+use App\Entity\User;
 use App\Repository\HabitRepository;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 
@@ -55,10 +56,13 @@ class RemindService
         return implode(', ', $remindDayNames);
     }
 
-    public function getNextRemindTime(\DateTimeImmutable $currentTime, Habit $habit): \DateTimeImmutable
-    {
+    public function getNextRemindTime(
+        \DateTimeImmutable $currentTime,
+        Habit $habit
+    ): \DateTimeImmutable {
         $remindDays = $this->getRemindDayArray($habit);
         $nextRemindTime = [];
+        $user = $habit->getUser();
 
         foreach ($remindDays as $number => $day) {
             if ((int) $day === 0) {
@@ -70,8 +74,11 @@ class RemindService
                     '%s this week %s',
                     HabitRemindDayInlineKeyboard::WEEK_DAYS[$number],
                     $habit->getRemindAt()->format('H:i')
-                )
+                ), $user->getTimezone()
             );
+
+            $offset = -$remindTime->getOffset();
+            $remindTime =  $remindTime->modify(sprintf('%s seconds', $offset));
 
             if ($remindTime >= $currentTime) {
                 $nextRemindTime[] = $remindTime;
@@ -83,8 +90,10 @@ class RemindService
                     '%s next week %s',
                     HabitRemindDayInlineKeyboard::WEEK_DAYS[$number],
                     $habit->getRemindAt()->format('H:i')
-                )
+                ), $user->getTimezone()
             );
+
+            $remindTimeNextWeek =  $remindTimeNextWeek->modify(sprintf('%s seconds', $offset));
 
             if ($remindTimeNextWeek >= $currentTime) {
                 $nextRemindTime[] = $remindTimeNextWeek;

@@ -62,7 +62,7 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
             return;
         }
 
-        $user->setTimezone($timezone->getName());
+        $user->setTimezone($timezone);
         $this->userRepository->save($user);
 
         $this->bot->sendMessage(

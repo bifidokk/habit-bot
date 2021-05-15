@@ -126,13 +126,13 @@ class User
         return $this->telegramId;
     }
 
-    public function getTimezone(): string
+    public function getTimezone(): \DateTimeZone
     {
-        return $this->timezone;
+        return new \DateTimeZone($this->timezone);
     }
 
-    public function setTimezone(string $timezone): void
+    public function setTimezone(\DateTimeZone $timezone): void
     {
-        $this->timezone = $timezone;
+        $this->timezone = $timezone->getName();
     }
 }
