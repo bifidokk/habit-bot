@@ -10,6 +10,9 @@ class Animation
         AnimationType::SUCCESS => [
             'CgACAgQAAxkBAAIE3GCNfc0jdjnf4FGsWKc8clfHadSEAAIPjQACSxdkB9jABaAXoNhdHwQ',
         ],
+        AnimationType::TIMEZONE => [
+            'CgACAgQAAxkBAAIFmmCfvxkkzvAl7UTFN4S72KmntxfpAAJAAgACTQrdUgiuf6VQHXLeHwQ',
+        ],
     ];
 
     public function getByType(AnimationType $animationType): string

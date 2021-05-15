@@ -12,4 +12,5 @@ class AnimationType extends Enum
     use AutoDiscoveredValuesTrait;
 
     public const SUCCESS = 'success';
+    public const TIMEZONE = 'timezone';
 }

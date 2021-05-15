@@ -73,6 +73,11 @@ class User
      */
     private $habits;
 
+    /**
+     * @ORM\Column(type="string", length=8)
+     */
+    private string $timezone = 'UTC';
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -119,5 +124,15 @@ class User
     public function getTelegramId(): int
     {
         return $this->telegramId;
+    }
+
+    public function getTimezone(): string
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(string $timezone): void
+    {
+        $this->timezone = $timezone;
     }
 }

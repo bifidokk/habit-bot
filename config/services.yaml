@@ -57,7 +57,8 @@ services:
                 habit_creation_preview: '@App\Service\Command\HabitCreation\PreviewCommand'
                 habit_creation_publish: '@App\Service\Command\HabitCreation\PublishCommand'
                 settings_menu: '@App\Service\Command\Settings\SettingsCommand'
-                settings_timezone_form: '@App\Service\Command\Settings\SettingsTimezoneFormCommand'
+                settings_timezone_form: '@App\Service\Command\Settings\TimezoneFormCommand'
+                settings_add_timezone: '@App\Service\Command\Settings\AddTimezoneCommand'
 
     App\Service\InputHandler:
         arguments:
