@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service\Habit;
 
 use App\Entity\Habit;
-use App\Entity\User;
 use App\Repository\HabitRepository;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 
@@ -78,7 +77,7 @@ class RemindService
             );
 
             $offset = -$remindTime->getOffset();
-            $remindTime =  $remindTime->modify(sprintf('%s seconds', $offset));
+            $remindTime = $remindTime->modify(sprintf('%s seconds', $offset));
 
             if ($remindTime >= $currentTime) {
                 $nextRemindTime[] = $remindTime;
@@ -93,7 +92,7 @@ class RemindService
                 ), $user->getTimezone()
             );
 
-            $remindTimeNextWeek =  $remindTimeNextWeek->modify(sprintf('%s seconds', $offset));
+            $remindTimeNextWeek = $remindTimeNextWeek->modify(sprintf('%s seconds', $offset));
 
             if ($remindTimeNextWeek >= $currentTime) {
                 $nextRemindTime[] = $remindTimeNextWeek;
