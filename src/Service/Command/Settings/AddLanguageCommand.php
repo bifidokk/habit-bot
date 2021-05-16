@@ -10,6 +10,7 @@ use App\Service\Command\AbstractCommand;
 use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
+use App\Service\Keyboard\MainMenuKeyboard;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
 use Psr\Log\LoggerInterface;
@@ -19,34 +20,37 @@ use TgBotApi\BotApiBase\Method\SendAnimationMethod;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
-class AddTimezoneCommand extends AbstractCommand implements CommandInterface
+class AddLanguageCommand extends AbstractCommand implements CommandInterface
 {
-    public const COMMAND_NAME = 'settings_add_timezone';
+    public const COMMAND_NAME = 'settings_add_language';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
     private TranslatorInterface $translator;
     private UserRepository $userRepository;
     private Animation $animation;
+    private MainMenuKeyboard $mainMenuKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         TranslatorInterface $translator,
         UserRepository $userRepository,
-        Animation $animation
+        Animation $animation,
+        MainMenuKeyboard $mainMenuKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->translator = $translator;
         $this->userRepository = $userRepository;
         $this->animation = $animation;
+        $this->mainMenuKeyboard = $mainMenuKeyboard;
     }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::SET_TIMEZONE;
+            && $commandCallback->command->getValue() === CommandCallbackEnum::SET_LANGUAGE;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -55,27 +59,21 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
             return;
         }
 
-        $timezone = $commandCallback->parameters['tz'] ?? 'UTC';
-
-        try {
-            $timezone = new \DateTimeZone($timezone);
-        } catch (\Throwable $exception) {
-            return;
-        }
-
-        $user->setTimezone($timezone);
+        $language = $commandCallback->parameters['lang'] ?? 'en';
+        $user->setLanguageCode($language);
         $this->userRepository->save($user);
 
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $this->translator->trans('command.response.settings_timezone')
-            )
+                $this->translator->trans('command.response.settings_language', [], null, $language), [
+                    'replyMarkup' => $this->mainMenuKeyboard->generate($language),
+                ])
         );
 
         $this->bot->sendAnimation(SendAnimationMethod::create(
             $update->callbackQuery->message->chat->id,
-            $this->animation->getByType(AnimationType::get(AnimationType::TIMEZONE)),
+            $this->animation->getByType(AnimationType::get(AnimationType::LANGUAGE)),
         ));
     }
 }

@@ -30,6 +30,15 @@ class SettingsInlineKeyboard
                     'callbackData' => CommandCallbackEnum::SETTINGS_TIMEZONE_FORM,
                 ]
             )],
+            [InlineKeyboardButtonType::create(
+                sprintf(
+                    '%s%s',
+                    EmojiCode::WORLD,
+                    $this->translator->trans('settings_menu.language')
+                ), [
+                    'callbackData' => CommandCallbackEnum::SETTINGS_LANGUAGE_FORM,
+                ]
+            )],
         ]);
     }
 }

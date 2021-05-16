@@ -19,4 +19,7 @@ class EmojiCode extends Enum
     public const BACK = '⬅️';
     public const PLUS = '➕️';
     public const CLOCKS = '🕒';
+    public const WORLD = '🌎';
+    public const ENGLISH = '🇬🇧';
+    public const RUSSIAN = '🇷🇺';
 }

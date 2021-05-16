@@ -31,9 +31,15 @@ command:
         habit_description: Введи описание привычки
         settings_timezone_form: Выбери свой часовой пояс
         settings_timezone: Часовой пояс сохранен!
+        settings_language_form: Выбери язык
+        settings_language: Язык сохранен!
     error:
         common: Что-то пошло не так
         description: Некорректное описани привычки
         template: 'Произошла ошибка: %s'
 settings_menu:
     timezone: Часовой пояс
+    language: Язык
+    languages:
+        en: Английский
+        ru: Русский

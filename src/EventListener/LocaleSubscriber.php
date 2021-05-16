@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Entity\User;
+use App\Service\User\UserService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -14,10 +16,12 @@ use TgBotApi\BotApiBase\WebhookFetcher;
 class LocaleSubscriber implements EventSubscriberInterface
 {
     private string $defaultLocale;
+    private UserService $userService;
 
-    public function __construct(string $defaultLocale = 'en')
+    public function __construct(UserService $userService, string $defaultLocale = 'en')
     {
         $this->defaultLocale = $defaultLocale;
+        $this->userService = $userService;
     }
 
     public function onKernelRequest(RequestEvent $event): void
@@ -28,10 +32,13 @@ class LocaleSubscriber implements EventSubscriberInterface
 
         try {
             $update = $fetcher->fetch($request->getContent());
-            $user = $update->message ? $update->message->from : $update->callbackQuery->from;
+            $userType = $update->message ? $update->message->from : $update->callbackQuery->from;
+            $user = $this->userService->getUser($update);
 
-            if ($user instanceof UserType) {
-                $request->setLocale($user->languageCode ?? $this->defaultLocale);
+            if ($user instanceof User) {
+                $request->setLocale($user->getLanguageCode() ?? $this->defaultLocale);
+            } elseif ($userType instanceof UserType) {
+                $request->setLocale($userType->languageCode ?? $this->defaultLocale);
             } else {
                 $request->setLocale($this->defaultLocale);
             }

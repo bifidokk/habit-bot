@@ -59,6 +59,8 @@ services:
                 settings_menu: '@App\Service\Command\Settings\SettingsCommand'
                 settings_timezone_form: '@App\Service\Command\Settings\TimezoneFormCommand'
                 settings_add_timezone: '@App\Service\Command\Settings\AddTimezoneCommand'
+                settings_language_form: '@App\Service\Command\Settings\LanguageFormCommand'
+                settings_add_language: '@App\Service\Command\Settings\AddLanguageCommand'
 
     App\Service\InputHandler:
         arguments:
@@ -71,4 +73,5 @@ services:
         tags: ['controller.service_arguments']
 
     App\EventListener\LocaleSubscriber:
-        arguments: ['%kernel.default_locale%']
+        arguments:
+            $defaultLocale: '%kernel.default_locale%'

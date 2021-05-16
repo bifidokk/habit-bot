@@ -135,4 +135,14 @@ class User
     {
         $this->timezone = $timezone->getName();
     }
+
+    public function getLanguageCode(): ?string
+    {
+        return $this->languageCode;
+    }
+
+    public function setLanguageCode(?string $languageCode): void
+    {
+        $this->languageCode = $languageCode;
+    }
 }

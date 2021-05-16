@@ -13,6 +13,9 @@ class Animation
         AnimationType::TIMEZONE => [
             'CgACAgQAAxkBAAIFmmCfvxkkzvAl7UTFN4S72KmntxfpAAJAAgACTQrdUgiuf6VQHXLeHwQ',
         ],
+        AnimationType::LANGUAGE => [
+            'CgACAgIAAxkBAAIFwmChNqGiuocZE5rdbbFI8IYgFmQiAALWAQACp0bwSGHuSU9MoAPrHwQ',
+        ],
     ];
 
     public function getByType(AnimationType $animationType): string

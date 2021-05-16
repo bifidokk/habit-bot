@@ -31,9 +31,15 @@ command:
         habit_description: Enter the habit's description
         settings_timezone_form: Choose timezone
         settings_timezone: Timezone saved
+        settings_language_form: Choose language
+        settings_language: Language saved
     error:
         common: Something went wrong
         description: Invalid habit description
         template: 'There is an error: %s'
 settings_menu:
     timezone: Timezone
+    language: Language
+    languages:
+        en: English
+        ru: Russian

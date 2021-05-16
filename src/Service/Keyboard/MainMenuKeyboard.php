@@ -17,19 +17,19 @@ class MainMenuKeyboard
         $this->translator = $translator;
     }
 
-    public function generate(): ReplyKeyboardMarkupType
+    public function generate(?string $language = null): ReplyKeyboardMarkupType
     {
         return ReplyKeyboardMarkupType::create([
             [
                 KeyboardButtonType::create(sprintf(
                     '%s %s',
                     EmojiCode::ALARM,
-                    $this->translator->trans('habits')
+                    $this->translator->trans('habits', [], null, $language)
                 )),
                 KeyboardButtonType::create(sprintf(
                     '%s %s',
                     EmojiCode::SETTINGS,
-                    $this->translator->trans('settings')
+                    $this->translator->trans('settings', [], null, $language)
                 )),
             ],
         ], [

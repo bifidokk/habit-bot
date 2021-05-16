@@ -22,4 +22,6 @@ class CommandCallbackEnum extends Enum
     public const HABIT_PUBLISH = '/habitPublish';
     public const SETTINGS_TIMEZONE_FORM = '/settingsTimezone';
     public const SET_TIMEZONE = '/setTimezone';
+    public const SETTINGS_LANGUAGE_FORM = '/settingsLanguage';
+    public const SET_LANGUAGE = '/setLanguage';
 }
