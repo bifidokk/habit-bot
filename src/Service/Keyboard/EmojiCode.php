@@ -22,4 +22,5 @@ class EmojiCode extends Enum
     public const WORLD = '🌎';
     public const ENGLISH = '🇬🇧';
     public const RUSSIAN = '🇷🇺';
+    public const LIST = '📋';
 }

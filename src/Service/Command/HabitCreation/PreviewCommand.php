@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Command\HabitCreation;
 
-use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
@@ -12,7 +11,6 @@ use App\Service\Command\CommandInterface;
 use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
-use App\Service\Habit\RemindService;
 use App\Service\Keyboard\HabitPreviewInlineKeyboard;
 use App\Service\Message\SendMessageMethodFactory;
 use Psr\Log\LoggerInterface;
@@ -27,7 +25,6 @@ class PreviewCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private RemindService $remindDayService;
     private HabitService $habitService;
     private HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard;
     private SendMessageMethodFactory $sendMessageMethodFactory;
@@ -35,14 +32,12 @@ class PreviewCommand implements CommandInterface
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        RemindService $remindDayService,
         HabitService $habitService,
         HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard,
         SendMessageMethodFactory $sendMessageMethodFactory
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
-        $this->remindDayService = $remindDayService;
         $this->habitService = $habitService;
         $this->habitPreviewInlineKeyboard = $habitPreviewInlineKeyboard;
         $this->sendMessageMethodFactory = $sendMessageMethodFactory;
@@ -75,7 +70,7 @@ class PreviewCommand implements CommandInterface
             $this->bot->sendMessage(
                 SendMessageMethod::create(
                     $update->callbackQuery->message->chat->id,
-                    $this->getHabitPreviewText($habit), [
+                    $this->habitService->getHabitPreviewText($habit), [
                         'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
                         'replyMarkup' => $this->habitPreviewInlineKeyboard->generate($habit),
                     ]
@@ -89,15 +84,5 @@ class PreviewCommand implements CommandInterface
                 )
             );
         }
-    }
-
-    private function getHabitPreviewText(Habit $habit): string
-    {
-        return sprintf(
-            "*%s*\nRemind every *%s* at *%s*",
-            $habit->getDescription(),
-            $this->remindDayService->getRemindDaysAsString($habit),
-            $habit->getRemindAt() ? $habit->getRemindAt()->format('H:i') : ''
-        );
     }
 }

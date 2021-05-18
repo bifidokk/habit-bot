@@ -30,6 +30,15 @@ class HabitMenuInlineKeyboard
                     'callbackData' => CommandCallbackEnum::HABIT_FORM,
                 ]
             )],
+            [InlineKeyboardButtonType::create(
+                sprintf(
+                    '%s%s',
+                    EmojiCode::LIST,
+                    $this->translator->trans('habit.menu.my_habits')
+                ), [
+                    'callbackData' => CommandCallbackEnum::HABIT_LIST,
+                ]
+            )],
         ]);
     }
 }

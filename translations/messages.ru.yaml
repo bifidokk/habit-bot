@@ -5,6 +5,9 @@ habit:
         add_remind_time: Время
     menu:
         add_new_habit: Добавить привычку
+        my_habits: Мои привычки
+    preview:
+        remind: Напоминать каждый *days* в *time*
 preview: Предпросмотр
 back: Назад
 submit: Сохранить

@@ -61,6 +61,7 @@ services:
                 settings_add_timezone: '@App\Service\Command\Settings\AddTimezoneCommand'
                 settings_language_form: '@App\Service\Command\Settings\LanguageFormCommand'
                 settings_add_language: '@App\Service\Command\Settings\AddLanguageCommand'
+                habit_list: '@App\Service\Command\HabitListCommand'
 
     App\Service\InputHandler:
         arguments:

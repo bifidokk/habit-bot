@@ -7,16 +7,21 @@ namespace App\Service\Habit;
 use App\Entity\Habit;
 use App\Repository\HabitRepository;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RemindService
 {
     private const ALL_DAYS_MARKED_INT = 127;
 
     private HabitRepository $habitRepository;
+    private TranslatorInterface $translator;
 
-    public function __construct(HabitRepository $habitRepository)
-    {
+    public function __construct(
+        HabitRepository $habitRepository,
+        TranslatorInterface $translator
+    ) {
         $this->habitRepository = $habitRepository;
+        $this->translator = $translator;
     }
 
     public function toggleDay(Habit $habit, int $dayNumber): void
@@ -48,7 +53,8 @@ class RemindService
 
         foreach ($remindDays as $number => $day) {
             if ((int) $day === 1) {
-                $remindDayNames[] = HabitRemindDayInlineKeyboard::WEEK_DAYS[$number];
+                $dayName = HabitRemindDayInlineKeyboard::WEEK_DAYS[$number];
+                $remindDayNames[] = $this->translator->trans(strtolower(sprintf('weekday.%s', $dayName)));
             }
         }
 

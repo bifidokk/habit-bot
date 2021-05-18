@@ -8,6 +8,7 @@ use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\HabitRepository;
 use App\Service\Habit\RemindService;
+use App\Translator\NoTranslator;
 use PHPUnit\Framework\TestCase;
 
 class RemindServiceTest extends TestCase
@@ -19,7 +20,7 @@ class RemindServiceTest extends TestCase
         parent::setUp();
 
         $habitRepository = $this->createMock(HabitRepository::class);
-        $this->remindService = new RemindService($habitRepository);
+        $this->remindService = new RemindService($habitRepository, new NoTranslator());
     }
 
     /**
@@ -87,18 +88,18 @@ class RemindServiceTest extends TestCase
 
         $this->remindService->toggleDay($habit, 1);
         $days = $this->remindService->getRemindDaysAsString($habit);
-        $this->assertEquals('Mon', $days);
+        $this->assertEquals('mon', str_replace('weekday.', '', $days));
 
         $habit = new Habit();
         $this->remindService->toggleDay($habit, 1);
         $this->remindService->toggleDay($habit, 3);
         $days = $this->remindService->getRemindDaysAsString($habit);
-        $this->assertEquals('Mon, Wed', $days);
+        $this->assertEquals('mon, wed', str_replace('weekday.', '', $days));
 
         $habit = new Habit();
         $this->remindService->markAll($habit);
         $days = $this->remindService->getRemindDaysAsString($habit);
-        $this->assertEquals('Sun, Mon, Tue, Wed, Thu, Fri, Sat', $days);
+        $this->assertEquals('sun, mon, tue, wed, thu, fri, sat', str_replace('weekday.', '', $days));
     }
 
     /**

@@ -8,18 +8,22 @@ use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\HabitRepository;
 use App\Service\Habit\Exception\CouldNotGetHabit;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class HabitService
 {
     private HabitRepository $habitRepository;
     private RemindService $remindService;
+    private TranslatorInterface $translator;
 
     public function __construct(
         HabitRepository $habitRepository,
-        RemindService $remindService
+        RemindService $remindService,
+        TranslatorInterface $translator
     ) {
         $this->habitRepository = $habitRepository;
         $this->remindService = $remindService;
+        $this->translator = $translator;
     }
 
     public function createHabit(User $user): Habit
@@ -54,6 +58,25 @@ class HabitService
         }
 
         return $habit;
+    }
+
+    public function getUserHabits(User $user): array
+    {
+        return $this->habitRepository->findByUser($user);
+    }
+
+    public function getHabitPreviewText(Habit $habit): string
+    {
+        $habitRemind = $this->translator->trans('habit.preview.remind', [
+            'days' => $this->remindService->getRemindDaysAsString($habit),
+            'time' => $habit->getRemindAt() ? $habit->getRemindAt()->format('H:i') : '',
+        ]);
+
+        return sprintf(
+            "*%s*\n%s",
+            $habit->getDescription(),
+            $habitRemind
+        );
     }
 
     public function save(Habit $habit): void

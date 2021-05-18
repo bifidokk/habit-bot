@@ -5,6 +5,9 @@ habit:
         add_remind_time: Add habit's remind time
     menu:
         add_new_habit: Add a new habit
+        my_habits: My habits
+    preview:
+        remind: Remind every *days* at *time*
 preview: Preview
 back: Back
 submit: Submit

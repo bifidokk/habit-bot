@@ -59,6 +59,16 @@ class HabitRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findByUser(User $user): array
+    {
+        return $this->createQueryBuilder('h')
+            ->select('h')
+            ->where('h.user = :user')
+            ->setParameter('user', $user->getId()->toBinary())
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Habit $habit): void
     {
         $em = $this->getEntityManager();
