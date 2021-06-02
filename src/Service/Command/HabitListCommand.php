@@ -46,8 +46,9 @@ class HabitListCommand extends AbstractCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $page = $commandCallback->parameters['page'] ?? 0;
+        $page = (int)($commandCallback->parameters['page'] ?? 0);
         $habits = $this->habitService->getUserHabits($user);
+        $this->logger->info(count($habits));
 
         if (count($habits) === 0) {
             return;
@@ -60,13 +61,14 @@ class HabitListCommand extends AbstractCommand implements CommandInterface
         }
 
         $habit = $habit[0];
+        $showNext = count(array_slice($habits, $page)) > 1; // if there are any habits after that
 
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
                 $this->habitService->getHabitPreviewText($habit), [
                     'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
-                    'replyMarkup' => $this->habitViewInlineKeyboard->generate(),
+                    'replyMarkup' => $this->habitViewInlineKeyboard->generate($page, $showNext),
                 ])
         );
     }

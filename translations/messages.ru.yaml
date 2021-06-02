@@ -13,8 +13,10 @@ back: Назад
 submit: Сохранить
 choose_all: Выбрать все
 next: Далее
+previous: Предыдущая
 habits: Привычки
 settings: Настройки
+remove: Удалить
 weekday:
     sun: Вс
     mon: Пн

@@ -13,8 +13,10 @@ back: Back
 submit: Submit
 choose_all: Choose all
 next: Next
+previous: Previous
 habits: Habits
 settings: Settings
+remove: Remove
 weekday:
     sun: Sun
     mon: Mon

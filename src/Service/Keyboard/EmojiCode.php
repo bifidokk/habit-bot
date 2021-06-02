@@ -17,10 +17,12 @@ class EmojiCode extends Enum
     public const UNMARKED = '☑️';
     public const PREVIEW = '👀️';
     public const BACK = '⬅️';
+    public const NEXT = '➡️️';
     public const PLUS = '➕️';
     public const CLOCKS = '🕒';
     public const WORLD = '🌎';
     public const ENGLISH = '🇬🇧';
     public const RUSSIAN = '🇷🇺';
     public const LIST = '📋';
+    public const REMOVE = '🗑️';
 }
