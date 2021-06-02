@@ -25,5 +25,6 @@ class CommandCallbackEnum extends Enum
     public const SETTINGS_LANGUAGE_FORM = '/settingsLanguage';
     public const SET_LANGUAGE = '/setLanguage';
     public const HABIT_LIST = '/listHabit';
-    public const HABIT_REMOVE = '/removeHabit';
+    public const HABIT_REMOVE_CONFIRM = '/removeConfirm';
+    public const HABIT_REMOVE = '/remove';
 }

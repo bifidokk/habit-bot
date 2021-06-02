@@ -25,4 +25,6 @@ class EmojiCode extends Enum
     public const RUSSIAN = '🇷🇺';
     public const LIST = '📋';
     public const REMOVE = '🗑️';
+    public const DEVIL = '😈';
+    public const ANGEL = '😇';
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Keyboard;
 
+use App\Entity\Habit;
 use App\Service\Command\CommandCallbackEnum;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
@@ -18,14 +19,14 @@ class HabitViewInlineKeyboard
         $this->translator = $translator;
     }
 
-    public function generate(int $page, bool $showNext): InlineKeyboardMarkupType
+    public function generate(Habit $habit, int $page, bool $showNext): InlineKeyboardMarkupType
     {
         $buttons = [];
 
         if ($page > 0) {
             $buttons[] =
                 InlineKeyboardButtonType::create(sprintf(
-                    '️%s%s',
+                    '️%s %s',
                     EmojiCode::BACK,
                     $this->translator->trans('previous')
                 ), [
@@ -39,20 +40,21 @@ class HabitViewInlineKeyboard
 
         $buttons[] =
             InlineKeyboardButtonType::create(sprintf(
-                '️%s%s',
+                '️%s %s',
                 EmojiCode::REMOVE,
                 $this->translator->trans('remove')
             ), [
                 'callbackData' => sprintf(
-                    '%s',
-                    CommandCallbackEnum::HABIT_REMOVE
+                    '%s?id=%s',
+                    CommandCallbackEnum::HABIT_REMOVE_CONFIRM,
+                    $habit->getId()
                 ),
             ]);
 
         if ($showNext === true) {
             $buttons[] =
                 InlineKeyboardButtonType::create(sprintf(
-                    '️%s%s',
+                    '️%s %s',
                     EmojiCode::NEXT,
                     $this->translator->trans('next')
                 ), [

@@ -8,6 +8,8 @@ habit:
         my_habits: Мои привычки
     preview:
         remind: Напоминать каждый *days* в *time*
+    remove:
+        confirm: Вы уверены, что хотите удалить?
 preview: Предпросмотр
 back: Назад
 submit: Сохранить
@@ -25,6 +27,8 @@ weekday:
     thu: Чт
     fri: Пт
     sat: Сб
+yes: Да
+no: Нет
 command:
     response:
         start: Привет! Давай добавим новую привычку

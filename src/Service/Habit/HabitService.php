@@ -60,6 +60,17 @@ class HabitService
         return $habit;
     }
 
+    public function getHabitById(string $id): Habit
+    {
+        $habit = $this->habitRepository->findById($id);
+
+        if ($habit === null) {
+            throw new CouldNotGetHabit();
+        }
+
+        return $habit;
+    }
+
     public function getUserHabits(User $user): array
     {
         return $this->habitRepository->findByUser($user);
@@ -76,6 +87,15 @@ class HabitService
             "*%s*\n%s",
             $habit->getDescription(),
             $habitRemind
+        );
+    }
+
+    public function getHabitRemoveConfirmText(Habit $habit): string
+    {
+        return sprintf(
+            "%s\n%s",
+            $this->translator->trans('habit.remove.confirm'),
+            $this->getHabitPreviewText($habit),
         );
     }
 

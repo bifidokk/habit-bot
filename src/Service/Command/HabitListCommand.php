@@ -67,7 +67,7 @@ class HabitListCommand extends AbstractCommand implements CommandInterface
                 $update->callbackQuery->message->chat->id,
                 $this->habitService->getHabitPreviewText($habit), [
                     'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
-                    'replyMarkup' => $this->habitViewInlineKeyboard->generate($page, $showNext),
+                    'replyMarkup' => $this->habitViewInlineKeyboard->generate($habit, $page, $showNext),
                 ])
         );
     }

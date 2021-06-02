@@ -8,6 +8,8 @@ habit:
         my_habits: My habits
     preview:
         remind: Remind every *days* at *time*
+    remove:
+        confirm: Are you sure you want to delete?
 preview: Preview
 back: Back
 submit: Submit
@@ -25,6 +27,8 @@ weekday:
     thu: Thu
     fri: Fri
     sat: Sat
+yes: Yes
+no: No
 command:
     response:
         start: Hey there! You can add a new habit here

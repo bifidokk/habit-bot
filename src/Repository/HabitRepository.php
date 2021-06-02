@@ -45,6 +45,15 @@ class HabitRepository extends EntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findById(string $id): ?Habit
+    {
+        return $this->createQueryBuilder('h')
+            ->where('h.id = :id')
+            ->setParameter('id', Uuid::fromString($id)->toBinary())
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findReadyForRemindHabits(): array
     {
         $currentTime = new \DateTimeImmutable();
