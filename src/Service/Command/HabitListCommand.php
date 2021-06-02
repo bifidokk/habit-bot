@@ -46,9 +46,8 @@ class HabitListCommand extends AbstractCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $page = (int)($commandCallback->parameters['page'] ?? 0);
+        $page = (int) ($commandCallback->parameters['page'] ?? 0);
         $habits = $this->habitService->getUserHabits($user);
-        $this->logger->info(count($habits));
 
         if (count($habits) === 0) {
             return;
