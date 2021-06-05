@@ -16,6 +16,12 @@ class Animation
         AnimationType::LANGUAGE => [
             'CgACAgIAAxkBAAIFwmChNqGiuocZE5rdbbFI8IYgFmQiAALWAQACp0bwSGHuSU9MoAPrHwQ',
         ],
+        AnimationType::NOT_REMOVED => [
+            'CgACAgIAAxkBAAIGVGC7cp0e3iWve5_8TOIFE7NC02g0AAIpAAN2kGBIg9YgAAEpdgHjHwQ',
+        ],
+        AnimationType::REMOVED => [
+            'CgACAgQAAxkBAAIGVmC7cyN8qIvfr-o_byy9LSeTiwRmAAIsAgACssyUUgWYMi7fhfreHwQ',
+        ],
     ];
 
     public function getByType(AnimationType $animationType): string

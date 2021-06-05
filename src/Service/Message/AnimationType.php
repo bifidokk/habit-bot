@@ -14,4 +14,6 @@ class AnimationType extends Enum
     public const SUCCESS = 'success';
     public const TIMEZONE = 'timezone';
     public const LANGUAGE = 'language';
+    public const NOT_REMOVED = 'not_removed';
+    public const REMOVED = 'removed';
 }

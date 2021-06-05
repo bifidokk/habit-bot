@@ -78,6 +78,16 @@ class HabitRepository extends EntityRepository
             ->getResult();
     }
 
+    public function delete(Habit $habit): int
+    {
+        return $this->createQueryBuilder('h')
+            ->delete()
+            ->where('h.id = :id')
+            ->setParameter('id', $habit->getId()->toBinary())
+            ->getQuery()
+            ->execute();
+    }
+
     public function save(Habit $habit): void
     {
         $em = $this->getEntityManager();

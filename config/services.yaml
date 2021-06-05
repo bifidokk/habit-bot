@@ -63,6 +63,7 @@ services:
                 settings_add_language: '@App\Service\Command\Settings\AddLanguageCommand'
                 habit_list: '@App\Service\Command\HabitListCommand'
                 habit_remove_confirm: '@App\Service\Command\HabitRemoveConfirmCommand'
+                habit_remove: '@App\Service\Command\HabitRemoveCommand'
 
     App\Service\InputHandler:
         arguments:

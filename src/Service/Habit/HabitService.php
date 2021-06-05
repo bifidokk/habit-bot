@@ -99,6 +99,11 @@ class HabitService
         );
     }
 
+    public function removeHabit(Habit $habit): void
+    {
+        $this->habitRepository->delete($habit);
+    }
+
     public function save(Habit $habit): void
     {
         $this->habitRepository->save($habit);

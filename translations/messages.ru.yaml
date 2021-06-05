@@ -42,6 +42,8 @@ command:
         settings_timezone: Часовой пояс сохранен!
         settings_language_form: Выбери язык
         settings_language: Язык сохранен!
+        remove_not_confirmed: 'Как скажешь :)'
+        removed: Привычка удалена
     error:
         common: Что-то пошло не так
         description: Некорректное описани привычки

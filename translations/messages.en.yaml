@@ -42,6 +42,8 @@ command:
         settings_timezone: Timezone saved
         settings_language_form: Choose language
         settings_language: Language saved
+        remove_not_confirmed: Okay!
+        removed: Tha habit is removed
     error:
         common: Something went wrong
         description: Invalid habit description
