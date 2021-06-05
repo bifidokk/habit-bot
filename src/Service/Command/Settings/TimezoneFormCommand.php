@@ -50,7 +50,7 @@ class TimezoneFormCommand extends AbstractCommand implements CommandInterface
                 $update->callbackQuery->message->chat->id,
                 $this->translator->trans('command.response.settings_timezone_form'),
                 [
-                    'replyMarkup' => $this->userTimezoneInlineKeyboard->generate(),
+                    'replyMarkup' => $this->userTimezoneInlineKeyboard->generate($user->getTimezone()),
                 ]
             )
         );

@@ -19,19 +19,21 @@ class UserTimezoneInlineKeyboard
 
     private const BUTTONS_IN_A_ROW = 6;
 
-    public function generate(): InlineKeyboardMarkupType
+    public function generate(\DateTimeZone $dateTimeZone): InlineKeyboardMarkupType
     {
         $buttons = [];
         $count = 0;
 
         foreach (self::TIMEZONES as $timezone) {
             $rowNumber = floor($count / self::BUTTONS_IN_A_ROW);
+            $timezoneLabel = $timezone;
 
-            //$timezoneValue = str_replace('+', 'p', $timezone);
-            //$timezoneValue = str_replace('-', 'm', $timezoneValue);
+            if ($dateTimeZone->getName() === $timezone) {
+                $timezoneLabel = sprintf('%s%s', EmojiCode::MARKED, $timezone);
+            }
 
             $buttons[$rowNumber][] = InlineKeyboardButtonType::create(
-                $timezone,
+                $timezoneLabel,
                 [
                     'callbackData' => sprintf(
                         '%s?&tz=%s',
