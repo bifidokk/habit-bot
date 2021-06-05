@@ -145,4 +145,9 @@ class User
     {
         $this->languageCode = $languageCode;
     }
+
+    public function getHabits(): array
+    {
+        return $this->habits->toArray();
+    }
 }

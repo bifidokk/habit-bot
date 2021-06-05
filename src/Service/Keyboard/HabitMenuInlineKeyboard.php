@@ -18,9 +18,9 @@ class HabitMenuInlineKeyboard
         $this->translator = $translator;
     }
 
-    public function generate(): InlineKeyboardMarkupType
+    public function generate(array $habits): InlineKeyboardMarkupType
     {
-        return InlineKeyboardMarkupType::create([
+        $buttons = [
             [InlineKeyboardButtonType::create(
                 sprintf(
                     '%s%s',
@@ -30,7 +30,10 @@ class HabitMenuInlineKeyboard
                     'callbackData' => CommandCallbackEnum::HABIT_FORM,
                 ]
             )],
-            [InlineKeyboardButtonType::create(
+        ];
+
+        if (count($habits) > 0) {
+            $buttons[] = [InlineKeyboardButtonType::create(
                 sprintf(
                     '%s%s',
                     EmojiCode::LIST,
@@ -38,7 +41,9 @@ class HabitMenuInlineKeyboard
                 ), [
                     'callbackData' => CommandCallbackEnum::HABIT_LIST,
                 ]
-            )],
-        ]);
+            )];
+        }
+
+        return InlineKeyboardMarkupType::create($buttons);
     }
 }

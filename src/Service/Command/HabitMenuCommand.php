@@ -46,11 +46,13 @@ class HabitMenuCommand extends AbstractCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
+        $habits = $user->getHabits();
+
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->message->chat->id,
                 $update->message->text, [
-                    'replyMarkup' => $this->habitMenuInlineKeyboard->generate(),
+                    'replyMarkup' => $this->habitMenuInlineKeyboard->generate($habits),
                 ])
         );
     }
