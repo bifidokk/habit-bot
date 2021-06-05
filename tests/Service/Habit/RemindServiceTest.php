@@ -88,18 +88,18 @@ class RemindServiceTest extends TestCase
 
         $this->remindService->toggleDay($habit, 1);
         $days = $this->remindService->getRemindDaysAsString($habit);
-        $this->assertEquals('mon', str_replace('weekday.', '', $days));
+        $this->assertEquals('tue', str_replace('weekday.', '', $days));
 
         $habit = new Habit();
         $this->remindService->toggleDay($habit, 1);
         $this->remindService->toggleDay($habit, 3);
         $days = $this->remindService->getRemindDaysAsString($habit);
-        $this->assertEquals('mon, wed', str_replace('weekday.', '', $days));
+        $this->assertEquals('tue, thu', str_replace('weekday.', '', $days));
 
         $habit = new Habit();
         $this->remindService->markAll($habit);
         $days = $this->remindService->getRemindDaysAsString($habit);
-        $this->assertEquals('sun, mon, tue, wed, thu, fri, sat', str_replace('weekday.', '', $days));
+        $this->assertEquals('mon, tue, wed, thu, fri, sat, sun', str_replace('weekday.', '', $days));
     }
 
     /**
@@ -111,7 +111,7 @@ class RemindServiceTest extends TestCase
         $user = new User();
         $habit->setUser($user);
 
-        $this->remindService->toggleDay($habit, 1); //mon
+        $this->remindService->toggleDay($habit, 0); //mon
         $habit->setRemindAt(new \DateTimeImmutable('15:00'));
 
         $currentTime = new \DateTimeImmutable('Sun this week');
@@ -122,9 +122,9 @@ class RemindServiceTest extends TestCase
         $user = new User();
         $habit->setUser($user);
 
-        $this->remindService->toggleDay($habit, 1); //mon
-        $this->remindService->toggleDay($habit, 3); //wed
-        $this->remindService->toggleDay($habit, 5); //fri
+        $this->remindService->toggleDay($habit, 0); //mon
+        $this->remindService->toggleDay($habit, 2); //wed
+        $this->remindService->toggleDay($habit, 4); //fri
         $habit->setRemindAt(new \DateTimeImmutable('09:00'));
 
         $currentTime = new \DateTimeImmutable('Thu this week');

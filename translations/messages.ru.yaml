@@ -32,7 +32,7 @@ no: Нет
 command:
     response:
         start: Привет! Давай добавим новую привычку
-        main_menu: Ты в главном меню
+        main_menu: ''
         habit_creation: Заполни все поля
         habit_remind_time: Выбери время для напоминания
         habit_remind_day: Выбери дни для напоминания
