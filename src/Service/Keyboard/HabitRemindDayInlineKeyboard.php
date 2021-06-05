@@ -15,7 +15,7 @@ class HabitRemindDayInlineKeyboard
     public const NEXT_BUTTON = 'next';
 
     public const WEEK_DAYS = [
-        'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
+        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
     ];
 
     private TranslatorInterface $translator;
