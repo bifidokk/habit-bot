@@ -12,7 +12,7 @@ class HabitRemindTimeInlineKeyboard
 {
     private const MIN_HOUR = 6;
     private const MAX_HOUR = 23;
-    private const BUTTONS_IN_A_ROW = 6;
+    private const BUTTONS_IN_A_ROW = 3;
 
     public function generate(string $habitId): InlineKeyboardMarkupType
     {
