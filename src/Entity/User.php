@@ -101,21 +101,6 @@ class User
         return $user;
     }
 
-    public function getDraftHabit(): ?Habit
-    {
-        $draftHabits = $this->habits->filter(
-            function ($habit) {
-                return $habit->isDraft();
-            }
-        );
-
-        if ($draftHabits->count() === 0) {
-            return null;
-        }
-
-        return $draftHabits->first();
-    }
-
     public function addHabit(Habit $habit): void
     {
         $this->habits->add($habit);
@@ -146,8 +131,14 @@ class User
         $this->languageCode = $languageCode;
     }
 
-    public function getHabits(): array
+    public function getPublishedHabits(): array
     {
-        return $this->habits->toArray();
+        $publishedHabits = $this->habits->filter(
+            function ($habit) {
+                return $habit->isPublished();
+            }
+        );
+
+        return $publishedHabits->toArray();
     }
 }

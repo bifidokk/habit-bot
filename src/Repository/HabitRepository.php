@@ -70,10 +70,14 @@ class HabitRepository extends EntityRepository
 
     public function findByUser(User $user): array
     {
+        $state = HabitState::get(HabitState::PUBLISHED);
+
         return $this->createQueryBuilder('h')
             ->select('h')
             ->where('h.user = :user')
+            ->andWhere('h.state = :state')
             ->setParameter('user', $user->getId()->toBinary())
+            ->setParameter('state', $state->getValue())
             ->getQuery()
             ->getResult();
     }

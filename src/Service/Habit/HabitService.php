@@ -104,6 +104,12 @@ class HabitService
         $this->habitRepository->delete($habit);
     }
 
+    public function updateHabitNextRemindTime(Habit $habit): void
+    {
+        $habit->setNextRemindAt($this->remindService->getNextRemindTime(new \DateTimeImmutable(), $habit));
+        $this->habitRepository->save($habit);
+    }
+
     public function save(Habit $habit): void
     {
         $this->habitRepository->save($habit);

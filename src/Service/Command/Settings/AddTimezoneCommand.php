@@ -12,7 +12,9 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
+use App\Service\User\Event\TimezoneChangedEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendAnimationMethod;
@@ -28,19 +30,22 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
     private TranslatorInterface $translator;
     private UserRepository $userRepository;
     private Animation $animation;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
         TranslatorInterface $translator,
         UserRepository $userRepository,
-        Animation $animation
+        Animation $animation,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
         $this->translator = $translator;
         $this->userRepository = $userRepository;
         $this->animation = $animation;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
@@ -65,6 +70,7 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
 
         $user->setTimezone($timezone);
         $this->userRepository->save($user);
+        $this->eventDispatcher->dispatch(new TimezoneChangedEvent($user));
 
         $this->bot->sendMessage(
             SendMessageMethod::create(

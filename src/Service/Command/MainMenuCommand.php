@@ -59,7 +59,7 @@ class MainMenuCommand implements CommandInterface
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            $this->translator->trans('command.response.main_menu'), [
+            '', [
                 'replyMarkup' => $this->mainMenuKeyboard->generate(),
             ]);
     }
