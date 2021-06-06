@@ -31,7 +31,7 @@ yes: Yes
 no: No
 command:
     response:
-        start: Hey there! You can add a new habit here
+        start: '💪 Hey there! Habit bot helps to schedule your daily routines and turn them into habits. Don’t forget to set your language and timezone in settings.'
         main_menu: ''
         habit_creation: Please fill all fields
         habit_remind_time: Choose remind time

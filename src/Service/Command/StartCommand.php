@@ -6,6 +6,7 @@ namespace App\Service\Command;
 
 use App\Entity\User;
 use App\Service\InputHandler;
+use App\Service\Keyboard\MainMenuKeyboard;
 use App\Service\Router;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -21,22 +22,22 @@ class StartCommand implements CommandInterface
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
-    private Router $router;
     private InputHandler $inputHandler;
     private TranslatorInterface $translator;
+    private MainMenuKeyboard $mainMenuKeyboard;
 
     public function __construct(
         BotApiComplete $bot,
         LoggerInterface $logger,
-        Router $router,
         InputHandler $inputHandler,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        MainMenuKeyboard $mainMenuKeyboard
     ) {
         $this->bot = $bot;
         $this->logger = $logger;
-        $this->router = $router;
         $this->inputHandler = $inputHandler;
         $this->translator = $translator;
+        $this->mainMenuKeyboard = $mainMenuKeyboard;
     }
 
     public function getName(): string
@@ -60,16 +61,15 @@ class StartCommand implements CommandInterface
 
         $method = $this->createSendMethod($update->message);
         $this->bot->sendMessage($method);
-
-        $nextCommand = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
-        $nextCommand->run($update, $user, $commandCallback);
     }
 
     private function createSendMethod(MessageType $message): SendMessageMethod
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            $this->translator->trans('command.response.start')
+            $this->translator->trans('command.response.start'), [
+                'replyMarkup' => $this->mainMenuKeyboard->generate(),
+            ]
         );
     }
 }
