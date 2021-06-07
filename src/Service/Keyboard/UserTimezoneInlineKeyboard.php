@@ -17,7 +17,7 @@ class UserTimezoneInlineKeyboard
         '-06:00', '-07:00', '-09:00', '-09:00', '-10:00', '-11:00',
     ];
 
-    private const BUTTONS_IN_A_ROW = 6;
+    private const BUTTONS_IN_A_ROW = 4;
 
     public function generate(\DateTimeZone $dateTimeZone): InlineKeyboardMarkupType
     {
