@@ -20,20 +20,15 @@ class StartCommandTest extends CommandTest
         $chatId = 1;
         $methodStart = SendMessageMethod::create(
             $chatId,
-            $translator->trans('command.response.start')
+            $translator->trans('command.response.start'), [
+                'replyMarkup' => $mainMenuKeyboard->generate(),
+            ]
         );
 
-        $methodMainMenu = SendMessageMethod::create(
-            $chatId,
-            $translator->trans('command.response.main_menu'), [
-                'replyMarkup' => $mainMenuKeyboard->generate(),
-            ]);
-
-        $this->botApiCompleteMock->expects($this->exactly(2))
+        $this->botApiCompleteMock->expects($this->exactly(1))
             ->method('sendMessage')
             ->withConsecutive(
-                [$methodStart],
-                [$methodMainMenu]
+                [$methodStart]
             );
 
         $this->sendRequest(WebhookDataFactory::getStartCommandData());
