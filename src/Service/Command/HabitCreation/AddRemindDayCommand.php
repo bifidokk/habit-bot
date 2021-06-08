@@ -6,10 +6,10 @@ namespace App\Service\Command\HabitCreation;
 
 use App\Entity\Habit;
 use App\Entity\User;
+use App\Service\Command\AbstractCommand;
 use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
-use App\Service\Command\CommandPriority;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Habit\RemindService;
@@ -21,7 +21,7 @@ use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
-class AddRemindDayCommand implements CommandInterface
+class AddRemindDayCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_remind_day';
 
@@ -49,16 +49,6 @@ class AddRemindDayCommand implements CommandInterface
         $this->habitRemindDayInlineKeyboard = $habitRemindDayInlineKeyboard;
         $this->sendMessageMethodFactory = $sendMessageMethodFactory;
         $this->translator = $translator;
-    }
-
-    public function getName(): string
-    {
-        return self::COMMAND_NAME;
-    }
-
-    public function getPriority(): CommandPriority
-    {
-        return CommandPriority::get(CommandPriority::LOW);
     }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

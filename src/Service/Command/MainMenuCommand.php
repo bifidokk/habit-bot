@@ -13,7 +13,7 @@ use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\MessageType;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
-class MainMenuCommand implements CommandInterface
+class MainMenuCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'main_menu';
 
@@ -32,16 +32,6 @@ class MainMenuCommand implements CommandInterface
         $this->logger = $logger;
         $this->mainMenuKeyboard = $mainMenuKeyboard;
         $this->translator = $translator;
-    }
-
-    public function getName(): string
-    {
-        return self::COMMAND_NAME;
-    }
-
-    public function getPriority(): CommandPriority
-    {
-        return CommandPriority::get(CommandPriority::LOW);
     }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
