@@ -17,7 +17,6 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 class StartCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'start';
-    public const COMMAND_RESPONSE_TEXT = '';
 
     private BotApiComplete $bot;
     private LoggerInterface $logger;
