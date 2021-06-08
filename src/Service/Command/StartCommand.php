@@ -7,7 +7,6 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Service\InputHandler;
 use App\Service\Keyboard\MainMenuKeyboard;
-use App\Service\Router;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
