@@ -1,0 +1,9 @@
+name: Habit deploy
+jobs:
+  deploy:
+    steps:
+      - name: Deploy
+        uses: deployphp/action@master
+        with:
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          dep: deploy prod -v
