@@ -1,15 +1,19 @@
 name: Deploy
 on: workflow_dispatch
 jobs:
-  build:
-    name: Deploy code to prod
+  deploy:
+    name: Deploy to prod
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Deploy
-        uses: musps/action-deployer-php@master
-        with:
-          args: deploy prod
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      -   uses: actions/checkout@v1
+      -   name: Setup PHP
+          uses: shivammathur/setup-php@master
+          with:
+            php-version: 7.4
+      -   name: Deploy
+          uses: deployphp/action@master
+          with:
+            private-key: ${{ secrets.PRIVATE_KEY }}
+            dep: deploy prod -v
+
+
