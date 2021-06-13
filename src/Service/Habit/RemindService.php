@@ -82,8 +82,7 @@ class RemindService
                 ), $user->getTimezone()
             );
 
-            $offset = -$remindTime->getOffset();
-            $remindTime = $remindTime->modify(sprintf('%s seconds', $offset));
+            $remindTime = $remindTime->setTimezone(new \DateTimeZone('UTC'));
 
             if ($remindTime >= $currentTime) {
                 $nextRemindTime[] = $remindTime;
@@ -98,7 +97,7 @@ class RemindService
                 ), $user->getTimezone()
             );
 
-            $remindTimeNextWeek = $remindTimeNextWeek->modify(sprintf('%s seconds', $offset));
+            $remindTimeNextWeek = $remindTimeNextWeek->setTimezone(new \DateTimeZone('UTC'));
 
             if ($remindTimeNextWeek >= $currentTime) {
                 $nextRemindTime[] = $remindTimeNextWeek;

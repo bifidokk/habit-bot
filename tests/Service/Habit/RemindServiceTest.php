@@ -147,4 +147,24 @@ class RemindServiceTest extends TestCase
         $nextRemindTime = $this->remindService->getNextRemindTime($currentTime, $habit);
         $this->assertEquals('Mon 09:00', $nextRemindTime->format('D H:i'));
     }
+
+    /**
+     * @test
+     */
+    public function itCreatesNextRemindTimeWithTimezone(): void
+    {
+        date_default_timezone_set('UTC');
+
+        $habit = new Habit();
+        $user = new User();
+        $habit->setUser($user);
+        $user->setTimezone(new \DateTimeZone('+03:00'));
+
+        $this->remindService->markAll($habit);
+        $habit->setRemindAt(new \DateTimeImmutable('19:00'));
+
+        $currentTime = new \DateTimeImmutable('15:48');
+        $nextRemindTime = $this->remindService->getNextRemindTime($currentTime, $habit);
+        $this->assertEquals('16:00', $nextRemindTime->format('H:i'));
+    }
 }
