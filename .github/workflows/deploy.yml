@@ -1,5 +1,5 @@
 name: Deploy
-
+on: workflow_dispatch
 jobs:
   build:
     name: Deploy code to prod
