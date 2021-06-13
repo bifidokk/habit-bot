@@ -1,9 +1,15 @@
-name: Habit deploy
+name: Deploy
+
 jobs:
-  deploy:
+  build:
+    name: Deploy code to prod
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Deploy
-        uses: deployphp/action@master
+        uses: musps/action-deployer-php@master
         with:
-          private-key: ${{ secrets.PRIVATE_KEY }}
-          dep: deploy prod -v
+          args: deploy prod
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
