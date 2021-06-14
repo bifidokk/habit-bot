@@ -85,7 +85,7 @@ class HabitService
 
         return sprintf(
             "*%s*\n%s",
-            $habit->getDescription(),
+            $this->markdownEscape($habit->getDescription()),
             $habitRemind
         );
     }
@@ -113,5 +113,13 @@ class HabitService
     public function save(Habit $habit): void
     {
         $this->habitRepository->save($habit);
+    }
+
+    private function markdownEscape(string $text): string
+    {
+        return str_replace([
+            '\\', '-', '#', '*', '+', '`', '.', '[', ']', '(', ')', '!', '&', '<', '>', '_', '{', '}', ], [
+            '\\\\', '\-', '\#', '\*', '\+', '\`', '\.', '\[', '\]', '\(', '\)', '\!', '\&', '\<', '\>', '\_', '\{', '\}',
+        ], $text);
     }
 }
