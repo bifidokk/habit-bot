@@ -23,6 +23,12 @@
     "dealerdirect/phpcodesniffer-composer-installer": {
         "version": "v0.7.1"
     },
+    "deployer/deployer": {
+        "version": "v6.8.0"
+    },
+    "deployer/phar-update": {
+        "version": "v2.2.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -242,6 +248,9 @@
     },
     "phpstan/phpstan-symfony": {
         "version": "0.12.20"
+    },
+    "pimple/pimple": {
+        "version": "v3.3.1"
     },
     "predis/predis": {
         "version": "v1.1.7"
