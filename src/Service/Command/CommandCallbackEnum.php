@@ -27,4 +27,6 @@ class CommandCallbackEnum extends Enum
     public const HABIT_LIST = '/listHabit';
     public const HABIT_REMOVE_CONFIRM = '/removeConfirm';
     public const HABIT_REMOVE = '/remove';
+    public const HABIT_DONE = '/done';
+    public const HABIT_BUSY = '/busy';
 }

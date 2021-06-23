@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\Habit;
 use App\Repository\HabitRepository;
 use App\Service\Habit\RemindService;
+use App\Service\Keyboard\HabitDoneKeyboard;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,15 +24,18 @@ class SendReminderCommand extends Command
     private HabitRepository $habitRepository;
     private BotApiComplete $bot;
     private RemindService $remindService;
+    private HabitDoneKeyboard $habitDoneKeyboard;
 
     public function __construct(
         HabitRepository $habitRepository,
         BotApiComplete $bot,
-        RemindService $remindService
+        RemindService $remindService,
+        HabitDoneKeyboard $habitDoneKeyboard
     ) {
         $this->habitRepository = $habitRepository;
         $this->bot = $bot;
         $this->remindService = $remindService;
+        $this->habitDoneKeyboard = $habitDoneKeyboard;
 
         parent::__construct();
     }
@@ -51,7 +55,10 @@ class SendReminderCommand extends Command
             $this->bot->sendMessage(
                 SendMessageMethod::create(
                     $habit->getUser()->getTelegramId(),
-                    $habit->getDescription()
+                    $habit->getDescription(),
+                    [
+                        'replyMarkup' => $this->habitDoneKeyboard->generate($habit),
+                    ]
                 )
             );
 

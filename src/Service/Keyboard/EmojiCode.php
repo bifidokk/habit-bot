@@ -27,4 +27,5 @@ class EmojiCode extends Enum
     public const REMOVE = '🗑️';
     public const DEVIL = '😈';
     public const ANGEL = '😇';
+    public const BUSY = '😩';
 }
