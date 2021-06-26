@@ -64,6 +64,7 @@ services:
                 habit_list: '@App\Service\Command\HabitListCommand'
                 habit_remove_confirm: '@App\Service\Command\HabitRemoveConfirmCommand'
                 habit_remove: '@App\Service\Command\HabitRemoveCommand'
+                habit_done: '@App\Service\Command\HabitDoneCommand'
 
     App\Service\InputHandler:
         arguments:

@@ -22,6 +22,9 @@ class Animation
         AnimationType::REMOVED => [
             'CgACAgQAAxkBAAIGVmC7cyN8qIvfr-o_byy9LSeTiwRmAAIsAgACssyUUgWYMi7fhfreHwQ',
         ],
+        AnimationType::HABIT_DONE => [
+            'CgACAgQAAxkBAAMTYNbzpzYon9dQMlvTThS7gj15ESgAAmMCAAInzIxSmJ7cQyUnGrwgBA',
+        ],
     ];
 
     public function getByType(AnimationType $animationType): string
