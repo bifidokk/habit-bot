@@ -37,7 +37,7 @@ class RemindLaterService
         if ($previousPeriod === false) {
             $periodInMinutes = self::REMIND_LATER_PERIODS_IN_MINUTES[0];
         } else {
-            $key = array_search((int)$previousPeriod, self::REMIND_LATER_PERIODS_IN_MINUTES, true);
+            $key = array_search((int) $previousPeriod, self::REMIND_LATER_PERIODS_IN_MINUTES, true);
 
             if ($key !== false && isset(self::REMIND_LATER_PERIODS_IN_MINUTES[$key + 1])) {
                 $periodInMinutes = self::REMIND_LATER_PERIODS_IN_MINUTES[$key + 1];
