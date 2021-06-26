@@ -25,6 +25,9 @@ class Animation
         AnimationType::HABIT_DONE => [
             'CgACAgQAAxkBAAMTYNbzpzYon9dQMlvTThS7gj15ESgAAmMCAAInzIxSmJ7cQyUnGrwgBA',
         ],
+        AnimationType::HABIT_BUSY => [
+            'CgACAgQAAxkBAAMWYNb9RuT2uTvv-vj06la6bR_2FKwAAiMCAAJk7ZVSi1VE5aGmsFYgBA',
+        ],
     ];
 
     public function getByType(AnimationType $animationType): string

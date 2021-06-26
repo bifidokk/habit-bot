@@ -57,3 +57,5 @@ settings_menu:
 done: Done
 later: Remind later
 marked_done: Excellent! Keep it up!
+marked_busy: Ok! We will send you the next remind in %s minutes!
+marked_busy_finally: Ok! We won't send you any reminds today!

@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\User;
+use App\Service\Redis\RedisClient;
 
 class InputHandler
 {
     private const WAIT_FOR_INPUT_KEY = 'wait_for_input:%s';
 
-    private \Redis $cacheClient;
+    private RedisClient $redisClient;
 
-    public function __construct(\Redis $cacheClient)
+    public function __construct(RedisClient $redisClient)
     {
-        $this->cacheClient = $cacheClient;
+        $this->redisClient = $redisClient;
     }
 
     public function waitForInput(User $user, string $callback): void
     {
-        $this->cacheClient->set(
+        $this->redisClient->set(
             sprintf(self::WAIT_FOR_INPUT_KEY, $user->getTelegramId()),
             $callback
         );
@@ -27,14 +28,14 @@ class InputHandler
 
     public function unwaitForInput(User $user): int
     {
-        return $this->cacheClient->del(
+        return $this->redisClient->del(
             sprintf(self::WAIT_FOR_INPUT_KEY, $user->getTelegramId())
         );
     }
 
     public function checkForInput(User $user): ?string
     {
-        $command = $this->cacheClient->get(sprintf(self::WAIT_FOR_INPUT_KEY, $user->getTelegramId()));
+        $command = $this->redisClient->get(sprintf(self::WAIT_FOR_INPUT_KEY, $user->getTelegramId()));
 
         return is_string($command) ? $command : null;
     }

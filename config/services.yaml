@@ -65,10 +65,7 @@ services:
                 habit_remove_confirm: '@App\Service\Command\HabitRemoveConfirmCommand'
                 habit_remove: '@App\Service\Command\HabitRemoveCommand'
                 habit_done: '@App\Service\Command\HabitDoneCommand'
-
-    App\Service\InputHandler:
-        arguments:
-            $cacheClient: '@app.my_custom_redis_provider'
+                habit_remind_later: '@App\Service\Command\HabitRemindLaterCommand'
 
     App\Controller\WebhookController:
         arguments:
@@ -79,3 +76,9 @@ services:
     App\EventListener\LocaleSubscriber:
         arguments:
             $defaultLocale: '%kernel.default_locale%'
+
+    App\Service\Redis\RedisClient:
+        arguments:
+            $redis: '@app.my_custom_redis_provider'
+
+    App\Service\Redis\RedisClientInterface: '@App\Service\Redis\RedisClient'

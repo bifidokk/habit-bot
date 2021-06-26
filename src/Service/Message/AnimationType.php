@@ -17,4 +17,5 @@ class AnimationType extends Enum
     public const NOT_REMOVED = 'not_removed';
     public const REMOVED = 'removed';
     public const HABIT_DONE = 'habit_done';
+    public const HABIT_BUSY = 'habit_busy';
 }

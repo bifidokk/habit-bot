@@ -20,6 +20,7 @@ parameters:
     excludes_analyse:
         - '*/DependencyInjection/Configuration.php'
         - src/Migrations/*
+        - src/Service/Redis/*
         - tests/bootstrap.php
     symfony:
         container_xml_path: 'var/cache/dev/App_KernelDevDebugContainer.xml'
