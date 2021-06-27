@@ -26,7 +26,7 @@ class HabitDoneKeyboard
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s %s',
                     EmojiCode::MARKED,
-                    $this->translator->trans('done')
+                    $this->translator->trans('done', [], null, $habit->getUser()->getLanguageCode())
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
@@ -37,7 +37,7 @@ class HabitDoneKeyboard
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s %s',
                     EmojiCode::BUSY,
-                    $this->translator->trans('later')
+                    $this->translator->trans('later', [], null, $habit->getUser()->getLanguageCode())
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
