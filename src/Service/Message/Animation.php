@@ -23,10 +23,10 @@ class Animation
             'CgACAgQAAxkBAAIGVmC7cyN8qIvfr-o_byy9LSeTiwRmAAIsAgACssyUUgWYMi7fhfreHwQ',
         ],
         AnimationType::HABIT_DONE => [
-            'CgACAgQAAxkBAAMTYNbzpzYon9dQMlvTThS7gj15ESgAAmMCAAInzIxSmJ7cQyUnGrwgBA',
+            'CgACAgQAAxkBAAIIlmDYPIS-4ZJ3artXPwIGBs8KrsFZAAJjAgACJ8yMUk22cJ-a6bzEIAQ',
         ],
         AnimationType::HABIT_BUSY => [
-            'CgACAgQAAxkBAAMnYNgzigrmwvERqHjwPHRoYN0nv0kAAssCAAKFnH1SjbD7rhCuG9EgBA',
+            'CgACAgQAAxkBAAIIlWDYO1BFF6skqWqiQfAnlrERPaRdAAIjAgACZO2VUiwBUn2jjkkLIAQ',
         ],
     ];
 
