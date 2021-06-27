@@ -26,7 +26,7 @@ class Animation
             'CgACAgQAAxkBAAMTYNbzpzYon9dQMlvTThS7gj15ESgAAmMCAAInzIxSmJ7cQyUnGrwgBA',
         ],
         AnimationType::HABIT_BUSY => [
-            'CgACAgQAAxkBAAMWYNb9RuT2uTvv-vj06la6bR_2FKwAAiMCAAJk7ZVSi1VE5aGmsFYgBA',
+            'CgACAgQAAxkBAAMnYNgzigrmwvERqHjwPHRoYN0nv0kAAssCAAKFnH1SjbD7rhCuG9EgBA',
         ],
     ];
 
