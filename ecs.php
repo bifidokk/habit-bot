@@ -37,7 +37,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'continue',
                 'declare',
                 'default',
-                'die',
                 'do',
                 'exit',
                 'for',
