@@ -15,3 +15,6 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    uid:
+        default_uuid_version: 4
