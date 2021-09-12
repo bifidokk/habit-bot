@@ -33,6 +33,7 @@ parameters:
         - '#Call to method Symfony\\Component\\HttpFoundation\\Request::hasSession\(\) will always evaluate to true#'
         - '#Unable to resolve the template type T in call to method Doctrine\\Persistence\\ObjectManager::find\(\)#'
         - '#Unable to resolve the template type T in call to method Doctrine\\ORM\\EntityManagerInterface::getReference\(\)#'
+        - '#Method .+? should return [a-zA-Z0-9\\\|]+ but returns object\|null#'
 
 #rules:
 #	- PHPStan\Rules\BooleansInConditions\BooleanInBooleanAndRule
