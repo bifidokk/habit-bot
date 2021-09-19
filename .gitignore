@@ -26,3 +26,6 @@
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
 /phpunit.phar
+
+/.docker/db
+/.docker/logs
