@@ -10,7 +10,7 @@ use App\Tests\Functional\WebhookDataFactory;
 use App\Translator\NoTranslator;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 
-class StartCommand extends Command
+class StartCommandTest extends Command
 {
     public function testStartCommand(): void
     {
