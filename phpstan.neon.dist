@@ -13,8 +13,6 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     reportUnmatchedIgnoredErrors: false
     treatPhpDocTypesAsCertain: true
-    bootstrapFiles:
-        - bin/.phpunit/phpunit-8.5-0/vendor/autoload.php
     scanDirectories:
         - vendor/phpstan/phpstan-strict-rules/src
     excludes_analyse:

@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use TgBotApi\BotApiBase\BotApiComplete;
 
-class CommandTest extends WebTestCase
+class Command extends WebTestCase
 {
     protected BotApiComplete $botApiCompleteMock;
     protected KernelBrowser $client;
