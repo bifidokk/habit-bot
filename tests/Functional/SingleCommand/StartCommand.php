@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Functional\SingleCommand;
 
 use App\Service\Keyboard\MainMenuKeyboard;
-use App\Tests\Functional\CommandTest;
+use App\Tests\Functional\Command;
 use App\Tests\Functional\WebhookDataFactory;
 use App\Translator\NoTranslator;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 
-class StartCommandTest extends CommandTest
+class StartCommand extends Command
 {
     public function testStartCommand(): void
     {
