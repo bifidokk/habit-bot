@@ -27,20 +27,13 @@ class UserService
             return null;
         }
 
-        $user = $this->findUserByTelegramId($from->id);
+        $user = $this->userRepository->findOneByTelegramId($from->id);
 
         if ($user === null) {
             $user = $this->createUser($from);
         }
 
         return $user;
-    }
-
-    private function findUserByTelegramId(int $id): ?User
-    {
-        return $this->userRepository->findOneBy([
-            'telegramId' => $id,
-        ]);
     }
 
     private function createUser(UserType $userType): User

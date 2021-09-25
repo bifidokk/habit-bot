@@ -19,6 +19,13 @@ class UserRepository extends EntityRepository
         return parent::find($id, $lockMode, $lockVersion);
     }
 
+    public function findOneByTelegramId(int $id): ?User
+    {
+        return $this->findOneBy([
+            'telegramId' => $id,
+        ]);
+    }
+
     public function save(User $user): void
     {
         $em = $this->getEntityManager();

@@ -141,4 +141,9 @@ class User
 
         return $publishedHabits->toArray();
     }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
 }
