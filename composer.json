@@ -39,7 +39,6 @@
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.6",
-        "deployer/deployer": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpstan/phpstan": "^0.12.80",
         "phpstan/phpstan-doctrine": "^0.12.32",
