@@ -64,6 +64,6 @@ jobs:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
           TG_BOT_WEBHOOK_TOKEN: token
       - name: PHPStan
-        run: phpstan analyse src --level 7
+        run: vendor/bin/phpstan analyse src --level 7
       - name: Code style
         run: vendor/bin/ecs check src tests
