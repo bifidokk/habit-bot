@@ -55,11 +55,11 @@ jobs:
           php bin/console doctrine:schema:update --force || echo "No migrations found or schema update failed"
           php bin/console doctrine:migrations:migrate || echo "No migrations found or migration failed"
         env:
-          DATABASE_URL: postgres://root:symfony@127.0.0.1:${{ job.services.postgres.ports['3306'] }}/symfony
+          DATABASE_URL: postgres://symfony:symfony@127.0.0.1:${{ job.services.postgres.ports[5432] }}/symfony?charset=UTF-8
       - name: Run Tests
         run: php ./vendor/bin/phpunit --coverage-text
         env:
-          DATABASE_URL: postgres://root:symfony@127.0.0.1:${{ job.services.postgres.ports['3306'] }}/symfony
+          DATABASE_URL: postgres://symfony:symfony@127.0.0.1:${{ job.services.postgres.ports[5432] }}/symfony?charset=UTF-8
           TG_BOT_WEBHOOK_TOKEN: token
       - name: PHPStan
         run: vendor/bin/phpstan analyse src --level 7
