@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use TgBotApi\BotApiBase\Type\UserType;
 
 /**
+ * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User
