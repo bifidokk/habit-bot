@@ -1,19 +1,16 @@
 version: '3.9'
 services:
   db:
-    platform: linux/x86_64
-    image: mysql:8.0.22
-    command: ["--default-authentication-plugin=mysql_native_password"]
+    image: postgres:14.1
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "${POSTGRES_PORT}:5432"
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
     volumes:
-      - ./db:/var/lib/mysql
-      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./db:/var/lib/postgresql/data:rw
+      - ./postgres/init:/docker-entrypoint-initdb.d
 
   php:
     build:
