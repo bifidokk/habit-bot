@@ -43,10 +43,10 @@ RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
     && chmod +x composer.phar && mv composer.phar /usr/bin/composer \
     && ln -s /usr/bin/php8 /usr/local/bin/php
 
-COPY ./docker/php/symfony.ini /etc/php8/conf.d/
-COPY ./docker/php/symfony.ini /etc/php8/cli/conf.d/
+COPY ./docker/php-fpm/symfony.ini /etc/php8/conf.d/
+COPY ./docker/php-fpm/symfony.ini /etc/php8/cli/conf.d/
 
-COPY ./docker/php/symfony.pool.conf /etc/php8/php-fpm.d/
+COPY ./docker/php-fpm/symfony.pool.conf /etc/php8/php-fpm.d/
 
 USER www-data
 WORKDIR '/var/www/habit'

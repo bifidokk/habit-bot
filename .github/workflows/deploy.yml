@@ -24,6 +24,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./docker/php-fpm/Dockerfile
+          file: ./.docker/php-fpm/Dockerfile
           push: true
           tags: bifidokk/habit:latest
