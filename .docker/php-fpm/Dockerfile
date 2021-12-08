@@ -1,8 +1,7 @@
-FROM alpine:3.13
-
-LABEL maintainer="Vincent Composieux <vincent.composieux@gmail.com>"
+FROM alpine:3.15
 
 RUN apk add --no-cache \
+    nano\
     coreutils \
     gettext \
     php8-fpm \
@@ -35,41 +34,28 @@ RUN apk add --no-cache \
     make \
     curl
 
-# Enable php8-xdebug if $PHP_XDEBUG_MODE is not empty
-ARG PHP_XDEBUG_MODE=off
-ARG PHP_XDEBUG_CLIENT_PORT=5902
-ARG PHP_XDEBUG_CLIENT_HOST=host.docker.internal
-COPY xdebug.ini  /etc/php8/conf.d/xdebug.ini.template
-RUN if [[ "$PHP_XDEBUG_MODE" != "" ]]; then \
-        apk add --no-cache php8-pecl-xdebug; \
-        export PHP_XDEBUG_MODE=$PHP_XDEBUG_MODE; \
-        export PHP_XDEBUG_CLIENT_PORT=$PHP_XDEBUG_CLIENT_PORT; \
-        export PHP_XDEBUG_CLIENT_HOST=$PHP_XDEBUG_CLIENT_HOST; \
-        envsubst < /etc/php8/conf.d/xdebug.ini.template > /etc/php8/conf.d/xdebug.ini; \
-    fi
-RUN rm -f /etc/php8/conf.d/xdebug.ini.template
+RUN set -x ; \
+  addgroup -g 82 -S www-data ; \
+  adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
 
 RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
     && php8 composer-setup.php && rm composer-setup.php* \
     && chmod +x composer.phar && mv composer.phar /usr/bin/composer \
     && ln -s /usr/bin/php8 /usr/local/bin/php
 
-ARG SYMFONY_CLI_VERSION
-RUN wget https://github.com/symfony/cli/releases/download/v$SYMFONY_CLI_VERSION/symfony_linux_amd64.gz \
-    && gzip -d symfony_linux_amd64.gz \
-    && mv symfony_linux_amd64 symfony \
-    && chmod +x symfony \
-    && mv symfony /usr/local/bin/
+COPY ./docker/php/symfony.ini /etc/php8/conf.d/
+COPY ./docker/php/symfony.ini /etc/php8/cli/conf.d/
 
-RUN apk add --update nodejs npm \
-    && npm install --global yarn
+COPY ./docker/php/symfony.pool.conf /etc/php8/php-fpm.d/
 
-COPY symfony.ini /etc/php8/conf.d/
-COPY symfony.ini /etc/php8/cli/conf.d/
+USER www-data
+WORKDIR '/var/www/habit'
 
-COPY symfony.pool.conf /etc/php8/php-fpm.d/
+COPY --chown=www-data:www-data . .
 
-WORKDIR /var/www/symfony
+ENV APP_ENV=prod
+
+RUN composer install --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader --no-scripts
 
 CMD ["php-fpm8", "-F"]
 
