@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: db
+    image: postgres:14.1
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+    volumes:
+      - ./db:/var/lib/postgresql/data:rw
+
+  php:
+    image: bifidokk/habit:latest
+    ports:
+      - "${PHP_PORT}:9001"
+    env_file: php_service.env
+    depends_on:
+      - db
+    volumes:
+      - app:/var/www/habit
+
+  nginx:
+    container_name: nginx
+    image: bifidokk/habit-nginx:latest
+    ports:
+      - "${NGINX_PORT}:80"
+    depends_on:
+      - php
+    volumes:
+      - ./logs/nginx:/var/log/nginx:cached
+      - habit_app:/var/www/habit
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - habit_redis_data:/data
+
+volumes:
+  habit_app:
+  habit_redis_data:
