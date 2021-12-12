@@ -27,3 +27,11 @@ jobs:
           file: ./.docker/php-fpm/Dockerfile
           push: true
           tags: bifidokk/habit:latest
+      -
+        name: Build and push nginx
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./.docker/nginx/Dockerfile
+          push: true
+          tags: bifidokk/habit-nginx:latest

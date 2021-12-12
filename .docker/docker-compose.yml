@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     volumes:
-      - app:/var/www/habit
+      - habit_app:/var/www/habit
 
   nginx:
     container_name: nginx

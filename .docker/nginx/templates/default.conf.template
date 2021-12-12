@@ -1,6 +1,6 @@
 server {
-    server_name ${NGINX_SYMFONY_SERVER_NAME};
-    root /var/www/symfony/public;
+    server_name 127.0.0.1;
+    root /var/www/habit/public;
 
 
     location / {
@@ -19,6 +19,6 @@ server {
         fastcgi_param HTTPS off;
     }
 
-    error_log /var/log/nginx/symfony_error.log;
-    access_log /var/log/nginx/symfony_access.log;
+    error_log /var/log/nginx/habit_error.log;
+    access_log /var/log/nginx/habit_access.log;
 }
