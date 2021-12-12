@@ -47,8 +47,7 @@ jobs:
             cd /var/www/habit
             git pull
             docker compose --file ./.docker/docker-compose.yml down
-            docker volume rm habit_app
-            docker volume rm habit_redis_data
+            docker volume rm habit_habit_app
             docker compose --file ./.docker/docker-compose.yml pull
             docker compose --file ./.docker/docker-compose.yml --env-file ./.docker/.env.prod up -d
             docker exec habit_php bin/console cache:clear
