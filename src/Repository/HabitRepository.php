@@ -28,7 +28,7 @@ class HabitRepository extends EntityRepository
             ->delete()
             ->where('h.user = :user')
             ->andWhere('h.state = :state')
-            ->setParameter('user', $user->getId()->toBinary())
+            ->setParameter('user', $user->getId())
             ->setParameter('state', $state->getValue())
             ->getQuery()
             ->execute();
@@ -39,7 +39,7 @@ class HabitRepository extends EntityRepository
         return $this->createQueryBuilder('h')
             ->where('h.id = :id')
             ->andWhere('h.state = :state')
-            ->setParameter('id', Uuid::fromString($id)->toBinary())
+            ->setParameter('id', Uuid::fromString($id))
             ->setParameter('state', $state->getValue())
             ->getQuery()
             ->getOneOrNullResult();
@@ -49,7 +49,7 @@ class HabitRepository extends EntityRepository
     {
         return $this->createQueryBuilder('h')
             ->where('h.id = :id')
-            ->setParameter('id', Uuid::fromString($id)->toBinary())
+            ->setParameter('id', Uuid::fromString($id))
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -76,7 +76,7 @@ class HabitRepository extends EntityRepository
             ->select('h')
             ->where('h.user = :user')
             ->andWhere('h.state = :state')
-            ->setParameter('user', $user->getId()->toBinary())
+            ->setParameter('user', $user->getId())
             ->setParameter('state', $state->getValue())
             ->getQuery()
             ->getResult();
@@ -87,7 +87,7 @@ class HabitRepository extends EntityRepository
         return $this->createQueryBuilder('h')
             ->delete()
             ->where('h.id = :id')
-            ->setParameter('id', $habit->getId()->toBinary())
+            ->setParameter('id', $habit->getId())
             ->getQuery()
             ->execute();
     }
