@@ -35,3 +35,22 @@ jobs:
           file: ./.docker/nginx/Dockerfile
           push: true
           tags: bifidokk/habit-nginx:latest
+
+      - name: Restart Docker compose with fresh images
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script_stop: true
+          script: |
+            cd /var/www/habit
+            git pull
+            docker compose --file ./.docker/docker-compose.yml down
+            docker volume rm habit_app
+            docker volume rm habit_redis_data
+            docker compose --file ./.docker/docker-compose.yml pull
+            docker compose --file ./.docker/docker-compose.yml --env-file ./.docker/.env.prod up -d
+            docker exec habit_php bin/console cache:clear
+            docker exec habit_php bin/console cache:warmup
+            docker exec habit_php bin/console doctrine:migrations:migrate --no-interaction
