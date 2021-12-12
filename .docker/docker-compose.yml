@@ -23,6 +23,7 @@ services:
       - db
     volumes:
       - habit_app:/var/www/habit
+      - ./logs/app:/var/www/habit/var/log
 
   nginx:
     container_name: habit_nginx
