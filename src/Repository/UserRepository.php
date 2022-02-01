@@ -30,6 +30,6 @@ class UserRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $em->persist($user);
-        $em->flush($user);
+        $em->flush();
     }
 }

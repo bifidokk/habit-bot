@@ -96,6 +96,6 @@ class HabitRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $em->persist($habit);
-        $em->flush($habit);
+        $em->flush();
     }
 }
