@@ -36,9 +36,7 @@ class WebhookController
         $this->token = $token;
     }
 
-    /**
-     * @Route("/webhook/{token}")
-     */
+    #[Route('/webhook/{token}')]
     public function webhook(Request $request): JsonResponse
     {
         $fetcher = new WebhookFetcher(new BotApiNormalizer());
@@ -53,9 +51,7 @@ class WebhookController
         return new JsonResponse();
     }
 
-    /**
-     * @Route("/add-webhook")
-     */
+    #[Route('/add-webhook')]
     public function addWebhook(): JsonResponse
     {
         $url = sprintf(

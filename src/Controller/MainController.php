@@ -9,9 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController
 {
-    /**
-     * @Route("/")
-     */
+    #[Route('/')]
     public function index(): Response
     {
         return new Response(
