@@ -17,22 +17,11 @@ class MainMenuCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'main_menu';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private MainMenuKeyboard $mainMenuKeyboard;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        MainMenuKeyboard $mainMenuKeyboard,
-        TranslatorInterface $translator
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->mainMenuKeyboard = $mainMenuKeyboard;
-        $this->translator = $translator;
-    }
+        private BotApiComplete $bot,
+        private MainMenuKeyboard $mainMenuKeyboard,
+        private TranslatorInterface $translator,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

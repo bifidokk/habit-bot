@@ -22,25 +22,12 @@ class DescriptionFormCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_description_form';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private InputHandler $inputHandler;
-    private HabitService $habitService;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        InputHandler $inputHandler,
-        HabitService $habitService,
-        TranslatorInterface $translator
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->inputHandler = $inputHandler;
-        $this->habitService = $habitService;
-        $this->translator = $translator;
-    }
+        private BotApiComplete $bot,
+        private InputHandler $inputHandler,
+        private HabitService $habitService,
+        private TranslatorInterface $translator,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

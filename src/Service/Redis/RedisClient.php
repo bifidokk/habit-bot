@@ -6,12 +6,7 @@ namespace App\Service\Redis;
 
 class RedisClient implements RedisClientInterface
 {
-    private \Redis $redis;
-
-    public function __construct(\Redis $redis)
-    {
-        $this->redis = $redis;
-    }
+    public function __construct(private \Redis $redis) {}
 
     /**
      * @param mixed $value

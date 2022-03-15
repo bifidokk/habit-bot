@@ -13,16 +13,10 @@ class RemindService
 {
     private const ALL_DAYS_MARKED_INT = 127;
 
-    private HabitRepository $habitRepository;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        HabitRepository $habitRepository,
-        TranslatorInterface $translator
-    ) {
-        $this->habitRepository = $habitRepository;
-        $this->translator = $translator;
-    }
+        private HabitRepository $habitRepository,
+        private TranslatorInterface $translator,
+    ) {}
 
     public function toggleDay(Habit $habit, int $dayNumber): void
     {

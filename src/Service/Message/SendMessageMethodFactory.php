@@ -11,16 +11,10 @@ use TgBotApi\BotApiBase\Method\SendMessageMethod;
 
 class SendMessageMethodFactory
 {
-    private TranslatorInterface $translator;
-    private HabitInlineKeyboard $habitInlineKeyboard;
-
     public function __construct(
-        TranslatorInterface $translator,
-        HabitInlineKeyboard $habitInlineKeyboard
-    ) {
-        $this->translator = $translator;
-        $this->habitInlineKeyboard = $habitInlineKeyboard;
-    }
+        private TranslatorInterface $translator,
+        private HabitInlineKeyboard $habitInlineKeyboard,
+    ) {}
 
     public function createHabitMenuMethod(int $chatId, Habit $habit): SendMessageMethod
     {

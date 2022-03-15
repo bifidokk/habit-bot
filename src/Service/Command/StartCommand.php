@@ -18,25 +18,12 @@ class StartCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'start';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private InputHandler $inputHandler;
-    private TranslatorInterface $translator;
-    private MainMenuKeyboard $mainMenuKeyboard;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        InputHandler $inputHandler,
-        TranslatorInterface $translator,
-        MainMenuKeyboard $mainMenuKeyboard
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->inputHandler = $inputHandler;
-        $this->translator = $translator;
-        $this->mainMenuKeyboard = $mainMenuKeyboard;
-    }
+        private BotApiComplete $bot,
+        private InputHandler $inputHandler,
+        private TranslatorInterface $translator,
+        private MainMenuKeyboard $mainMenuKeyboard,
+    ) {}
 
     public function getName(): string
     {

@@ -20,22 +20,11 @@ class LanguageFormCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'settings_language_form';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private TranslatorInterface $translator;
-    private UserLanguageInlineKeyboard $userLanguageInlineKeyboard;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        TranslatorInterface $translator,
-        UserLanguageInlineKeyboard $userLanguageInlineKeyboard
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->translator = $translator;
-        $this->userLanguageInlineKeyboard = $userLanguageInlineKeyboard;
-    }
+        private BotApiComplete $bot,
+        private TranslatorInterface $translator,
+        private UserLanguageInlineKeyboard $userLanguageInlineKeyboard,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

@@ -15,14 +15,10 @@ use TgBotApi\BotApiBase\WebhookFetcher;
 
 class LocaleSubscriber implements EventSubscriberInterface
 {
-    private string $defaultLocale;
-    private UserService $userService;
-
-    public function __construct(UserService $userService, string $defaultLocale = 'en')
-    {
-        $this->defaultLocale = $defaultLocale;
-        $this->userService = $userService;
-    }
+    public function __construct(
+        private  UserService $userService,
+        private string $defaultLocale = 'en',
+    ) {}
 
     public function onKernelRequest(RequestEvent $event): void
     {

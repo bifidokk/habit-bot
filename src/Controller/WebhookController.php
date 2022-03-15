@@ -16,25 +16,13 @@ use TgBotApi\BotApiBase\WebhookFetcher;
 
 class WebhookController
 {
-    private BotApiComplete $bot;
-    private WebhookService $webhookService;
-    private LoggerInterface $logger;
-    private string $baseUrl;
-    private string $token;
-
     public function __construct(
-        BotApiComplete $bot,
-        WebhookService $webhookService,
-        LoggerInterface $logger,
-        string $baseUrl,
-        string $token
-    ) {
-        $this->bot = $bot;
-        $this->webhookService = $webhookService;
-        $this->logger = $logger;
-        $this->baseUrl = $baseUrl;
-        $this->token = $token;
-    }
+        private BotApiComplete $bot,
+        private WebhookService $webhookService,
+        private LoggerInterface $logger,
+        private string $baseUrl,
+        private string $token
+    ) {}
 
     #[Route('/webhook/{token}')]
     public function webhook(Request $request): JsonResponse

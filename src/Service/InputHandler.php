@@ -11,12 +11,7 @@ class InputHandler
 {
     private const WAIT_FOR_INPUT_KEY = 'wait_for_input:%s';
 
-    private RedisClient $redisClient;
-
-    public function __construct(RedisClient $redisClient)
-    {
-        $this->redisClient = $redisClient;
-    }
+    public function __construct(private RedisClient $redisClient) {}
 
     public function waitForInput(User $user, string $callback): void
     {

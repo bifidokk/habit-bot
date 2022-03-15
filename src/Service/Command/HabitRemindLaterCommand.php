@@ -21,28 +21,13 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
 {
     public const COMMAND_NAME = 'habit_remind_later';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private HabitService $habitService;
-    private TranslatorInterface $translator;
-    private Animation $animation;
-    private RemindLaterService $remindLaterService;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        HabitService $habitService,
-        TranslatorInterface $translator,
-        Animation $animation,
-        RemindLaterService $remindLaterService
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->habitService = $habitService;
-        $this->translator = $translator;
-        $this->animation = $animation;
-        $this->remindLaterService = $remindLaterService;
-    }
+        private BotApiComplete $bot,
+        private HabitService $habitService,
+        private TranslatorInterface $translator,
+        private Animation $animation,
+        private RemindLaterService $remindLaterService,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

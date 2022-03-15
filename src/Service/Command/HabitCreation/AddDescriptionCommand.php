@@ -14,7 +14,6 @@ use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\InputHandler;
 use App\Service\Message\SendMessageMethodFactory;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
@@ -26,31 +25,14 @@ class AddDescriptionCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_title';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private HabitService $habitService;
-    private ValidatorInterface $validator;
-    private InputHandler $inputHandler;
-    private SendMessageMethodFactory $sendMessageMethodFactory;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        HabitService $habitService,
-        ValidatorInterface $validator,
-        InputHandler $inputHandler,
-        SendMessageMethodFactory $sendMessageMethodFactory,
-        TranslatorInterface $translator
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->habitService = $habitService;
-        $this->validator = $validator;
-        $this->inputHandler = $inputHandler;
-        $this->sendMessageMethodFactory = $sendMessageMethodFactory;
-        $this->translator = $translator;
-    }
+        private BotApiComplete $bot,
+        private HabitService $habitService,
+        private ValidatorInterface $validator,
+        private InputHandler $inputHandler,
+        private SendMessageMethodFactory $sendMessageMethodFactory,
+        private TranslatorInterface $translator,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

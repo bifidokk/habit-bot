@@ -23,25 +23,12 @@ class PreviewCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_preview';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private HabitService $habitService;
-    private HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard;
-    private SendMessageMethodFactory $sendMessageMethodFactory;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        HabitService $habitService,
-        HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard,
-        SendMessageMethodFactory $sendMessageMethodFactory
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->habitService = $habitService;
-        $this->habitPreviewInlineKeyboard = $habitPreviewInlineKeyboard;
-        $this->sendMessageMethodFactory = $sendMessageMethodFactory;
-    }
+        private BotApiComplete $bot,
+        private HabitService $habitService,
+        private HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard,
+        private SendMessageMethodFactory $sendMessageMethodFactory,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

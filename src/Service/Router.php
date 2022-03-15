@@ -14,19 +14,10 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 
 class Router
 {
-    private ServiceLocator $commandLocator;
-    private InputHandler $inputHandler;
-    private LoggerInterface $logger;
-
     public function __construct(
-        ServiceLocator $commandLocator,
-        InputHandler $inputHandler,
-        LoggerInterface $logger
-    ) {
-        $this->commandLocator = $commandLocator;
-        $this->inputHandler = $inputHandler;
-        $this->logger = $logger;
-    }
+        private ServiceLocator $commandLocator,
+        private InputHandler $inputHandler,
+    ) {}
 
     public function run(UpdateType $update, User $user): void
     {

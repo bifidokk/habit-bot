@@ -26,28 +26,13 @@ class PublishCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_publish';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private HabitService $habitService;
-    private Router $router;
-    private Animation $animation;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        HabitService $habitService,
-        Router $router,
-        Animation $animation,
-        TranslatorInterface $translator
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->habitService = $habitService;
-        $this->router = $router;
-        $this->animation = $animation;
-        $this->translator = $translator;
-    }
+        private BotApiComplete $bot,
+        private HabitService $habitService,
+        private Router $router,
+        private Animation $animation,
+        private TranslatorInterface $translator,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

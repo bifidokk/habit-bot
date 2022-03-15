@@ -17,22 +17,11 @@ class HabitMenuCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_menu';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private HabitMenuInlineKeyboard $habitMenuInlineKeyboard;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        HabitMenuInlineKeyboard $habitMenuInlineKeyboard,
-        TranslatorInterface $translator
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->habitMenuInlineKeyboard = $habitMenuInlineKeyboard;
-        $this->translator = $translator;
-    }
+        private BotApiComplete $bot,
+        private HabitMenuInlineKeyboard $habitMenuInlineKeyboard,
+        private TranslatorInterface $translator,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

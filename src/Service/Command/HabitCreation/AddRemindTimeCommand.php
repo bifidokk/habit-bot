@@ -20,22 +20,11 @@ class AddRemindTimeCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'habit_creation_add_remind_time';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private HabitService $habitService;
-    private SendMessageMethodFactory $sendMessageMethodFactory;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        HabitService $habitService,
-        SendMessageMethodFactory $sendMessageMethodFactory
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->habitService = $habitService;
-        $this->sendMessageMethodFactory = $sendMessageMethodFactory;
-    }
+        private BotApiComplete $bot,
+        private HabitService $habitService,
+        private SendMessageMethodFactory $sendMessageMethodFactory,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

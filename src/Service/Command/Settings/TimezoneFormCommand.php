@@ -20,22 +20,11 @@ class TimezoneFormCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'settings_timezone_form';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private TranslatorInterface $translator;
-    private UserTimezoneInlineKeyboard $userTimezoneInlineKeyboard;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        TranslatorInterface $translator,
-        UserTimezoneInlineKeyboard $userTimezoneInlineKeyboard
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->translator = $translator;
-        $this->userTimezoneInlineKeyboard = $userTimezoneInlineKeyboard;
-    }
+        private BotApiComplete $bot,
+        private TranslatorInterface $translator,
+        private UserTimezoneInlineKeyboard $userTimezoneInlineKeyboard,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

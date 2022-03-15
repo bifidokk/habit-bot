@@ -12,19 +12,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class HabitService
 {
-    private HabitRepository $habitRepository;
-    private RemindService $remindService;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        HabitRepository $habitRepository,
-        RemindService $remindService,
-        TranslatorInterface $translator
-    ) {
-        $this->habitRepository = $habitRepository;
-        $this->remindService = $remindService;
-        $this->translator = $translator;
-    }
+        private HabitRepository $habitRepository,
+        private RemindService $remindService,
+        private TranslatorInterface $translator,
+    ) {}
 
     public function createHabit(User $user): Habit
     {

@@ -20,22 +20,11 @@ class SettingsCommand extends AbstractCommand implements CommandInterface
 {
     public const COMMAND_NAME = 'settings_menu';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private SettingsInlineKeyboard $settingsInlineKeyboard;
-    private TranslatorInterface $translator;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        SettingsInlineKeyboard $settingsInlineKeyboard,
-        TranslatorInterface $translator
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->settingsInlineKeyboard = $settingsInlineKeyboard;
-        $this->translator = $translator;
-    }
+        private BotApiComplete $bot,
+        private SettingsInlineKeyboard $settingsInlineKeyboard,
+        private TranslatorInterface $translator,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

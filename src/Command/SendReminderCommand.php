@@ -21,22 +21,12 @@ class SendReminderCommand extends Command
 
     protected static $defaultName = 'app:send-reminder';
 
-    private HabitRepository $habitRepository;
-    private BotApiComplete $bot;
-    private RemindService $remindService;
-    private HabitDoneKeyboard $habitDoneKeyboard;
-
     public function __construct(
-        HabitRepository $habitRepository,
-        BotApiComplete $bot,
-        RemindService $remindService,
-        HabitDoneKeyboard $habitDoneKeyboard
+        private HabitRepository $habitRepository,
+        private BotApiComplete $bot,
+        private RemindService $remindService,
+        private HabitDoneKeyboard $habitDoneKeyboard,
     ) {
-        $this->habitRepository = $habitRepository;
-        $this->bot = $bot;
-        $this->remindService = $remindService;
-        $this->habitDoneKeyboard = $habitDoneKeyboard;
-
         parent::__construct();
     }
 

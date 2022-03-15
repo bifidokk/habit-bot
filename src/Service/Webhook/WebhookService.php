@@ -11,22 +11,13 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 
 class WebhookService
 {
-    private string $token;
-    private LoggerInterface $logger;
-    private UserService $userService;
-    private Router $router;
 
     public function __construct(
-        string $token,
-        LoggerInterface $logger,
-        UserService $userService,
-        Router $router
-    ) {
-        $this->token = $token;
-        $this->logger = $logger;
-        $this->userService = $userService;
-        $this->router = $router;
-    }
+        private string $token,
+        private LoggerInterface $logger,
+        private UserService $userService,
+        private Router $router
+    ) {}
 
     public function isTokenValid(string $token): bool
     {

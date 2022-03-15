@@ -18,12 +18,7 @@ class HabitRemindDayInlineKeyboard
         'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
     ];
 
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
+    public function __construct(private TranslatorInterface $translator) {}
 
     public function generate(int $chosenWeekDays, string $habitId): InlineKeyboardMarkupType
     {

@@ -17,22 +17,11 @@ class HabitRemoveConfirmCommand extends AbstractCommand implements CommandInterf
 {
     public const COMMAND_NAME = 'habit_remove_confirm';
 
-    private BotApiComplete $bot;
-    private LoggerInterface $logger;
-    private HabitConfirmRemoveInlineKeyboard $habitConfirmRemoveInlineKeyboard;
-    private HabitService $habitService;
-
     public function __construct(
-        BotApiComplete $bot,
-        LoggerInterface $logger,
-        HabitConfirmRemoveInlineKeyboard $habitConfirmRemoveInlineKeyboard,
-        HabitService $habitService
-    ) {
-        $this->bot = $bot;
-        $this->logger = $logger;
-        $this->habitConfirmRemoveInlineKeyboard = $habitConfirmRemoveInlineKeyboard;
-        $this->habitService = $habitService;
-    }
+        private BotApiComplete $bot,
+        private HabitConfirmRemoveInlineKeyboard $habitConfirmRemoveInlineKeyboard,
+        private HabitService $habitService,
+    ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

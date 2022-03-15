@@ -8,12 +8,7 @@ use App\Entity\User;
 
 class TimezoneChangedEvent
 {
-    private User $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
+    public function __construct(private User $user) {}
 
     public function getUser(): User
     {
