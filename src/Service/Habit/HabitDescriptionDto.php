@@ -9,10 +9,8 @@ use TgBotApi\BotApiBase\Type\MessageType;
 
 class HabitDescriptionDto
 {
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
-     */
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     public string $description;
 
     public static function fromMessage(MessageType $message): HabitDescriptionDto

@@ -27,38 +27,33 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @Assert\Length(max=255)
      */
+    #[Assert\Length(max: 255)]
     private ?string $username = null;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private string $firstName = '';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @Assert\Length(max=255)
      */
+    #[Assert\Length(max: 255)]
     private ?string $lastName = null;
 
     /**
      * @ORM\Column(type="integer", unique=true)
-     *
-     * @Assert\NotBlank()
      */
+    #[Assert\NotBlank]
     private int $telegramId = 0;
 
     /**
      * @ORM\Column(type="string", length=3, nullable=true)
-     *
-     * @Assert\Length(max=3)
      */
+    #[Assert\Length(max: 3)]
     private ?string $languageCode = null;
 
     /**
