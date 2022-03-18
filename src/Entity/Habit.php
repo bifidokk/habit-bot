@@ -4,60 +4,42 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\HabitRepository;
 use App\Service\Habit\HabitState;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\HabitRepository")
- * @ORM\Table(indexes={
- *     @ORM\Index(columns={"next_remind_at"})
- * })
- */
+#[ORM\Entity(repositoryClass: HabitRepository::class)]
+#[ORM\Index(columns: ["next_remind_at"])]
 class Habit
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="habits")
-     */
+    #[ORM\ManyToOne(targetEntity: "User", inversedBy: "habits")]
     private ?User $user = null;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: "string")]
     private string $description = '';
 
-    /**
-     * @ORM\Column(type="habit_state", length=32, options={"default"="draft"})
-     */
+
+    #[ORM\Column(type: "habit_state", length: 32, options: ["default" => "draft"])]
     private HabitState $state;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
+    #[ORM\Column(type: "smallint")]
     private int $remindWeekDays = 0;
 
-    /**
-     * @ORM\Column(type="time_immutable", nullable=true)
-     */
+    #[ORM\Column(type: "time_immutable", nullable: true)]
     private ?\DateTimeImmutable $remindAt = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: "datetime_immutable", nullable: true)]
     private ?\DateTimeImmutable $nextRemindAt = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: "datetime_immutable")]
     private \DateTimeImmutable $createdAt;
 
     public function __construct()
