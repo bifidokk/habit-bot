@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Repository\HabitRepository;
 use App\Service\Habit\HabitState;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -41,10 +43,15 @@ class Habit
     #[ORM\Column(type: "datetime_immutable")]
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\OneToMany(mappedBy: "habit", targetEntity: Metric::class, cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OrderBy(["createdAt" => "DESC"])]
+    private Collection $metrics;
+
     public function __construct()
     {
         $this->state = HabitState::get(HabitState::DRAFT);
         $this->createdAt = new \DateTimeImmutable();
+        $this->metrics = new ArrayCollection();
     }
 
     public function getId(): ?Uuid

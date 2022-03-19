@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Service\Command;
 
 use App\Entity\User;
+use App\Event\Habit\HabitDoneEvent;
 use App\Service\Habit\HabitService;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\EditMessageReplyMarkupMethod;
@@ -25,6 +27,7 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
         private HabitService $habitService,
         private TranslatorInterface $translator,
         private Animation $animation,
+        private EventDispatcherInterface $eventDispatcher,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
@@ -40,6 +43,8 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
         if ($habit->getUser() !== $user) {
             return;
         }
+
+        $this->eventDispatcher->dispatch(new HabitDoneEvent($habit));
 
         $this->bot->editMessageReplyMarkup(
             EditMessageReplyMarkupMethod::create(

@@ -4,3 +4,4 @@ elao_enum:
     doctrine:
         types:
             habit_state: App\Service\Habit\HabitState
+            metric_type: App\Service\Metric\MetricType

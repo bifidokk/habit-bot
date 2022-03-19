@@ -8,3 +8,8 @@ services:
         factory: [ '@doctrine.orm.entity_manager', getRepository ]
         arguments:
             - App\Entity\Habit
+
+    App\Repository\MetricRepository:
+        factory: [ '@doctrine.orm.entity_manager', getRepository ]
+        arguments:
+            - App\Entity\Metric
