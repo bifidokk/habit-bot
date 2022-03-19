@@ -49,7 +49,7 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
 
         try {
             $timezone = new \DateTimeZone($timezone);
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return;
         }
 

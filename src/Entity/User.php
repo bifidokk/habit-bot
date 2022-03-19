@@ -46,12 +46,9 @@ class User
     #[ORM\Column(type: "datetime_immutable")]
     private \DateTimeImmutable $createdAt;
 
-    /**
-     * @var Habit[]|ArrayCollection
-     */
     #[ORM\OneToMany(mappedBy: "user", targetEntity: Habit::class, cascade: ["persist", "remove"], orphanRemoval: true)]
     #[ORM\OrderBy(["createdAt" => "DESC"])]
-    private $habits;
+    private ArrayCollection $habits;
 
     #[ORM\Column(type: "string", length: 8)]
     private string $timezone = 'UTC';

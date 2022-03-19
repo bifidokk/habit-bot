@@ -38,7 +38,7 @@ class LocaleSubscriber implements EventSubscriberInterface
             } else {
                 $request->setLocale($this->defaultLocale);
             }
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             $request->setLocale($this->defaultLocale);
         }
     }

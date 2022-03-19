@@ -47,7 +47,7 @@ class AddRemindTimeCommand extends AbstractCommand implements CommandInterface
 
         try {
             $remindAt = new \DateTimeImmutable($remindAtString);
-        } catch (\Throwable $exception) {
+        } catch (\Throwable) {
             return;
         }
 

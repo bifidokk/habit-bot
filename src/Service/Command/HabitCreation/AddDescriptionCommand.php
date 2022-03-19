@@ -63,7 +63,7 @@ class AddDescriptionCommand extends AbstractCommand implements CommandInterface
 
             $habit->setDescription($habitDescription->description);
             $this->habitService->save($habit);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             $this->handleError($update->message, $this->translator->trans('command.error.common'));
 
             return;
