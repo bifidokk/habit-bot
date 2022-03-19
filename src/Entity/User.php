@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -11,67 +12,48 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use TgBotApi\BotApiBase\Type\UserType;
 
-/**
- * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: "users")]
 class User
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     private ?string $username = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     private string $firstName = '';
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Assert\Length(max: 255)]
     private ?string $lastName = null;
 
-    /**
-     * @ORM\Column(type="integer", unique=true)
-     */
+    #[ORM\Column(type: "integer", unique: true)]
     #[Assert\NotBlank]
     private int $telegramId = 0;
 
-    /**
-     * @ORM\Column(type="string", length=3, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 3, nullable: true)]
     #[Assert\Length(max: 3)]
     private ?string $languageCode = null;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
+    #[ORM\Column(type: "datetime_immutable")]
     private \DateTimeImmutable $createdAt;
 
     /**
      * @var Habit[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Habit", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"createdAt"="DESC"})
      */
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: Habit::class, cascade: ["persist", "remove"], orphanRemoval: true)]
+    #[ORM\OrderBy(["createdAt" => "DESC"])]
     private $habits;
 
-    /**
-     * @ORM\Column(type="string", length=8)
-     */
+    #[ORM\Column(type: "string", length: 8)]
     private string $timezone = 'UTC';
 
     public function __construct()

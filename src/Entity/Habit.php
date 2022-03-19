@@ -20,12 +20,11 @@ class Habit
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(targetEntity: "User", inversedBy: "habits")]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "habits")]
     private ?User $user = null;
 
     #[ORM\Column(type: "string")]
     private string $description = '';
-
 
     #[ORM\Column(type: "habit_state", length: 32, options: ["default" => "draft"])]
     private HabitState $state;
