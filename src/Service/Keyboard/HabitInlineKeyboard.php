@@ -48,18 +48,11 @@ class HabitInlineKeyboard
 
     private function isStepButtonMarked(string $step, Habit $habit): bool
     {
-        switch ($step) {
-            case CommandCallbackEnum::HABIT_DESCRIPTION_FORM:
-               return $habit->getDescription() !== '';
-
-            case CommandCallbackEnum::HABIT_REMIND_DAY_FORM:
-                return (int) $habit->getRemindWeekDays() > 0;
-
-            case CommandCallbackEnum::HABIT_REMIND_TIME_FORM:
-                return $habit->getRemindAt() instanceof \DateTimeImmutable;
-
-            default:
-                return false;
-        }
+        return match ($step) {
+            CommandCallbackEnum::HABIT_DESCRIPTION_FORM => $habit->getDescription() !== '',
+            CommandCallbackEnum::HABIT_REMIND_DAY_FORM => $habit->getRemindWeekDays() > 0,
+            CommandCallbackEnum::HABIT_REMIND_TIME_FORM => $habit->getRemindAt() instanceof \DateTimeImmutable,
+            default => false,
+        };
     }
 }
