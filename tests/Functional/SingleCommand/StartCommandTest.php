@@ -14,11 +14,6 @@ use TgBotApi\BotApiBase\Method\SendMessageMethod;
 
 class StartCommandTest extends Command
 {
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-    }
-
     public function testStartCommand(): void
     {
         $translator = new NoTranslator();

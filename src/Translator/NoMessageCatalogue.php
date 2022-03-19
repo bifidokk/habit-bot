@@ -9,17 +9,17 @@ use Symfony\Component\Translation\MessageCatalogueInterface;
 
 class NoMessageCatalogue implements MessageCatalogueInterface
 {
-    public function getLocale()
+    public function getLocale(): string
     {
         return '';
     }
 
-    public function getDomains()
+    public function getDomains(): array
     {
         return [];
     }
 
-    public function all(string $domain = null)
+    public function all(string $domain = null): array
     {
         return [];
     }
