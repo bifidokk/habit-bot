@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
@@ -48,7 +49,7 @@ class User
 
     #[ORM\OneToMany(mappedBy: "user", targetEntity: Habit::class, cascade: ["persist", "remove"], orphanRemoval: true)]
     #[ORM\OrderBy(["createdAt" => "DESC"])]
-    private ArrayCollection $habits;
+    private Collection $habits;
 
     #[ORM\Column(type: "string", length: 8)]
     private string $timezone = 'UTC';
