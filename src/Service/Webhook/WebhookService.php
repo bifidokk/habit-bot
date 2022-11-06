@@ -8,6 +8,7 @@ use App\Service\Router;
 use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\Type\UpdateType;
+use function Sentry\captureException;
 
 class WebhookService
 {
@@ -40,6 +41,7 @@ class WebhookService
             $this->router->run($update, $user);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
+            captureException($e);
         }
     }
 }
