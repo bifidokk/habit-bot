@@ -13,6 +13,7 @@ use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\BotApiNormalizer;
 use TgBotApi\BotApiBase\Method\SetWebhookMethod;
 use TgBotApi\BotApiBase\WebhookFetcher;
+use function Sentry\captureException;
 
 class WebhookController
 {
@@ -34,6 +35,7 @@ class WebhookController
             $this->webhookService->handleMessage($update);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
+            captureException($e);
         }
 
         return new JsonResponse();
