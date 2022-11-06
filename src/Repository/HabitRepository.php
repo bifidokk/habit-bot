@@ -82,14 +82,11 @@ class HabitRepository extends EntityRepository
             ->getResult();
     }
 
-    public function delete(Habit $habit): int
+    public function delete(Habit $habit): void
     {
-        return $this->createQueryBuilder('h')
-            ->delete()
-            ->where('h.id = :id')
-            ->setParameter('id', $habit->getId())
-            ->getQuery()
-            ->execute();
+        $em = $this->getEntityManager();
+        $em->remove($habit);
+        $em->flush();
     }
 
     public function save(Habit $habit): void
