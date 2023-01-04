@@ -28,7 +28,7 @@ class LocaleSubscriber implements EventSubscriberInterface
 
         try {
             $update = $fetcher->fetch($request->getContent());
-            $userType = $update->message ? $update->message->from : $update->callbackQuery->from;
+            $userType = $update->message ? $update->message->from : $update->callbackQuery?->from;
             $user = $this->userService->getUser($update);
 
             if ($user instanceof User) {
