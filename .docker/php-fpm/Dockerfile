@@ -4,33 +4,33 @@ RUN apk add --no-cache \
     nano\
     coreutils \
     gettext \
-    php8-fpm \
-    php8-ctype \
-    php8-curl \
-    php8-dom \
-    php8-gd \
-    php8-iconv \
-    php8-json \
-    php8-intl \
-    php8-fileinfo\
-    php8-mbstring \
-    php8-opcache \
-    php8-openssl \
-    php8-pdo \
-    php8-pdo_pgsql \
-    php8-pgsql \
-    php8-xml \
-    php8-xsl \
-    php8-zlib \
-    php8-phar \
-    php8-tokenizer \
-    php8-session \
-    php8-simplexml \
-    php8-zip \
-    php8-xmlwriter \
-    php8-sodium \
-    php8-pecl-apcu \
-    php8-redis \
+    php81-fpm \
+    php81-ctype \
+    php81-curl \
+    php81-dom \
+    php81-gd \
+    php81-iconv \
+    php81-json \
+    php81-intl \
+    php81-fileinfo\
+    php81-mbstring \
+    php81-opcache \
+    php81-openssl \
+    php81-pdo \
+    php81-pdo_pgsql \
+    php81-pgsql \
+    php81-xml \
+    php81-xsl \
+    php81-zlib \
+    php81-phar \
+    php81-tokenizer \
+    php81-session \
+    php81-simplexml \
+    php81-zip \
+    php81-xmlwriter \
+    php81-sodium \
+    php81-pecl-apcu \
+    php81-redis \
     make \
     curl
 
@@ -41,12 +41,12 @@ RUN set -x ; \
 RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
     && php8 composer-setup.php && rm composer-setup.php* \
     && chmod +x composer.phar && mv composer.phar /usr/bin/composer \
-    && ln -s /usr/bin/php8 /usr/local/bin/php
+    && ln -s /usr/bin/php81 /usr/local/bin/php
 
-COPY ./.docker/php-fpm/symfony.ini /etc/php8/conf.d/
-COPY ./.docker/php-fpm/symfony.ini /etc/php8/cli/conf.d/
+COPY ./.docker/php-fpm/symfony.ini /etc/php81/conf.d/
+COPY ./.docker/php-fpm/symfony.ini /etc/php81/cli/conf.d/
 
-COPY ./.docker/php-fpm/symfony.pool.conf /etc/php8/php-fpm.d/
+COPY ./.docker/php-fpm/symfony.pool.conf /etc/php81/php-fpm.d/
 
 USER www-data
 WORKDIR '/var/www/habit'
@@ -57,6 +57,6 @@ ENV APP_ENV=prod
 
 RUN composer install --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader --no-scripts
 
-CMD ["php-fpm8", "-F"]
+CMD ["php-fpm81", "-F"]
 
 EXPOSE 9001
