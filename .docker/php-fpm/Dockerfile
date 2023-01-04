@@ -39,7 +39,7 @@ RUN set -x ; \
   adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
 
 RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
-    && php8 composer-setup.php && rm composer-setup.php* \
+    && php81 composer-setup.php && rm composer-setup.php* \
     && chmod +x composer.phar && mv composer.phar /usr/bin/composer \
     && ln -s /usr/bin/php81 /usr/local/bin/php
 
