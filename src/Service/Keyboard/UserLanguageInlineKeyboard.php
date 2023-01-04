@@ -11,27 +11,30 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class UserLanguageInlineKeyboard
 {
-    private const LANGUAGES = [
-        'en' => EmojiCode::ENGLISH,
-        'ru' => EmojiCode::RUSSIAN,
-    ];
-
     public function __construct(private TranslatorInterface $translator) {}
 
     public function generate(): InlineKeyboardMarkupType
     {
         $languages = [];
 
-        foreach (self::LANGUAGES as $language => $icon) {
+        foreach ($this->getLanguageIcons() as $language => $icon) {
             $label = $this->translator->trans(sprintf('settings_menu.languages.%s', $language));
             $languages[] = [InlineKeyboardButtonType::create(
                 sprintf('%s%s', $icon, $label),
                 [
-                    'callbackData' => sprintf('%s?lang=%s', CommandCallbackEnum::SET_LANGUAGE, $language),
+                    'callbackData' => sprintf('%s?lang=%s', CommandCallbackEnum::SetLanguage->value, $language),
                 ]
             )];
         }
 
         return InlineKeyboardMarkupType::create($languages);
+    }
+
+    private function getLanguageIcons(): array
+    {
+        return [
+            'en' => EmojiCode::English->value,
+            'ru' => EmojiCode::Russian->value,
+        ];
     }
 }

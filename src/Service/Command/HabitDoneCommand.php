@@ -33,7 +33,7 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_DONE;
+            && $commandCallback->command === CommandCallbackEnum::HabitDone;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -66,7 +66,7 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
 
         $this->bot->sendAnimation(SendAnimationMethod::create(
             $update->callbackQuery->message->chat->id,
-            $this->animation->getByType(AnimationType::get(AnimationType::HABIT_DONE))
+            $this->animation->getByType(AnimationType::HabitDone)
         ));
     }
 }

@@ -23,7 +23,7 @@ class Metric
     #[ORM\ManyToOne(targetEntity: Habit::class, inversedBy: "metrics")]
     private ?Habit $habit = null;
 
-    #[ORM\Column(type: "metric_type", length: 32)]
+    #[ORM\Column(length: 32, enumType: MetricType::class)]
     private ?MetricType $type = null;
 
     #[ORM\Column(type: "datetime_immutable")]

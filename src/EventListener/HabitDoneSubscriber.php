@@ -26,7 +26,7 @@ class HabitDoneSubscriber implements EventSubscriberInterface
     {
         $habit = $habitDoneEvent->getHabit();
         $this->metricService->addHabitMetric(
-            MetricType::get(MetricType::HABIT_DONE),
+            MetricType::HabitDone,
             new \DateTimeImmutable(),
             $habit
         );

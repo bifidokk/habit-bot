@@ -22,12 +22,12 @@ class HabitViewInlineKeyboard
             $buttons[] =
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s %s',
-                    EmojiCode::BACK,
+                    EmojiCode::Back->value,
                     $this->translator->trans('previous')
                 ), [
                     'callbackData' => sprintf(
                         '%s?page=%s',
-                        CommandCallbackEnum::HABIT_LIST,
+                        CommandCallbackEnum::HabitList->value,
                         $page - 1
                     ),
                 ]);
@@ -36,12 +36,12 @@ class HabitViewInlineKeyboard
         $buttons[] =
             InlineKeyboardButtonType::create(sprintf(
                 '️%s %s',
-                EmojiCode::REMOVE,
+                EmojiCode::Remove->value,
                 $this->translator->trans('remove')
             ), [
                 'callbackData' => sprintf(
                     '%s?id=%s',
-                    CommandCallbackEnum::HABIT_REMOVE_CONFIRM,
+                    CommandCallbackEnum::HabitRemoveConfirm->value,
                     $habit->getId()
                 ),
             ]);
@@ -50,12 +50,12 @@ class HabitViewInlineKeyboard
             $buttons[] =
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s %s',
-                    EmojiCode::NEXT,
+                    EmojiCode::Next->value,
                     $this->translator->trans('next')
                 ), [
                     'callbackData' => sprintf(
                         '%s?page=%s',
-                        CommandCallbackEnum::HABIT_LIST,
+                        CommandCallbackEnum::HabitList->value,
                         $page + 1
                     ),
                 ]);

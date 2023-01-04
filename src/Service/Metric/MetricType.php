@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Metric;
 
-use Elao\Enum\AutoDiscoveredValuesTrait;
-use Elao\Enum\Enum;
-
-class MetricType extends Enum
+enum MetricType: string
 {
-    use AutoDiscoveredValuesTrait;
-
-    public const HABIT_NOTIFICATION_SENT = 'habit_notification_sent';
-    public const HABIT_DONE = 'habit_done';
-    public const HABIT_REMIND_LATER = 'habit_remind_later';
+    case HabitNotificationSent = 'habit_notification_sent';
+    case HabitDone = 'habit_done';
+    case HabitRemindLater = 'habit_remind_later';
 }

@@ -32,14 +32,14 @@ class RemindTimeFormCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_REMIND_TIME_FORM;
+            && $commandCallback->command === CommandCallbackEnum::HabitRemindTimeForm;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $habit = $this->habitService->getHabitByIdWithState(
             $commandCallback->parameters['id'],
-            HabitState::get(HabitState::DRAFT)
+            HabitState::Draft
         );
 
         $this->bot->sendMessage(

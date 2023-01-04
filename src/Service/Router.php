@@ -44,7 +44,7 @@ class Router
         }
 
         usort($commands, function ($a, $b) {
-            return $b->getPriority()->getValue() <=> $a->getPriority()->getValue();
+            return $b->getPriority()->value <=> $a->getPriority()->value;
         });
 
         foreach ($commands as $command) {
@@ -79,7 +79,7 @@ class Router
             return null;
         }
 
-        $commandCallbackEnum = CommandCallbackEnum::get($callbackData['path']);
+        $commandCallbackEnum = CommandCallbackEnum::from($callbackData['path']);
         $commandCallback = new CommandCallback();
         $commandCallback->command = $commandCallbackEnum;
 

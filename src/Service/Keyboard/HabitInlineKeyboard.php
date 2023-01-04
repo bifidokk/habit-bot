@@ -19,10 +19,10 @@ class HabitInlineKeyboard
         $steps = [];
 
         foreach ($this->getSteps() as $step => $description) {
-            $icon = $this->isStepButtonMarked($step, $habit) ? EmojiCode::MARKED : EmojiCode::UNMARKED;
+            $icon = $this->isStepButtonMarked($step, $habit) ? EmojiCode::Marked->value : EmojiCode::Unmarked->value;
 
-            if ($step === CommandCallbackEnum::HABIT_PREVIEW) {
-                $icon = EmojiCode::PREVIEW;
+            if ($step === CommandCallbackEnum::HabitPreview->value) {
+                $icon = EmojiCode::Preview->value;
             }
 
             $steps[] = [InlineKeyboardButtonType::create(
@@ -39,19 +39,19 @@ class HabitInlineKeyboard
     public function getSteps(): array
     {
         return [
-            CommandCallbackEnum::HABIT_DESCRIPTION_FORM => $this->translator->trans('habit.creation.add_description'),
-            CommandCallbackEnum::HABIT_REMIND_DAY_FORM => $this->translator->trans('habit.creation.add_remind_day'),
-            CommandCallbackEnum::HABIT_REMIND_TIME_FORM => $this->translator->trans('habit.creation.add_remind_time'),
-            CommandCallbackEnum::HABIT_PREVIEW => $this->translator->trans('preview'),
+            CommandCallbackEnum::HabitDescriptionForm->value => $this->translator->trans('habit.creation.add_description'),
+            CommandCallbackEnum::HabitRemindDayForm->value => $this->translator->trans('habit.creation.add_remind_day'),
+            CommandCallbackEnum::HabitRemindTimeForm->value => $this->translator->trans('habit.creation.add_remind_time'),
+            CommandCallbackEnum::HabitPreview->value => $this->translator->trans('preview'),
         ];
     }
 
     private function isStepButtonMarked(string $step, Habit $habit): bool
     {
         return match ($step) {
-            CommandCallbackEnum::HABIT_DESCRIPTION_FORM => $habit->getDescription() !== '',
-            CommandCallbackEnum::HABIT_REMIND_DAY_FORM => $habit->getRemindWeekDays() > 0,
-            CommandCallbackEnum::HABIT_REMIND_TIME_FORM => $habit->getRemindAt() instanceof \DateTimeImmutable,
+            CommandCallbackEnum::HabitDescriptionForm->value => $habit->getDescription() !== '',
+            CommandCallbackEnum::HabitRemindDayForm->value => $habit->getRemindWeekDays() > 0,
+            CommandCallbackEnum::HabitRemindTimeForm->value => $habit->getRemindAt() instanceof \DateTimeImmutable,
             default => false,
         };
     }

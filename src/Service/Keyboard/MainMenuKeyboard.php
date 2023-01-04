@@ -18,12 +18,12 @@ class MainMenuKeyboard
             [
                 KeyboardButtonType::create(sprintf(
                     '%s %s',
-                    EmojiCode::ALARM,
+                    EmojiCode::Alarm->value,
                     $this->translator->trans('habits', [], null, $language)
                 )),
                 KeyboardButtonType::create(sprintf(
                     '%s %s',
-                    EmojiCode::SETTINGS,
+                    EmojiCode::Settings->value,
                     $this->translator->trans('settings', [], null, $language)
                 )),
             ],

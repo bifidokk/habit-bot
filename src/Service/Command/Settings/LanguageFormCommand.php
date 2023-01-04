@@ -29,7 +29,7 @@ class LanguageFormCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::SETTINGS_LANGUAGE_FORM;
+            && $commandCallback->command === CommandCallbackEnum::SettingsLanguageForm;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void

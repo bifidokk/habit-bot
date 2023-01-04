@@ -32,7 +32,7 @@ class StartCommand implements CommandInterface
 
     public function getPriority(): CommandPriority
     {
-        return CommandPriority::get(CommandPriority::HIGH);
+        return CommandPriority::High;
     }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

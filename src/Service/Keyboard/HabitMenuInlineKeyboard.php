@@ -19,10 +19,10 @@ class HabitMenuInlineKeyboard
             [InlineKeyboardButtonType::create(
                 sprintf(
                     '%s%s',
-                    EmojiCode::PLUS,
+                    EmojiCode::Plus->value,
                     $this->translator->trans('habit.menu.add_new_habit')
                 ), [
-                    'callbackData' => CommandCallbackEnum::HABIT_FORM,
+                    'callbackData' => CommandCallbackEnum::HabitForm->value,
                 ]
             )],
         ];
@@ -31,10 +31,10 @@ class HabitMenuInlineKeyboard
             $buttons[] = [InlineKeyboardButtonType::create(
                 sprintf(
                     '%s%s',
-                    EmojiCode::LIST,
+                    EmojiCode::List->value,
                     $this->translator->trans('habit.menu.my_habits')
                 ), [
-                    'callbackData' => CommandCallbackEnum::HABIT_LIST,
+                    'callbackData' => CommandCallbackEnum::HabitList->value,
                 ]
             )];
         }

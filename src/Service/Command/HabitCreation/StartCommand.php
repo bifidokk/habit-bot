@@ -28,7 +28,7 @@ class StartCommand extends AbstractCommand implements CommandInterface
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
-        return $commandCallback !== null && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_FORM;
+        return $commandCallback !== null && $commandCallback->command === CommandCallbackEnum::HabitForm;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -38,7 +38,7 @@ class StartCommand extends AbstractCommand implements CommandInterface
         if ($commandCallback !== null && isset($commandCallback->parameters['id'])) {
             $habit = $this->habitService->getHabitByIdWithState(
                 $commandCallback->parameters['id'],
-                HabitState::get(HabitState::DRAFT)
+                HabitState::Draft
             );
         }
 

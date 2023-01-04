@@ -29,7 +29,7 @@ class HabitRepository extends EntityRepository
             ->where('h.user = :user')
             ->andWhere('h.state = :state')
             ->setParameter('user', $user->getId())
-            ->setParameter('state', $state->getValue())
+            ->setParameter('state', $state->value)
             ->getQuery()
             ->execute();
     }
@@ -40,7 +40,7 @@ class HabitRepository extends EntityRepository
             ->where('h.id = :id')
             ->andWhere('h.state = :state')
             ->setParameter('id', Uuid::fromString($id))
-            ->setParameter('state', $state->getValue())
+            ->setParameter('state', $state->value)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -70,14 +70,14 @@ class HabitRepository extends EntityRepository
 
     public function findByUser(User $user): array
     {
-        $state = HabitState::get(HabitState::PUBLISHED);
+        $state = HabitState::Published;
 
         return $this->createQueryBuilder('h')
             ->select('h')
             ->where('h.user = :user')
             ->andWhere('h.state = :state')
             ->setParameter('user', $user->getId())
-            ->setParameter('state', $state->getValue())
+            ->setParameter('state', $state->value)
             ->getQuery()
             ->getResult();
     }

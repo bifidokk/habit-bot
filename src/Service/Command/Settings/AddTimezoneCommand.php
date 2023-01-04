@@ -36,7 +36,7 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::SET_TIMEZONE;
+            && $commandCallback->command === CommandCallbackEnum::SetTimezone;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -66,7 +66,7 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
 
         $this->bot->sendAnimation(SendAnimationMethod::create(
             $update->callbackQuery->message->chat->id,
-            $this->animation->getByType(AnimationType::get(AnimationType::TIMEZONE)),
+            $this->animation->getByType(AnimationType::Timezone),
         ));
     }
 }

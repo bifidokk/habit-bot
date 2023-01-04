@@ -15,6 +15,6 @@ abstract class AbstractCommand
 
     public function getPriority(): CommandPriority
     {
-        return CommandPriority::get(CommandPriority::LOW);
+        return CommandPriority::Low;
     }
 }

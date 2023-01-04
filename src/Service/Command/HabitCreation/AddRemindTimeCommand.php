@@ -29,7 +29,7 @@ class AddRemindTimeCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::SET_HABIT_REMIND_TIME;
+            && $commandCallback->command === CommandCallbackEnum::SetHabitRemindTime;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -40,7 +40,7 @@ class AddRemindTimeCommand extends AbstractCommand implements CommandInterface
 
         $habit = $this->habitService->getHabitByIdWithState(
             $commandCallback->parameters['id'],
-            HabitState::get(HabitState::DRAFT)
+            HabitState::Draft
         );
 
         $remindAtString = trim($commandCallback->parameters['time'] ?? null);

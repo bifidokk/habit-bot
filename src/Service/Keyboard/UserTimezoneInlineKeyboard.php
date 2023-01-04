@@ -29,7 +29,7 @@ class UserTimezoneInlineKeyboard
             $timezoneLabel = $timezone;
 
             if ($dateTimeZone->getName() === $timezone) {
-                $timezoneLabel = sprintf('%s%s', EmojiCode::MARKED, $timezone);
+                $timezoneLabel = sprintf('%s%s', EmojiCode::Marked->value, $timezone);
             }
 
             $buttons[$rowNumber][] = InlineKeyboardButtonType::create(
@@ -37,7 +37,7 @@ class UserTimezoneInlineKeyboard
                 [
                     'callbackData' => sprintf(
                         '%s?&tz=%s',
-                        CommandCallbackEnum::SET_TIMEZONE,
+                        CommandCallbackEnum::SetTimezone->value,
                         urlencode($timezone)
                     ),
                 ]

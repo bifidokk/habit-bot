@@ -37,7 +37,7 @@ class AddDescriptionCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::SET_HABIT_DESCRIPTION;
+            && $commandCallback->command === CommandCallbackEnum::SetHabitDescription;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -58,7 +58,7 @@ class AddDescriptionCommand extends AbstractCommand implements CommandInterface
         try {
             $habit = $this->habitService->getHabitByIdWithState(
                 (string) $commandCallback->parameters['id'],
-                HabitState::get(HabitState::DRAFT)
+                HabitState::Draft
             );
 
             $habit->setDescription($habitDescription->description);

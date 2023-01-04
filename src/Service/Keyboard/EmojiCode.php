@@ -4,28 +4,23 @@ declare(strict_types=1);
 
 namespace App\Service\Keyboard;
 
-use Elao\Enum\AutoDiscoveredValuesTrait;
-use Elao\Enum\Enum;
-
-class EmojiCode extends Enum
+enum EmojiCode: string
 {
-    use AutoDiscoveredValuesTrait;
-
-    public const ALARM = '⏰';
-    public const SETTINGS = '🛠️';
-    public const MARKED = '✅';
-    public const UNMARKED = '☑️';
-    public const PREVIEW = '👀️';
-    public const BACK = '⬅️';
-    public const NEXT = '➡️️';
-    public const PLUS = '➕️';
-    public const CLOCKS = '🕒';
-    public const WORLD = '🌎';
-    public const ENGLISH = '🇬🇧';
-    public const RUSSIAN = '🇷🇺';
-    public const LIST = '📋';
-    public const REMOVE = '🗑️';
-    public const DEVIL = '😈';
-    public const ANGEL = '😇';
-    public const BUSY = '😩';
+    case Alarm = '⏰';
+    case Settings = '🛠️';
+    case Marked = '✅';
+    case Unmarked = '☑️';
+    case Preview = '👀️';
+    case Back = '⬅️';
+    case Next = '➡️️';
+    case Plus = '➕️';
+    case Clocks = '🕒';
+    case World = '🌎';
+    case English = '🇬🇧';
+    case Russian = '🇷🇺';
+    case List = '📋';
+    case Remove = '🗑️';
+    case Devil = '😈';
+    case Angel = '😇';
+    case Busy = '😩';
 }

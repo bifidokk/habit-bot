@@ -31,7 +31,7 @@ class SettingsCommand extends AbstractCommand implements CommandInterface
         return $update->message !== null
             && $update->message->text === sprintf(
                 '%s %s',
-                EmojiCode::SETTINGS,
+                EmojiCode::Settings->value,
                 $this->translator->trans('settings')
             );
     }

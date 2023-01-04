@@ -30,7 +30,7 @@ class HabitService
 
     public function removeUserDraftHabits(User $user): void
     {
-        $this->habitRepository->removeUserHabitsWithState($user, HabitState::get(HabitState::DRAFT));
+        $this->habitRepository->removeUserHabitsWithState($user, HabitState::Draft);
     }
 
     public function publish(Habit $habit): void

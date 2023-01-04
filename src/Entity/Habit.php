@@ -28,7 +28,7 @@ class Habit
     #[ORM\Column(type: "string")]
     private string $description = '';
 
-    #[ORM\Column(type: "habit_state", length: 32, options: ["default" => "draft"])]
+    #[ORM\Column(length: 32, enumType: HabitState::class, options: ["default" => "draft"])]
     private HabitState $state;
 
     #[ORM\Column(type: "smallint")]
@@ -49,7 +49,7 @@ class Habit
 
     public function __construct()
     {
-        $this->state = HabitState::get(HabitState::DRAFT);
+        $this->state = HabitState::Draft;
         $this->createdAt = new \DateTimeImmutable();
         $this->metrics = new ArrayCollection();
     }
@@ -81,12 +81,12 @@ class Habit
 
     public function isDraft(): bool
     {
-        return $this->state->equals(HabitState::get(HabitState::DRAFT));
+        return $this->state === HabitState::Draft;
     }
 
     public function isPublished(): bool
     {
-        return $this->state->equals(HabitState::get(HabitState::PUBLISHED));
+        return $this->state === HabitState::Published;
     }
 
     public function getRemindWeekDays(): int
@@ -118,7 +118,7 @@ class Habit
 
     public function publish(): void
     {
-        $this->state = HabitState::get(HabitState::PUBLISHED);
+        $this->state = HabitState::Published;
     }
 
     public function getQueryParameter(): string

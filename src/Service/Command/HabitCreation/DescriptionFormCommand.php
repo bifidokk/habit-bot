@@ -32,19 +32,19 @@ class DescriptionFormCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_DESCRIPTION_FORM;
+            && $commandCallback->command === CommandCallbackEnum::HabitDescriptionForm;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $habit = $this->habitService->getHabitByIdWithState(
             $commandCallback->parameters['id'],
-            HabitState::get(HabitState::DRAFT)
+            HabitState::Draft
         );
 
         $this->inputHandler->waitForInput(
             $user,
-            sprintf('%s?%s', CommandCallbackEnum::SET_HABIT_DESCRIPTION, $habit->getQueryParameter())
+            sprintf('%s?%s', CommandCallbackEnum::SetHabitDescription->value, $habit->getQueryParameter())
         );
 
         $this->bot->sendMessage(

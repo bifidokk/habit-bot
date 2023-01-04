@@ -29,7 +29,7 @@ class TimezoneFormCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::SETTINGS_TIMEZONE_FORM;
+            && $commandCallback->command === CommandCallbackEnum::SettingsTimezoneForm;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void

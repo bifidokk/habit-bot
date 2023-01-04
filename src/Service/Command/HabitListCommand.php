@@ -27,7 +27,7 @@ class HabitListCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_LIST;
+            && $commandCallback->command === CommandCallbackEnum::HabitList;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void

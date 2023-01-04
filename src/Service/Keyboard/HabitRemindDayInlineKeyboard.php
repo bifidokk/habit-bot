@@ -31,7 +31,7 @@ class HabitRemindDayInlineKeyboard
             if ($this->dayIsChosen($chosenWeekDaysBin, $number)) {
                 $dayLabel = sprintf(
                     '%s%s',
-                    EmojiCode::MARKED,
+                    EmojiCode::Marked->value,
                     $this->translator->trans(strtolower(sprintf('weekday.%s', $day)))
                 );
             }
@@ -41,7 +41,7 @@ class HabitRemindDayInlineKeyboard
                 [
                     'callbackData' => sprintf(
                         '%s?id=%s&day=%s',
-                        CommandCallbackEnum::SET_HABIT_REMIND_DAY,
+                        CommandCallbackEnum::SetHabitRemindDay->value,
                         $habitId,
                         $day
                     ),
@@ -57,7 +57,7 @@ class HabitRemindDayInlineKeyboard
                     [
                         'callbackData' => sprintf(
                             '%s?id=%s&day=%s',
-                            CommandCallbackEnum::SET_HABIT_REMIND_DAY,
+                            CommandCallbackEnum::SetHabitRemindDay->value,
                             $habitId,
                             self::ALL_BUTTON
                         ),
@@ -70,7 +70,7 @@ class HabitRemindDayInlineKeyboard
                     [
                         'callbackData' => sprintf(
                             '%s?id=%s&day=%s',
-                            CommandCallbackEnum::SET_HABIT_REMIND_DAY,
+                            CommandCallbackEnum::SetHabitRemindDay->value,
                             $habitId,
                             self::NEXT_BUTTON
                         ),

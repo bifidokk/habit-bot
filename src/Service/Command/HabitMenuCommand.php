@@ -28,7 +28,7 @@ class HabitMenuCommand extends AbstractCommand implements CommandInterface
         return $update->message !== null
             && $update->message->text === sprintf(
                 '%s %s',
-                EmojiCode::ALARM,
+                EmojiCode::Alarm->value,
                 $this->translator->trans('habits')
             );
     }

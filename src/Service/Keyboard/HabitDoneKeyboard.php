@@ -20,23 +20,23 @@ class HabitDoneKeyboard
             [
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s %s',
-                    EmojiCode::MARKED,
+                    EmojiCode::Marked->value,
                     $this->translator->trans('done', [], null, $habit->getUser()->getLanguageCode())
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
-                        CommandCallbackEnum::HABIT_DONE,
+                        CommandCallbackEnum::HabitDone->value,
                         $habit->getId()
                     ),
                 ]),
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s %s',
-                    EmojiCode::BUSY,
+                    EmojiCode::Busy->value,
                     $this->translator->trans('later', [], null, $habit->getUser()->getLanguageCode())
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
-                        CommandCallbackEnum::HABIT_BUSY,
+                        CommandCallbackEnum::HabitBusy->value,
                         $habit->getId()
                     ),
                 ]),

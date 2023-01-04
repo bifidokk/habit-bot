@@ -4,29 +4,24 @@ declare(strict_types=1);
 
 namespace App\Service\Command;
 
-use Elao\Enum\AutoDiscoveredValuesTrait;
-use Elao\Enum\Enum;
-
-class CommandCallbackEnum extends Enum
+enum CommandCallbackEnum: string
 {
-    use AutoDiscoveredValuesTrait;
-
-    public const HABIT_FORM = '/formHabit';
-    public const HABIT_DESCRIPTION_FORM = '/habitDescription';
-    public const SET_HABIT_DESCRIPTION = '/setDescription';
-    public const HABIT_REMIND_DAY_FORM = '/habitDay';
-    public const SET_HABIT_REMIND_DAY = '/setDay';
-    public const HABIT_REMIND_TIME_FORM = '/habitTime';
-    public const SET_HABIT_REMIND_TIME = '/setTime';
-    public const HABIT_PREVIEW = '/habitPreview';
-    public const HABIT_PUBLISH = '/habitPublish';
-    public const SETTINGS_TIMEZONE_FORM = '/settingsTimezone';
-    public const SET_TIMEZONE = '/setTimezone';
-    public const SETTINGS_LANGUAGE_FORM = '/settingsLanguage';
-    public const SET_LANGUAGE = '/setLanguage';
-    public const HABIT_LIST = '/listHabit';
-    public const HABIT_REMOVE_CONFIRM = '/removeConfirm';
-    public const HABIT_REMOVE = '/remove';
-    public const HABIT_DONE = '/done';
-    public const HABIT_BUSY = '/busy';
+    case HabitForm = '/formHabit';
+    case HabitDescriptionForm = '/habitDescription';
+    case SetHabitDescription = '/setDescription';
+    case HabitRemindDayForm = '/habitDay';
+    case SetHabitRemindDay = '/setDay';
+    case HabitRemindTimeForm = '/habitTime';
+    case SetHabitRemindTime = '/setTime';
+    case HabitPreview = '/habitPreview';
+    case HabitPublish = '/habitPublish';
+    case SettingsTimezoneForm = '/settingsTimezone';
+    case SetTimezone = '/setTimezone';
+    case SettingsLanguageForm = '/settingsLanguage';
+    case SetLanguage = '/setLanguage';
+    case HabitList = '/listHabit';
+    case HabitRemoveConfirm = '/removeConfirm';
+    case HabitRemove = '/remove';
+    case HabitDone = '/done';
+    case HabitBusy = '/busy';
 }

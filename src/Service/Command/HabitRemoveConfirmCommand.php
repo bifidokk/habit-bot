@@ -26,7 +26,7 @@ class HabitRemoveConfirmCommand extends AbstractCommand implements CommandInterf
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_REMOVE_CONFIRM;
+            && $commandCallback->command === CommandCallbackEnum::HabitRemoveConfirm;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void

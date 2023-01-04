@@ -32,7 +32,7 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_BUSY;
+            && $commandCallback->command === CommandCallbackEnum::HabitBusy;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -77,7 +77,7 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
 
         $this->bot->sendAnimation(SendAnimationMethod::create(
             $update->callbackQuery->message->chat->id,
-            $this->animation->getByType(AnimationType::get(AnimationType::HABIT_BUSY))
+            $this->animation->getByType(AnimationType::HabitBusy)
         ));
     }
 }

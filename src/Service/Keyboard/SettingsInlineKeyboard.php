@@ -19,19 +19,19 @@ class SettingsInlineKeyboard
             [InlineKeyboardButtonType::create(
                 sprintf(
                     '%s%s',
-                    EmojiCode::CLOCKS,
+                    EmojiCode::Clocks->value,
                     $this->translator->trans('settings_menu.timezone')
                 ), [
-                    'callbackData' => CommandCallbackEnum::SETTINGS_TIMEZONE_FORM,
+                    'callbackData' => CommandCallbackEnum::SettingsTimezoneForm->value,
                 ]
             )],
             [InlineKeyboardButtonType::create(
                 sprintf(
                     '%s%s',
-                    EmojiCode::WORLD,
+                    EmojiCode::World->value,
                     $this->translator->trans('settings_menu.language')
                 ), [
-                    'callbackData' => CommandCallbackEnum::SETTINGS_LANGUAGE_FORM,
+                    'callbackData' => CommandCallbackEnum::SettingsLanguageForm->value,
                 ]
             )],
         ]);

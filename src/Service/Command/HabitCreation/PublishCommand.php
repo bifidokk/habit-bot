@@ -37,14 +37,14 @@ class PublishCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::HABIT_PUBLISH;
+            && $commandCallback->command === CommandCallbackEnum::HabitPublish;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
         $habit = $this->habitService->getHabitByIdWithState(
             $commandCallback->parameters['id'],
-            HabitState::get(HabitState::DRAFT)
+            HabitState::Draft
         );
 
         if (!$habit->readyForPublishing()) {
@@ -62,7 +62,7 @@ class PublishCommand extends AbstractCommand implements CommandInterface
 
         $this->bot->sendAnimation(SendAnimationMethod::create(
             $update->callbackQuery->message->chat->id,
-            $this->animation->getByType(AnimationType::get(AnimationType::SUCCESS)),
+            $this->animation->getByType(AnimationType::Success),
         ));
 
         $nextCommand = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);

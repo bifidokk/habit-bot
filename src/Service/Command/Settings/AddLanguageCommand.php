@@ -35,7 +35,7 @@ class AddLanguageCommand extends AbstractCommand implements CommandInterface
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
         return $commandCallback !== null
-            && $commandCallback->command->getValue() === CommandCallbackEnum::SET_LANGUAGE;
+            && $commandCallback->command === CommandCallbackEnum::SetLanguage;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
@@ -58,7 +58,7 @@ class AddLanguageCommand extends AbstractCommand implements CommandInterface
 
         $this->bot->sendAnimation(SendAnimationMethod::create(
             $update->callbackQuery->message->chat->id,
-            $this->animation->getByType(AnimationType::get(AnimationType::LANGUAGE)),
+            $this->animation->getByType(AnimationType::Language),
         ));
     }
 }

@@ -20,23 +20,23 @@ class HabitConfirmRemoveInlineKeyboard
             [
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s %s',
-                    EmojiCode::DEVIL,
+                    EmojiCode::Devil->value,
                     $this->translator->trans('yes')
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s&c=1',
-                        CommandCallbackEnum::HABIT_REMOVE,
+                        CommandCallbackEnum::HabitRemove->value,
                         $habit->getId()
                     ),
                 ]),
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s %s',
-                    EmojiCode::ANGEL,
+                    EmojiCode::Angel->value,
                     $this->translator->trans('no')
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s&c=0',
-                        CommandCallbackEnum::HABIT_REMOVE,
+                        CommandCallbackEnum::HabitRemove->value,
                         $habit->getId()
                     ),
                 ]),

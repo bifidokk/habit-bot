@@ -20,23 +20,23 @@ class HabitPreviewInlineKeyboard
             [
                 InlineKeyboardButtonType::create(sprintf(
                     '️%s%s',
-                    EmojiCode::BACK,
+                    EmojiCode::Back->value,
                     $this->translator->trans('back')
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
-                        CommandCallbackEnum::HABIT_FORM,
+                        CommandCallbackEnum::HabitForm->value,
                         $habit->getId()->toRfc4122()
                     ),
                 ]),
                 InlineKeyboardButtonType::create(sprintf(
                     '%s%s',
-                    EmojiCode::MARKED,
+                    EmojiCode::Marked->value,
                     $this->translator->trans('submit')
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
-                        CommandCallbackEnum::HABIT_PUBLISH,
+                        CommandCallbackEnum::HabitPublish->value,
                         $habit->getId()->toRfc4122()
                     ),
                 ]),
