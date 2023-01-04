@@ -61,7 +61,7 @@ class HabitInlineKeyboardTest extends TestCase
 
         $rows = $keyboard->inlineKeyboard;
         $button = $rows[0][0];
-        $this->assertStringContainsString(EmojiCode::MARKED, $button->text);
+        $this->assertStringContainsString(EmojiCode::Marked->value, $button->text);
     }
 
     /**
@@ -75,7 +75,7 @@ class HabitInlineKeyboardTest extends TestCase
 
         $rows = $keyboard->inlineKeyboard;
         $button = $rows[1][0];
-        $this->assertStringContainsString(EmojiCode::MARKED, $button->text);
+        $this->assertStringContainsString(EmojiCode::Marked->value, $button->text);
     }
 
     /**
@@ -89,6 +89,6 @@ class HabitInlineKeyboardTest extends TestCase
 
         $rows = $keyboard->inlineKeyboard;
         $button = $rows[2][0];
-        $this->assertStringContainsString(EmojiCode::MARKED, $button->text);
+        $this->assertStringContainsString(EmojiCode::Marked->value, $button->text);
     }
 }

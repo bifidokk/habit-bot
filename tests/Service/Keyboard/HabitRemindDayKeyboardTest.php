@@ -26,7 +26,7 @@ class HabitRemindDayKeyboardTest extends TestCase
         $daysRow = $keyboard->inlineKeyboard[0];
 
         foreach ($daysRow as $dayButton) {
-            if (strpos($dayButton->text, EmojiCode::MARKED) !== false) {
+            if (strpos($dayButton->text, EmojiCode::Marked->value) !== false) {
                 $actualDays .= '1';
             } else {
                 $actualDays .= '0';
