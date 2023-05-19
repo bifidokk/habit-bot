@@ -37,7 +37,7 @@ jobs:
           tags: bifidokk/habit-nginx:latest
 
       - name: Restart Docker compose with fresh images
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
