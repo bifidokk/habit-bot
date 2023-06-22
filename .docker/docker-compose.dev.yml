@@ -21,6 +21,8 @@ services:
         PHP_XDEBUG_CLIENT_PORT: ${PHP_XDEBUG_CLIENT_PORT}
         PHP_XDEBUG_CLIENT_HOST: ${PHP_XDEBUG_CLIENT_HOST}
         SYMFONY_CLI_VERSION: 5.4.20
+        NEW_RELIC_AGENT_LICENSE_KEY: ${NEW_RELIC_AGENT_LICENSE_KEY}
+        NEW_RELIC_APP_NAME: ${NEW_RELIC_APP_NAME}
     ports:
       - "${PHP_PORT}:9001"
     volumes:
@@ -42,3 +44,7 @@ services:
 
   redis:
     image: redis:alpine
+
+  daemon:
+    platform: linux/x86_64
+    image: newrelic/php-daemon
