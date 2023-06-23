@@ -58,6 +58,7 @@ RUN curl -sS https://download.newrelic.com/php_agent/release/newrelic-php5-10.11
         -e 's/newrelic.appname = "PHP Application"/newrelic.appname = \${NEW_RELIC_APP_NAME}/' \
         -e 's/;newrelic.daemon.app_connect_timeout =.*/newrelic.daemon.app_connect_timeout=15s/' \
         -e 's/;newrelic.daemon.start_timeout =.*/newrelic.daemon.start_timeout=5s/' \
+        -e 's/;newrelic.daemon.address =.*/newrelic.daemon.address=\${NEW_RELIC_DAEMON_ADDRESS}/' \
         /etc/php82/conf.d/newrelic.ini
 
 USER www-data
