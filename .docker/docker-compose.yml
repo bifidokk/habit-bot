@@ -41,6 +41,10 @@ services:
     volumes:
       - habit_redis_data:/data
 
+  daemon:
+    platform: linux/x86_64
+    image: newrelic/php-daemon
+
 volumes:
   habit_app:
   habit_redis_data:

@@ -48,6 +48,18 @@ COPY ./.docker/php-fpm/symfony.ini /etc/php82/cli/conf.d/
 
 COPY ./.docker/php-fpm/symfony.pool.conf /etc/php82/php-fpm.d/
 
+RUN curl -sS https://download.newrelic.com/php_agent/release/newrelic-php5-10.11.0.3-linux-musl.tar.gz | tar -C /tmp -zx && \
+    export NR_INSTALL_USE_CP_NOT_LN=1 && \
+    export NR_INSTALL_SILENT=1 && \
+    /tmp/newrelic-php5-*/newrelic-install install && \
+    rm -rf /tmp/newrelic-php5-* /tmp/nrinstall* && \
+    sed -i \
+        -e 's/"REPLACE_WITH_REAL_KEY"/\${NEW_RELIC_LICENSE_KEY}/' \
+        -e 's/newrelic.appname = "PHP Application"/newrelic.appname = \${NEW_RELIC_APP_NAME}/' \
+        -e 's/;newrelic.daemon.app_connect_timeout =.*/newrelic.daemon.app_connect_timeout=15s/' \
+        -e 's/;newrelic.daemon.start_timeout =.*/newrelic.daemon.start_timeout=5s/' \
+        /etc/php82/conf.d/newrelic.ini
+
 USER www-data
 WORKDIR '/var/www/habit'
 
