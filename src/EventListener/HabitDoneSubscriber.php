@@ -12,13 +12,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class HabitDoneSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private MetricService $metricService,
+        private readonly MetricService $metricService,
     ) {}
 
     public static function getSubscribedEvents(): array
     {
         return [
-            HabitDoneEvent::class => 'updateHabitDoneMetric'
+            HabitDoneEvent::class => 'updateHabitDoneMetric',
         ];
     }
 

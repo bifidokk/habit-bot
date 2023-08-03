@@ -18,9 +18,9 @@ class MainMenuCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'main_menu';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private MainMenuKeyboard $mainMenuKeyboard,
-        private TranslatorInterface $translator,
+        private readonly BotApiComplete $bot,
+        private readonly MainMenuKeyboard $mainMenuKeyboard,
+        private readonly TranslatorInterface $translator,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

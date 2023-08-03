@@ -16,8 +16,8 @@ use TgBotApi\BotApiBase\WebhookFetcher;
 class LocaleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private  UserService $userService,
-        private string $defaultLocale = 'en',
+        private readonly UserService $userService,
+        private readonly string $defaultLocale = 'en',
     ) {}
 
     public function onKernelRequest(RequestEvent $event): void

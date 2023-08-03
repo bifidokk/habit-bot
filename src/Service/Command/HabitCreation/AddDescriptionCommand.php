@@ -26,12 +26,12 @@ class AddDescriptionCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'habit_creation_add_title';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private HabitService $habitService,
-        private ValidatorInterface $validator,
-        private InputHandler $inputHandler,
-        private SendMessageMethodFactory $sendMessageMethodFactory,
-        private TranslatorInterface $translator,
+        private readonly BotApiComplete $bot,
+        private readonly HabitService $habitService,
+        private readonly ValidatorInterface $validator,
+        private readonly InputHandler $inputHandler,
+        private readonly SendMessageMethodFactory $sendMessageMethodFactory,
+        private readonly TranslatorInterface $translator,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

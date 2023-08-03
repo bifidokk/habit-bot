@@ -21,9 +21,9 @@ class LanguageFormCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'settings_language_form';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private TranslatorInterface $translator,
-        private UserLanguageInlineKeyboard $userLanguageInlineKeyboard,
+        private readonly BotApiComplete $bot,
+        private readonly TranslatorInterface $translator,
+        private readonly UserLanguageInlineKeyboard $userLanguageInlineKeyboard,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

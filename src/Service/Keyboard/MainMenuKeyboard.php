@@ -10,7 +10,7 @@ use TgBotApi\BotApiBase\Type\ReplyKeyboardMarkupType;
 
 class MainMenuKeyboard
 {
-    public function __construct(private TranslatorInterface $translator) {}
+    public function __construct(private readonly TranslatorInterface $translator) {}
 
     public function generate(?string $language = null): ReplyKeyboardMarkupType
     {

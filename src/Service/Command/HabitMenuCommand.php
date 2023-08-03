@@ -18,9 +18,9 @@ class HabitMenuCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'habit_menu';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private HabitMenuInlineKeyboard $habitMenuInlineKeyboard,
-        private TranslatorInterface $translator,
+        private readonly BotApiComplete $bot,
+        private readonly HabitMenuInlineKeyboard $habitMenuInlineKeyboard,
+        private readonly TranslatorInterface $translator,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

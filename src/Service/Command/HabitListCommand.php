@@ -19,9 +19,9 @@ class HabitListCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'habit_list';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private HabitViewInlineKeyboard $habitViewInlineKeyboard,
-        private HabitService $habitService,
+        private readonly BotApiComplete $bot,
+        private readonly HabitViewInlineKeyboard $habitViewInlineKeyboard,
+        private readonly HabitService $habitService,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

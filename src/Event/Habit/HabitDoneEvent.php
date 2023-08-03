@@ -9,7 +9,7 @@ use App\Entity\Habit;
 class HabitDoneEvent
 {
     public function __construct(
-        private Habit $habit,
+        private readonly Habit $habit,
     ) {}
 
     public function getHabit(): Habit

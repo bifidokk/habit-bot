@@ -13,9 +13,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class HabitService
 {
     public function __construct(
-        private HabitRepository $habitRepository,
-        private RemindService $remindService,
-        private TranslatorInterface $translator,
+        private readonly HabitRepository $habitRepository,
+        private readonly RemindService $remindService,
+        private readonly TranslatorInterface $translator,
     ) {}
 
     public function createHabit(User $user): Habit

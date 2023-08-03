@@ -12,8 +12,8 @@ use TgBotApi\BotApiBase\Method\SendMessageMethod;
 class SendMessageMethodFactory
 {
     public function __construct(
-        private TranslatorInterface $translator,
-        private HabitInlineKeyboard $habitInlineKeyboard,
+        private readonly TranslatorInterface $translator,
+        private readonly HabitInlineKeyboard $habitInlineKeyboard,
     ) {}
 
     public function createHabitMenuMethod(int $chatId, Habit $habit): SendMessageMethod

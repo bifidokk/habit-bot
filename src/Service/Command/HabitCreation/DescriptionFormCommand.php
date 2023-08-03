@@ -23,10 +23,10 @@ class DescriptionFormCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'habit_creation_description_form';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private InputHandler $inputHandler,
-        private HabitService $habitService,
-        private TranslatorInterface $translator,
+        private readonly BotApiComplete $bot,
+        private readonly InputHandler $inputHandler,
+        private readonly HabitService $habitService,
+        private readonly TranslatorInterface $translator,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

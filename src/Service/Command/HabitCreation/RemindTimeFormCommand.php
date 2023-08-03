@@ -23,10 +23,10 @@ class RemindTimeFormCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'habit_creation_remind_time_form';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private HabitService $habitService,
-        private HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard,
-        private TranslatorInterface $translator,
+        private readonly BotApiComplete $bot,
+        private readonly HabitService $habitService,
+        private readonly HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard,
+        private readonly TranslatorInterface $translator,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

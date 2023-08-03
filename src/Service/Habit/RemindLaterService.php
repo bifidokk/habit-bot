@@ -14,8 +14,8 @@ class RemindLaterService
     private const REMIND_LATER_PERIOD_KEY = 'habit_remind_later_%s';
 
     public function __construct(
-        private HabitRepository $habitRepository,
-        private RedisClientInterface $redisClient,
+        private readonly HabitRepository $habitRepository,
+        private readonly RedisClientInterface $redisClient,
     ) {}
 
     public function remindLater(Habit $habit, \DateTimeImmutable $currentTime): ?int

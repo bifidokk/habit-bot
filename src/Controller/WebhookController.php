@@ -18,11 +18,11 @@ use function Sentry\captureException;
 class WebhookController
 {
     public function __construct(
-        private BotApiComplete $bot,
-        private WebhookService $webhookService,
-        private LoggerInterface $logger,
-        private string $baseUrl,
-        private string $token
+        private readonly BotApiComplete $bot,
+        private readonly WebhookService $webhookService,
+        private readonly LoggerInterface $logger,
+        private readonly string $baseUrl,
+        private readonly string $token
     ) {}
 
     #[Route('/webhook/{token}')]

@@ -11,7 +11,7 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitMenuInlineKeyboard
 {
-    public function __construct(private TranslatorInterface $translator) {}
+    public function __construct(private readonly TranslatorInterface $translator) {}
 
     public function generate(array $habits): InlineKeyboardMarkupType
     {

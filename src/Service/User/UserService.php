@@ -12,7 +12,7 @@ use TgBotApi\BotApiBase\Type\UserType;
 class UserService
 {
     public function __construct(
-        private  UserRepository $userRepository
+        private readonly UserRepository $userRepository
     ) {}
 
     public function getUser(UpdateType $update): ?User

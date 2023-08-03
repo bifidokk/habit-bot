@@ -20,10 +20,10 @@ class HabitRemoveCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'habit_remove';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private HabitService $habitService,
-        private TranslatorInterface $translator,
-        private Animation $animation,
+        private readonly BotApiComplete $bot,
+        private readonly HabitService $habitService,
+        private readonly TranslatorInterface $translator,
+        private readonly Animation $animation,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

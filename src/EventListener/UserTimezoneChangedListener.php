@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class UserTimezoneChangedListener implements EventSubscriberInterface
 {
     public function __construct(
-        private HabitService $habitService,
+        private readonly HabitService $habitService,
     ) {}
 
     public static function getSubscribedEvents(): array

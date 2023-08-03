@@ -21,9 +21,9 @@ class TimezoneFormCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'settings_timezone_form';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private TranslatorInterface $translator,
-        private UserTimezoneInlineKeyboard $userTimezoneInlineKeyboard,
+        private readonly BotApiComplete $bot,
+        private readonly TranslatorInterface $translator,
+        private readonly UserTimezoneInlineKeyboard $userTimezoneInlineKeyboard,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

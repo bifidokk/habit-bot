@@ -15,8 +15,8 @@ use TgBotApi\BotApiBase\Type\UpdateType;
 class Router
 {
     public function __construct(
-        private ServiceLocator $commandLocator,
-        private InputHandler $inputHandler,
+        private readonly ServiceLocator $commandLocator,
+        private readonly InputHandler $inputHandler,
     ) {}
 
     public function run(UpdateType $update, User $user): void

@@ -11,7 +11,7 @@ use App\Repository\MetricRepository;
 class MetricService
 {
     public function __construct(
-        private MetricRepository $metricRepository,
+        private readonly MetricRepository $metricRepository,
     ) {}
 
     public function addHabitMetric(

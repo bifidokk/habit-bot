@@ -14,7 +14,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class WebhookRequestListener implements EventSubscriberInterface
 {
-    public function __construct(private WebhookService $webhookService) {}
+    public function __construct(
+        private readonly WebhookService $webhookService
+    ) {}
 
     public static function getSubscribedEvents(): array
     {

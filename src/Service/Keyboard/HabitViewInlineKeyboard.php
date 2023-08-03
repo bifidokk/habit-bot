@@ -12,7 +12,7 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitViewInlineKeyboard
 {
-    public function __construct(private TranslatorInterface $translator) {}
+    public function __construct(private readonly TranslatorInterface $translator) {}
 
     public function generate(Habit $habit, int $page, bool $showNext): InlineKeyboardMarkupType
     {

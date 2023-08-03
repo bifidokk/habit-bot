@@ -25,11 +25,11 @@ class AddLanguageCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'settings_add_language';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private TranslatorInterface $translator,
-        private UserRepository $userRepository,
-        private Animation $animation,
-        private MainMenuKeyboard $mainMenuKeyboard,
+        private readonly BotApiComplete $bot,
+        private readonly TranslatorInterface $translator,
+        private readonly UserRepository $userRepository,
+        private readonly Animation $animation,
+        private readonly MainMenuKeyboard $mainMenuKeyboard,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

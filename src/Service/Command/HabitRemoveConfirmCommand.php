@@ -18,9 +18,9 @@ class HabitRemoveConfirmCommand extends AbstractCommand implements CommandInterf
     public const COMMAND_NAME = 'habit_remove_confirm';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private HabitConfirmRemoveInlineKeyboard $habitConfirmRemoveInlineKeyboard,
-        private HabitService $habitService,
+        private readonly BotApiComplete $bot,
+        private readonly HabitConfirmRemoveInlineKeyboard $habitConfirmRemoveInlineKeyboard,
+        private readonly HabitService $habitService,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

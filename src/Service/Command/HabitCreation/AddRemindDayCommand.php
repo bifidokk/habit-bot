@@ -26,12 +26,12 @@ class AddRemindDayCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'habit_creation_add_remind_day';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private RemindService $remindDayService,
-        private HabitService $habitService,
-        private HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
-        private SendMessageMethodFactory $sendMessageMethodFactory,
-        private TranslatorInterface $translator,
+        private readonly BotApiComplete $bot,
+        private readonly RemindService $remindDayService,
+        private readonly HabitService $habitService,
+        private readonly HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
+        private readonly SendMessageMethodFactory $sendMessageMethodFactory,
+        private readonly TranslatorInterface $translator,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool

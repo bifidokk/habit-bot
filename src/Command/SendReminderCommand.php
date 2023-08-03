@@ -8,6 +8,7 @@ use App\Entity\Habit;
 use App\Repository\HabitRepository;
 use App\Service\Habit\RemindService;
 use App\Service\Keyboard\HabitDoneKeyboard;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,17 +16,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 
+#[AsCommand(name: 'app:send-reminder')]
 class SendReminderCommand extends Command
 {
     use LockableTrait;
 
-    protected static $defaultName = 'app:send-reminder';
-
     public function __construct(
-        private HabitRepository $habitRepository,
-        private BotApiComplete $bot,
-        private RemindService $remindService,
-        private HabitDoneKeyboard $habitDoneKeyboard,
+        private readonly HabitRepository $habitRepository,
+        private readonly BotApiComplete $bot,
+        private readonly RemindService $remindService,
+        private readonly HabitDoneKeyboard $habitDoneKeyboard,
     ) {
         parent::__construct();
     }

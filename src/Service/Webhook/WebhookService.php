@@ -14,10 +14,10 @@ class WebhookService
 {
 
     public function __construct(
-        private string $token,
-        private LoggerInterface $logger,
-        private UserService $userService,
-        private Router $router
+        private readonly string $token,
+        private readonly LoggerInterface $logger,
+        private readonly UserService $userService,
+        private readonly Router $router
     ) {}
 
     public function isTokenValid(string $token): bool

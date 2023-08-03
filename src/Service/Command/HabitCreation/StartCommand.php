@@ -21,9 +21,9 @@ class StartCommand extends AbstractCommand implements CommandInterface
     public const COMMAND_NAME = 'habit_creation_start';
 
     public function __construct(
-        private BotApiComplete $bot,
-        private HabitService $habitService,
-        private SendMessageMethodFactory $sendMessageMethodFactory,
+        private readonly BotApiComplete $bot,
+        private readonly HabitService $habitService,
+        private readonly SendMessageMethodFactory $sendMessageMethodFactory,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
