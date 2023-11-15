@@ -31,7 +31,8 @@ RUN apk add --no-cache \
     php82-pecl-apcu \
     php82-redis \
     make \
-    curl
+    curl \
+    tar
 
 RUN set -x ; \
   addgroup -g 82 -S www-data ; \
@@ -56,7 +57,7 @@ RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
     && chmod +x composer.phar && mv composer.phar /usr/bin/composer \
     && ln -s /usr/bin/php82 /usr/local/bin/php
 
-RUN curl -sS https://download.newrelic.com/php_agent/release/newrelic-php5-10.11.0.3-linux-musl.tar.gz | tar -C /tmp -zx && \
+RUN curl -sS https://download.newrelic.com/php_agent/release/newrelic-php5-10.14.0.3-linux-musl.tar.gz | tar -C /tmp -zx && \
     export NR_INSTALL_USE_CP_NOT_LN=1 && \
     export NR_INSTALL_SILENT=1 && \
     /tmp/newrelic-php5-*/newrelic-install install && \
