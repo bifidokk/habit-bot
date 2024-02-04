@@ -7,6 +7,7 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Event\Habit\HabitDoneEvent;
 use App\Service\Habit\HabitService;
+use App\Service\Keyboard\MainMenuKeyboard;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
 use Psr\Log\LoggerInterface;
@@ -28,6 +29,7 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
         private readonly TranslatorInterface $translator,
         private readonly Animation $animation,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly MainMenuKeyboard $mainMenuKeyboard,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
@@ -51,7 +53,7 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
                 $update->callbackQuery->message->chat->id,
                 $update->callbackQuery->message->messageId,
                 [
-                    'replyMarkup' => null,
+                    'replyMarkup' => $this->mainMenuKeyboard->generate(),
                 ]
             )
         );

@@ -7,6 +7,7 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindLaterService;
+use App\Service\Keyboard\MainMenuKeyboard;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
 use Psr\Log\LoggerInterface;
@@ -27,6 +28,7 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
         private readonly TranslatorInterface $translator,
         private readonly Animation $animation,
         private readonly RemindLaterService $remindLaterService,
+        private readonly MainMenuKeyboard $mainMenuKeyboard,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
@@ -50,7 +52,7 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
                 $update->callbackQuery->message->chat->id,
                 $update->callbackQuery->message->messageId,
                 [
-                    'replyMarkup' => null,
+                    'replyMarkup' => $this->mainMenuKeyboard->generate(),
                 ]
             )
         );
