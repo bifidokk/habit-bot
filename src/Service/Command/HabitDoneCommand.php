@@ -29,7 +29,6 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
         private readonly TranslatorInterface $translator,
         private readonly Animation $animation,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly MainMenuKeyboard $mainMenuKeyboard,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
@@ -51,10 +50,7 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
         $this->bot->editMessageReplyMarkup(
             EditMessageReplyMarkupMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $update->callbackQuery->message->messageId,
-                [
-                    'replyMarkup' => $this->mainMenuKeyboard->generate(),
-                ]
+                $update->callbackQuery->message->messageId
             )
         );
 

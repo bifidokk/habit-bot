@@ -28,7 +28,6 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
         private readonly TranslatorInterface $translator,
         private readonly Animation $animation,
         private readonly RemindLaterService $remindLaterService,
-        private readonly MainMenuKeyboard $mainMenuKeyboard,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
@@ -50,10 +49,7 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
         $this->bot->editMessageReplyMarkup(
             EditMessageReplyMarkupMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $update->callbackQuery->message->messageId,
-                [
-                    'replyMarkup' => $this->mainMenuKeyboard->generate(),
-                ]
+                $update->callbackQuery->message->messageId
             )
         );
 
