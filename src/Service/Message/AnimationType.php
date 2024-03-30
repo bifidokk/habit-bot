@@ -12,8 +12,6 @@ enum AnimationType: string
 
     case Language = 'language';
 
-    case NotRemoved = 'not_removed';
-
     case Removed = 'removed';
 
     case HabitDone = 'habit_done';

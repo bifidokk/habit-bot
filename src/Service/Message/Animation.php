@@ -31,9 +31,6 @@ class Animation
             AnimationType::Language->value => [
                 'CgACAgIAAxkBAAIFwmChNqGiuocZE5rdbbFI8IYgFmQiAALWAQACp0bwSGHuSU9MoAPrHwQ',
             ],
-            AnimationType::NotRemoved->value => [
-                'CgACAgIAAxkBAAIGVGC7cp0e3iWve5_8TOIFE7NC02g0AAIpAAN2kGBIg9YgAAEpdgHjHwQ',
-            ],
             AnimationType::Removed->value => [
                 'CgACAgQAAxkBAAIGVmC7cyN8qIvfr-o_byy9LSeTiwRmAAIsAgACssyUUgWYMi7fhfreHwQ',
             ],

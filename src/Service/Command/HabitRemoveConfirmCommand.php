@@ -7,10 +7,9 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Service\Habit\HabitService;
 use App\Service\Keyboard\HabitConfirmRemoveInlineKeyboard;
-use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
 use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class HabitRemoveConfirmCommand extends AbstractCommand implements CommandInterface
@@ -33,13 +32,16 @@ class HabitRemoveConfirmCommand extends AbstractCommand implements CommandInterf
     {
         $habit = $this->habitService->getHabitById($commandCallback->parameters['id']);
 
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $this->habitService->getHabitRemoveConfirmText($habit), [
+                $update->callbackQuery->message->messageId,
+                $this->habitService->getHabitRemoveConfirmText($habit),
+                [
                     'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
                     'replyMarkup' => $this->habitConfirmRemoveInlineKeyboard->generate($habit),
-                ])
+                ]
+            )
         );
     }
 }
