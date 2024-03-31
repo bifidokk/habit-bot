@@ -11,9 +11,11 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
-use App\Service\Message\SendMessageMethodFactory;
-use Psr\Log\LoggerInterface;
+use App\Service\Keyboard\HabitInlineKeyboard;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
+use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class StartCommand extends AbstractCommand implements CommandInterface
@@ -23,7 +25,8 @@ class StartCommand extends AbstractCommand implements CommandInterface
     public function __construct(
         private readonly BotApiComplete $bot,
         private readonly HabitService $habitService,
-        private readonly SendMessageMethodFactory $sendMessageMethodFactory,
+        private readonly TranslatorInterface $translator,
+        private readonly HabitInlineKeyboard $habitInlineKeyboard,
     ) {}
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
@@ -49,12 +52,16 @@ class StartCommand extends AbstractCommand implements CommandInterface
 
         $user->addHabit($habit);
 
-        $chatId = $update->message
-            ? $update->message->chat->id
-            : $update->callbackQuery->message->chat->id;
-
-        $this->bot->sendMessage(
-            $this->sendMessageMethodFactory->createHabitMenuMethod($chatId, $habit)
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
+                $update->callbackQuery->message->chat->id,
+                $update->callbackQuery->message->messageId,
+                $this->translator->trans('command.response.habit_creation'),
+                [
+                    'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
+                    'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
+                ]
+            )
         );
     }
 }
