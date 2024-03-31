@@ -11,7 +11,10 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class UserLanguageInlineKeyboard
 {
-    public function __construct(private readonly TranslatorInterface $translator) {}
+    public function __construct(
+        private readonly TranslatorInterface $translator
+    ) {
+    }
 
     public function generate(): InlineKeyboardMarkupType
     {

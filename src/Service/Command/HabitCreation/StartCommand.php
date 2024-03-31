@@ -27,7 +27,8 @@ class StartCommand extends AbstractCommand implements CommandInterface
         private readonly HabitService $habitService,
         private readonly TranslatorInterface $translator,
         private readonly HabitInlineKeyboard $habitInlineKeyboard,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

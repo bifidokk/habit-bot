@@ -14,14 +14,17 @@ class SendMessageMethodFactory
     public function __construct(
         private readonly TranslatorInterface $translator,
         private readonly HabitInlineKeyboard $habitInlineKeyboard,
-    ) {}
+    ) {
+    }
 
     public function createHabitMenuMethod(int $chatId, Habit $habit): SendMessageMethod
     {
         return SendMessageMethod::create(
             $chatId,
-            $this->translator->trans('command.response.habit_creation'), [
+            $this->translator->trans('command.response.habit_creation'),
+            [
                 'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
-            ]);
+            ]
+        );
     }
 }

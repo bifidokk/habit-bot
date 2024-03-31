@@ -27,7 +27,8 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
         private readonly TranslatorInterface $translator,
         private readonly Animation $animation,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

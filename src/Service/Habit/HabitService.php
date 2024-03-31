@@ -16,7 +16,8 @@ class HabitService
         private readonly HabitRepository $habitRepository,
         private readonly RemindService $remindService,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function createHabit(User $user): Habit
     {

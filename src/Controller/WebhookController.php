@@ -23,7 +23,8 @@ class WebhookController
         private readonly LoggerInterface $logger,
         private readonly string $baseUrl,
         private readonly string $token
-    ) {}
+    ) {
+    }
 
     #[Route('/webhook/{token}')]
     public function webhook(Request $request): JsonResponse

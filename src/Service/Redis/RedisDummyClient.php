@@ -23,7 +23,7 @@ class RedisDummyClient implements RedisClientInterface
      */
     public function get(string $key)
     {
-        if (!isset($this->data[$key])) {
+        if (! isset($this->data[$key])) {
             return false;
         }
 

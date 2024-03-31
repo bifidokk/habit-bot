@@ -7,7 +7,6 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Service\InputHandler;
 use App\Service\Keyboard\MainMenuKeyboard;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -23,7 +22,8 @@ class StartCommand implements CommandInterface
         private readonly InputHandler $inputHandler,
         private readonly TranslatorInterface $translator,
         private readonly MainMenuKeyboard $mainMenuKeyboard,
-    ) {}
+    ) {
+    }
 
     public function getName(): string
     {
@@ -52,7 +52,8 @@ class StartCommand implements CommandInterface
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            $this->translator->trans('command.response.start'), [
+            $this->translator->trans('command.response.start'),
+            [
                 'replyMarkup' => $this->mainMenuKeyboard->generate(),
             ]
         );

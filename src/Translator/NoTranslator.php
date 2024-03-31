@@ -12,7 +12,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NoTranslator implements TranslatorInterface, TranslatorBagInterface, LocaleAwareInterface
 {
-    /** @var MessageCatalogue[] */
+    /**
+     * @var MessageCatalogue[]
+     */
     private array $catalogues = [];
 
     public function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string

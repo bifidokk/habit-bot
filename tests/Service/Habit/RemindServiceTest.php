@@ -23,10 +23,7 @@ class RemindServiceTest extends TestCase
         $this->remindService = new RemindService($habitRepository, new NoTranslator());
     }
 
-    /**
-     * @test
-     */
-    public function itAddsRemindDaysForHabitTest(): void
+    public function testItAddsRemindDaysForHabitTest(): void
     {
         $habit = new Habit();
         $this->remindService->toggleDay($habit, 1);
@@ -39,10 +36,7 @@ class RemindServiceTest extends TestCase
         $this->assertEquals(2, $habit->getRemindWeekDays());
     }
 
-    /**
-     * @test
-     */
-    public function itDoesntAddInvalidNumberOfDayTest(): void
+    public function testItDoesntAddInvalidNumberOfDayTest(): void
     {
         $habit = new Habit();
         $this->remindService->toggleDay($habit, 7);
@@ -55,10 +49,7 @@ class RemindServiceTest extends TestCase
         $this->assertEquals(0, $habit->getRemindWeekDays());
     }
 
-    /**
-     * @test
-     */
-    public function itRemovesRemindDaysForHabitTest(): void
+    public function testItRemovesRemindDaysForHabitTest(): void
     {
         $habit = new Habit();
 
@@ -69,20 +60,14 @@ class RemindServiceTest extends TestCase
         $this->assertEquals(0, $habit->getRemindWeekDays());
     }
 
-    /**
-     * @test
-     */
-    public function itMarkAllRemindDaysForHabitTest(): void
+    public function testItMarkAllRemindDaysForHabitTest(): void
     {
         $habit = new Habit();
         $this->remindService->markAll($habit);
         $this->assertEquals(127, $habit->getRemindWeekDays());
     }
 
-    /**
-     * @test
-     */
-    public function itConvertsRemindDaysToListWithDayNamesTest(): void
+    public function testItConvertsRemindDaysToListWithDayNamesTest(): void
     {
         $habit = new Habit();
 
@@ -102,10 +87,7 @@ class RemindServiceTest extends TestCase
         $this->assertEquals('mon, tue, wed, thu, fri, sat, sun', str_replace('weekday.', '', $days));
     }
 
-    /**
-     * @test
-     */
-    public function itCreatesNextRemindTime(): void
+    public function testItCreatesNextRemindTime(): void
     {
         $habit = new Habit();
         $user = new User();
@@ -148,10 +130,7 @@ class RemindServiceTest extends TestCase
         $this->assertEquals('Mon 09:00', $nextRemindTime->format('D H:i'));
     }
 
-    /**
-     * @test
-     */
-    public function itCreatesNextRemindTimeWithTimezone(): void
+    public function testItCreatesNextRemindTimeWithTimezone(): void
     {
         date_default_timezone_set('UTC');
 

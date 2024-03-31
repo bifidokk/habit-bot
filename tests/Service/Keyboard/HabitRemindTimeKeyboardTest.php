@@ -11,10 +11,7 @@ use TgBotApi\BotApiBase\Type\KeyboardButtonType;
 
 class HabitRemindTimeKeyboardTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function itCreatesValidTimeKeyboardTest(): void
+    public function testItCreatesValidTimeKeyboardTest(): void
     {
         $habitRemindTimeInlineKeyboard = new HabitRemindTimeInlineKeyboard();
 

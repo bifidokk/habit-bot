@@ -53,7 +53,7 @@
         "symfony/stopwatch": "^6.4",
         "symfony/var-dumper": "^6.4",
         "symfony/web-profiler-bundle": "^6.4",
-        "symplify/easy-coding-standard": "^9.2"
+        "symplify/easy-coding-standard": "^12.1"
     },
     "config": {
         "optimize-autoloader": true,

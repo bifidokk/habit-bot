@@ -13,7 +13,6 @@ use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitPreviewInlineKeyboard;
 use App\Service\Message\SendMessageMethodFactory;
-use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -28,7 +27,8 @@ class PreviewCommand extends AbstractCommand implements CommandInterface
         private readonly HabitService $habitService,
         private readonly HabitPreviewInlineKeyboard $habitPreviewInlineKeyboard,
         private readonly SendMessageMethodFactory $sendMessageMethodFactory,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -47,7 +47,8 @@ class PreviewCommand extends AbstractCommand implements CommandInterface
             $this->bot->sendMessage(
                 SendMessageMethod::create(
                     $update->callbackQuery->message->chat->id,
-                    $this->habitService->getHabitPreviewText($habit), [
+                    $this->habitService->getHabitPreviewText($habit),
+                    [
                         'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
                         'replyMarkup' => $this->habitPreviewInlineKeyboard->generate($habit),
                     ]

@@ -23,10 +23,7 @@ class HabitInlineKeyboardTest extends TestCase
         $this->habitInlineKeyboard = new HabitInlineKeyboard($translator);
     }
 
-    /**
-     * @test
-     */
-    public function itCreatesHabitKeyboardTest(): void
+    public function testItCreatesHabitKeyboardTest(): void
     {
         $habit = new Habit();
         $keyboard = $this->habitInlineKeyboard->generate($habit);
@@ -50,10 +47,7 @@ class HabitInlineKeyboardTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
-    public function itMarksDescriptionAddedTest(): void
+    public function testItMarksDescriptionAddedTest(): void
     {
         $habit = new Habit();
         $habit->setDescription('Hello');
@@ -64,10 +58,7 @@ class HabitInlineKeyboardTest extends TestCase
         $this->assertStringContainsString(EmojiCode::Marked->value, $button->text);
     }
 
-    /**
-     * @test
-     */
-    public function itMarksRemindDaysAddedTest(): void
+    public function testItMarksRemindDaysAddedTest(): void
     {
         $habit = new Habit();
         $habit->setRemindWeekDays(4);
@@ -78,10 +69,7 @@ class HabitInlineKeyboardTest extends TestCase
         $this->assertStringContainsString(EmojiCode::Marked->value, $button->text);
     }
 
-    /**
-     * @test
-     */
-    public function itMarksRemindTimeAddedTest(): void
+    public function testItMarksRemindTimeAddedTest(): void
     {
         $habit = new Habit();
         $habit->setRemindAt(new \DateTimeImmutable());

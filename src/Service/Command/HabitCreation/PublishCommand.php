@@ -15,7 +15,6 @@ use App\Service\Habit\HabitState;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
 use App\Service\Router;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendAnimationMethod;
@@ -32,7 +31,8 @@ class PublishCommand extends AbstractCommand implements CommandInterface
         private readonly Router $router,
         private readonly Animation $animation,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -47,7 +47,7 @@ class PublishCommand extends AbstractCommand implements CommandInterface
             HabitState::Draft
         );
 
-        if (!$habit->readyForPublishing()) {
+        if (! $habit->readyForPublishing()) {
             return;
         }
 

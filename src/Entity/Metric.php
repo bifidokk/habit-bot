@@ -11,25 +11,25 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: MetricRepository::class)]
-#[ORM\Table(name: "metrics")]
+#[ORM\Table(name: 'metrics')]
 class Metric
 {
     #[ORM\Id]
-    #[ORM\Column(type: "uuid", unique: true)]
-    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Habit::class, inversedBy: "metrics")]
+    #[ORM\ManyToOne(targetEntity: Habit::class, inversedBy: 'metrics')]
     private ?Habit $habit = null;
 
     #[ORM\Column(length: 32, enumType: MetricType::class)]
     private ?MetricType $type = null;
 
-    #[ORM\Column(type: "datetime_immutable")]
+    #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $metricDate;
 
-    #[ORM\Column(type: "datetime_immutable")]
+    #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
     public function __construct()

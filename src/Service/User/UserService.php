@@ -13,7 +13,8 @@ class UserService
 {
     public function __construct(
         private readonly UserRepository $userRepository
-    ) {}
+    ) {
+    }
 
     public function getUser(UpdateType $update): ?User
     {

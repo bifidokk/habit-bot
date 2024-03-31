@@ -11,7 +11,10 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class HabitMenuInlineKeyboard
 {
-    public function __construct(private readonly TranslatorInterface $translator) {}
+    public function __construct(
+        private readonly TranslatorInterface $translator
+    ) {
+    }
 
     public function generate(array $habits): InlineKeyboardMarkupType
     {
@@ -21,7 +24,8 @@ class HabitMenuInlineKeyboard
                     '%s%s',
                     EmojiCode::Plus->value,
                     $this->translator->trans('habit.menu.add_new_habit')
-                ), [
+                ),
+                [
                     'callbackData' => CommandCallbackEnum::HabitForm->value,
                 ]
             )],
@@ -33,7 +37,8 @@ class HabitMenuInlineKeyboard
                     '%s%s',
                     EmojiCode::List->value,
                     $this->translator->trans('habit.menu.my_habits')
-                ), [
+                ),
+                [
                     'callbackData' => CommandCallbackEnum::HabitList->value,
                 ]
             )];

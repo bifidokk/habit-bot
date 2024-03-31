@@ -20,7 +20,8 @@ class HabitRemoveConfirmCommand extends AbstractCommand implements CommandInterf
         private readonly BotApiComplete $bot,
         private readonly HabitConfirmRemoveInlineKeyboard $habitConfirmRemoveInlineKeyboard,
         private readonly HabitService $habitService,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

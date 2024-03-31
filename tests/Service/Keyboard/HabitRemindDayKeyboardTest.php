@@ -12,10 +12,7 @@ use Symfony\Component\Uid\Uuid;
 
 class HabitRemindDayKeyboardTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function itCreatesValidDayPeriodKeyboardTest(): void
+    public function testItCreatesValidDayPeriodKeyboardTest(): void
     {
         $days = '0100100';
         $actualDays = '';

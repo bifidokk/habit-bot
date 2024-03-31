@@ -6,7 +6,6 @@ namespace App\Service\Command;
 
 use App\Entity\User;
 use App\Service\Keyboard\MainMenuKeyboard;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -21,7 +20,8 @@ class MainMenuCommand extends AbstractCommand implements CommandInterface
         private readonly BotApiComplete $bot,
         private readonly MainMenuKeyboard $mainMenuKeyboard,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -38,8 +38,10 @@ class MainMenuCommand extends AbstractCommand implements CommandInterface
     {
         return SendMessageMethod::create(
             $message->chat->id,
-            $this->translator->trans('command.response.main_menu'), [
+            $this->translator->trans('command.response.main_menu'),
+            [
                 'replyMarkup' => $this->mainMenuKeyboard->generate(),
-            ]);
+            ]
+        );
     }
 }

@@ -13,38 +13,42 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: HabitRepository::class)]
-#[ORM\Index(columns: ["next_remind_at"])]
+#[ORM\Index(columns: ['next_remind_at'])]
 class Habit
 {
     #[ORM\Id]
-    #[ORM\Column(type: "uuid", unique: true)]
-    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "habits")]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'habits')]
     private ?User $user = null;
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
     private string $description = '';
 
-    #[ORM\Column(length: 32, enumType: HabitState::class, options: ["default" => "draft"])]
+    #[ORM\Column(length: 32, enumType: HabitState::class, options: [
+        'default' => 'draft',
+    ])]
     private HabitState $state;
 
-    #[ORM\Column(type: "smallint")]
+    #[ORM\Column(type: 'smallint')]
     private int $remindWeekDays = 0;
 
-    #[ORM\Column(type: "time_immutable", nullable: true)]
+    #[ORM\Column(type: 'time_immutable', nullable: true)]
     private ?\DateTimeImmutable $remindAt = null;
 
-    #[ORM\Column(type: "datetime_immutable", nullable: true)]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $nextRemindAt = null;
 
-    #[ORM\Column(type: "datetime_immutable")]
+    #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\OneToMany(mappedBy: "habit", targetEntity: Metric::class, cascade: ["persist", "remove"], orphanRemoval: true)]
-    #[ORM\OrderBy(["createdAt" => "DESC"])]
+    #[ORM\OneToMany(mappedBy: 'habit', targetEntity: Metric::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy([
+        'createdAt' => 'DESC',
+    ])]
     private Collection $metrics;
 
     public function __construct()

@@ -11,7 +11,10 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 
 class SettingsInlineKeyboard
 {
-    public function __construct(private readonly TranslatorInterface $translator) {}
+    public function __construct(
+        private readonly TranslatorInterface $translator
+    ) {
+    }
 
     public function generate(): InlineKeyboardMarkupType
     {
@@ -21,7 +24,8 @@ class SettingsInlineKeyboard
                     '%s%s',
                     EmojiCode::Clocks->value,
                     $this->translator->trans('settings_menu.timezone')
-                ), [
+                ),
+                [
                     'callbackData' => CommandCallbackEnum::SettingsTimezoneForm->value,
                 ]
             )],
@@ -30,7 +34,8 @@ class SettingsInlineKeyboard
                     '%s%s',
                     EmojiCode::World->value,
                     $this->translator->trans('settings_menu.language')
-                ), [
+                ),
+                [
                     'callbackData' => CommandCallbackEnum::SettingsLanguageForm->value,
                 ]
             )],

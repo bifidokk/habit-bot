@@ -26,7 +26,8 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
         private readonly TranslatorInterface $translator,
         private readonly Animation $animation,
         private readonly RemindLaterService $remindLaterService,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

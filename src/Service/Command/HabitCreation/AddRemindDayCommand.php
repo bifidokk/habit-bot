@@ -15,7 +15,6 @@ use App\Service\Habit\HabitState;
 use App\Service\Habit\RemindService;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use App\Service\Message\SendMessageMethodFactory;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -32,7 +31,8 @@ class AddRemindDayCommand extends AbstractCommand implements CommandInterface
         private readonly HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
         private readonly SendMessageMethodFactory $sendMessageMethodFactory,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -83,12 +83,14 @@ class AddRemindDayCommand extends AbstractCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $this->translator->trans('command.response.habit_remind_day'), [
+                $this->translator->trans('command.response.habit_remind_day'),
+                [
                     'replyMarkup' => $this->habitRemindDayInlineKeyboard->generate(
                         $habit->getRemindWeekDays(),
                         $habit->getId()->toRfc4122()
                     ),
-                ])
+                ]
+            )
         );
     }
 }

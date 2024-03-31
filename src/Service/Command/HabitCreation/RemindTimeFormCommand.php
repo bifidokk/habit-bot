@@ -12,7 +12,6 @@ use App\Service\Command\CommandInterface;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitRemindTimeInlineKeyboard;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -27,7 +26,8 @@ class RemindTimeFormCommand extends AbstractCommand implements CommandInterface
         private readonly HabitService $habitService,
         private readonly HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -45,9 +45,11 @@ class RemindTimeFormCommand extends AbstractCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $this->translator->trans('command.response.habit_remind_time'), [
+                $this->translator->trans('command.response.habit_remind_time'),
+                [
                     'replyMarkup' => $this->habitRemindTimeInlineKeyboard->generate($habit->getId()->toRfc4122()),
-                ])
+                ]
+            )
         );
     }
 }

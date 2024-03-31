@@ -12,7 +12,6 @@ use App\Service\Command\CommandInterface;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -27,7 +26,8 @@ class RemindDayFormCommand extends AbstractCommand implements CommandInterface
         private readonly HabitService $habitService,
         private readonly HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

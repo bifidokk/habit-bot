@@ -10,7 +10,7 @@ class Animation
     {
         $animationList = $this->getAnimationsList();
 
-        if (!isset($animationList[$animationType->value])) {
+        if (! isset($animationList[$animationType->value])) {
             throw new \Exception(sprintf('Could not find animation with type %s', $animationType->value));
         }
 

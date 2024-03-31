@@ -16,7 +16,8 @@ class WebhookRequestListener implements EventSubscriberInterface
 {
     public function __construct(
         private readonly WebhookService $webhookService
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -40,7 +41,7 @@ class WebhookRequestListener implements EventSubscriberInterface
 
         $token = $request->get('token');
 
-        if (!$this->webhookService->isTokenValid($token)) {
+        if (! $this->webhookService->isTokenValid($token)) {
             $event->setResponse($this->getErrorResponse());
         }
     }

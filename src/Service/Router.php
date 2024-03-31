@@ -8,7 +8,6 @@ use App\Entity\User;
 use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
@@ -17,7 +16,8 @@ class Router
     public function __construct(
         private readonly ServiceLocator $commandLocator,
         private readonly InputHandler $inputHandler,
-    ) {}
+    ) {
+    }
 
     public function run(UpdateType $update, User $user): void
     {
@@ -75,7 +75,7 @@ class Router
     {
         $callbackData = parse_url($data);
 
-        if (!is_array($callbackData) || !isset($callbackData['path'])) {
+        if (! is_array($callbackData) || ! isset($callbackData['path'])) {
             return null;
         }
 

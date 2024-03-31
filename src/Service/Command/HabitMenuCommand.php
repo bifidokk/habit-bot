@@ -7,7 +7,6 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Service\Keyboard\EmojiCode;
 use App\Service\Keyboard\HabitMenuInlineKeyboard;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -21,7 +20,8 @@ class HabitMenuCommand extends AbstractCommand implements CommandInterface
         private readonly BotApiComplete $bot,
         private readonly HabitMenuInlineKeyboard $habitMenuInlineKeyboard,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -40,9 +40,11 @@ class HabitMenuCommand extends AbstractCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->message->chat->id,
-                $update->message->text, [
+                $update->message->text,
+                [
                     'replyMarkup' => $this->habitMenuInlineKeyboard->generate($habits),
-                ])
+                ]
+            )
         );
     }
 }

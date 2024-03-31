@@ -10,7 +10,6 @@ use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandInterface;
 use App\Service\Keyboard\EmojiCode;
 use App\Service\Keyboard\SettingsInlineKeyboard;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -24,7 +23,8 @@ class SettingsCommand extends AbstractCommand implements CommandInterface
         private readonly BotApiComplete $bot,
         private readonly SettingsInlineKeyboard $settingsInlineKeyboard,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -41,9 +41,11 @@ class SettingsCommand extends AbstractCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->message->chat->id,
-                $update->message->text, [
+                $update->message->text,
+                [
                     'replyMarkup' => $this->settingsInlineKeyboard->generate(),
-                ])
+                ]
+            )
         );
     }
 }

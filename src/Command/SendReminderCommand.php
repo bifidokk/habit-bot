@@ -32,7 +32,7 @@ class SendReminderCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$this->lock()) {
+        if (! $this->lock()) {
             $output->writeln('The command is already running in another process.');
 
             return Command::SUCCESS;

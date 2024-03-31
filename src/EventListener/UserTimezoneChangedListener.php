@@ -13,7 +13,8 @@ class UserTimezoneChangedListener implements EventSubscriberInterface
 {
     public function __construct(
         private readonly HabitService $habitService,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -33,7 +34,7 @@ class UserTimezoneChangedListener implements EventSubscriberInterface
 
         /** @var Habit $habit */
         foreach ($habits as $habit) {
-            if (!$habit->isPublished()) {
+            if (! $habit->isPublished()) {
                 continue;
             }
 

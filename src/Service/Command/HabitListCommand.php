@@ -7,7 +7,6 @@ namespace App\Service\Command;
 use App\Entity\User;
 use App\Service\Habit\HabitService;
 use App\Service\Keyboard\HabitViewInlineKeyboard;
-use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
 use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
@@ -21,7 +20,8 @@ class HabitListCommand extends AbstractCommand implements CommandInterface
         private readonly BotApiComplete $bot,
         private readonly HabitViewInlineKeyboard $habitViewInlineKeyboard,
         private readonly HabitService $habitService,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

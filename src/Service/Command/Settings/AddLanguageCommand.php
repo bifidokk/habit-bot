@@ -13,7 +13,6 @@ use App\Service\Command\CommandInterface;
 use App\Service\Keyboard\MainMenuKeyboard;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendAnimationMethod;
@@ -30,7 +29,8 @@ class AddLanguageCommand extends AbstractCommand implements CommandInterface
         private readonly UserRepository $userRepository,
         private readonly Animation $animation,
         private readonly MainMenuKeyboard $mainMenuKeyboard,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -51,9 +51,11 @@ class AddLanguageCommand extends AbstractCommand implements CommandInterface
         $this->bot->sendMessage(
             SendMessageMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $this->translator->trans('command.response.settings_language', [], null, $language), [
+                $this->translator->trans('command.response.settings_language', [], null, $language),
+                [
                     'replyMarkup' => $this->mainMenuKeyboard->generate($language),
-                ])
+                ]
+            )
         );
 
         $this->bot->sendAnimation(SendAnimationMethod::create(

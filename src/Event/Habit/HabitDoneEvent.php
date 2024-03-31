@@ -10,7 +10,8 @@ class HabitDoneEvent
 {
     public function __construct(
         private readonly Habit $habit,
-    ) {}
+    ) {
+    }
 
     public function getHabit(): Habit
     {

@@ -26,7 +26,8 @@ class HabitRemoveCommand extends AbstractCommand implements CommandInterface
         private readonly TranslatorInterface $translator,
         private readonly Animation $animation,
         private readonly Router $router,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
@@ -38,7 +39,7 @@ class HabitRemoveCommand extends AbstractCommand implements CommandInterface
     {
         $isConfirmed = (bool) $commandCallback->parameters['c'];
 
-        if (!$isConfirmed) {
+        if (! $isConfirmed) {
             $nextCommand = $this->router->getCommandByName(HabitListCommand::COMMAND_NAME);
             $nextCommand->run($update, $user, $commandCallback);
 

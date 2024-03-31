@@ -13,7 +13,8 @@ class HabitDoneSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly MetricService $metricService,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {

@@ -12,13 +12,17 @@ use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 class HabitRemindDayInlineKeyboard
 {
     public const ALL_BUTTON = 'all';
+
     public const NEXT_BUTTON = 'next';
 
     public const WEEK_DAYS = [
         'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
     ];
 
-    public function __construct(private readonly TranslatorInterface $translator) {}
+    public function __construct(
+        private readonly TranslatorInterface $translator
+    ) {
+    }
 
     public function generate(int $chosenWeekDays, string $habitId): InlineKeyboardMarkupType
     {

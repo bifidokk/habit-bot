@@ -16,7 +16,8 @@ class RemindService
     public function __construct(
         private readonly HabitRepository $habitRepository,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function toggleDay(Habit $habit, int $dayNumber): void
     {
@@ -73,7 +74,8 @@ class RemindService
                     '%s this week %s',
                     HabitRemindDayInlineKeyboard::WEEK_DAYS[$number],
                     $habit->getRemindAt()->format('H:i')
-                ), $user->getTimezone()
+                ),
+                $user->getTimezone()
             );
 
             $remindTime = $remindTime->setTimezone(new \DateTimeZone('UTC'));
@@ -88,7 +90,8 @@ class RemindService
                     '%s next week %s',
                     HabitRemindDayInlineKeyboard::WEEK_DAYS[$number],
                     $habit->getRemindAt()->format('H:i')
-                ), $user->getTimezone()
+                ),
+                $user->getTimezone()
             );
 
             $remindTimeNextWeek = $remindTimeNextWeek->setTimezone(new \DateTimeZone('UTC'));

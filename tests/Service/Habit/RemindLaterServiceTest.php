@@ -22,10 +22,7 @@ class RemindLaterServiceTest extends TestCase
         $this->remindLaterService = new RemindLaterService($habitRepository, new RedisDummyClient());
     }
 
-    /**
-     * @test
-     */
-    public function itCalculatesRemindLaterPeriodForHabitTest(): void
+    public function testItCalculatesRemindLaterPeriodForHabitTest(): void
     {
         $habit = new Habit();
         $currentTime = new \DateTimeImmutable();

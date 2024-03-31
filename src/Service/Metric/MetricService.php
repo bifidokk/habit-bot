@@ -12,7 +12,8 @@ class MetricService
 {
     public function __construct(
         private readonly MetricRepository $metricRepository,
-    ) {}
+    ) {
+    }
 
     public function addHabitMetric(
         MetricType $metricType,

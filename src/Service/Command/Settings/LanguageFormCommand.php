@@ -10,7 +10,6 @@ use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Keyboard\UserLanguageInlineKeyboard;
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
@@ -24,7 +23,8 @@ class LanguageFormCommand extends AbstractCommand implements CommandInterface
         private readonly BotApiComplete $bot,
         private readonly TranslatorInterface $translator,
         private readonly UserLanguageInlineKeyboard $userLanguageInlineKeyboard,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

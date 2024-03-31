@@ -11,6 +11,7 @@ use TgBotApi\BotApiBase\BotApiComplete;
 class Command extends WebTestCase
 {
     protected BotApiComplete $botApiCompleteMock;
+
     protected KernelBrowser $client;
 
     protected function setUp(): void

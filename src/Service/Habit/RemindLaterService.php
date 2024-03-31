@@ -11,12 +11,14 @@ use App\Service\Redis\RedisClientInterface;
 class RemindLaterService
 {
     private const REMIND_LATER_PERIODS_IN_MINUTES = [5, 10, 15];
+
     private const REMIND_LATER_PERIOD_KEY = 'habit_remind_later_%s';
 
     public function __construct(
         private readonly HabitRepository $habitRepository,
         private readonly RedisClientInterface $redisClient,
-    ) {}
+    ) {
+    }
 
     public function remindLater(Habit $habit, \DateTimeImmutable $currentTime): ?int
     {

@@ -32,7 +32,8 @@ class AddDescriptionCommand extends AbstractCommand implements CommandInterface
         private readonly InputHandler $inputHandler,
         private readonly SendMessageMethodFactory $sendMessageMethodFactory,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

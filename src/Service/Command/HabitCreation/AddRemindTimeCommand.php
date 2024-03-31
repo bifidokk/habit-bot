@@ -12,7 +12,6 @@ use App\Service\Command\CommandInterface;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Message\SendMessageMethodFactory;
-use Psr\Log\LoggerInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
@@ -24,7 +23,8 @@ class AddRemindTimeCommand extends AbstractCommand implements CommandInterface
         private readonly BotApiComplete $bot,
         private readonly HabitService $habitService,
         private readonly SendMessageMethodFactory $sendMessageMethodFactory,
-    ) {}
+    ) {
+    }
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {

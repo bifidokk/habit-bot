@@ -18,7 +18,8 @@ class LocaleSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly UserService $userService,
         private readonly string $defaultLocale = 'en',
-    ) {}
+    ) {
+    }
 
     public function onKernelRequest(RequestEvent $event): void
     {

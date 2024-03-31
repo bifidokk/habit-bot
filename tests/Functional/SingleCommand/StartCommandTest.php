@@ -22,7 +22,8 @@ class StartCommandTest extends Command
         $chatId = 1;
         $methodStart = SendMessageMethod::create(
             $chatId,
-            $translator->trans('command.response.start'), [
+            $translator->trans('command.response.start'),
+            [
                 'replyMarkup' => $mainMenuKeyboard->generate(),
             ]
         );

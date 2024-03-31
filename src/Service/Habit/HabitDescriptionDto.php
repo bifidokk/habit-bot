@@ -13,9 +13,9 @@ class HabitDescriptionDto
     #[Assert\Length(max: 255)]
     public string $description;
 
-    public static function fromMessage(MessageType $message): HabitDescriptionDto
+    public static function fromMessage(MessageType $message): self
     {
-        $data = new HabitDescriptionDto();
+        $data = new self();
         $data->description = (string) $message->text;
 
         return $data;
