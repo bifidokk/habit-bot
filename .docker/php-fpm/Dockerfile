@@ -71,5 +71,3 @@ ENV APP_ENV=prod
 RUN composer install --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader --no-scripts
 
 CMD ["php-fpm82", "-F"]
-
-EXPOSE 9001

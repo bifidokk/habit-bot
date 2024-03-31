@@ -4,8 +4,6 @@ services:
   db:
     container_name: habit_db
     image: postgres:14.1
-    ports:
-      - "${POSTGRES_PORT}:5432"
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -16,8 +14,6 @@ services:
   php:
     container_name: habit_php
     image: bifidokk/habit:latest
-    ports:
-      - "${PHP_PORT}:9001"
     env_file: php_service.env
     depends_on:
       - db
