@@ -20,7 +20,6 @@ use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
 use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
 use TgBotApi\BotApiBase\Method\SendAnimationMethod;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class AddTimezoneCommand extends AbstractCommand implements CommandInterface
