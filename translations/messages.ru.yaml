@@ -39,7 +39,7 @@ command:
         habit_published: Привычка успешно добавлена!
         habit_description: Введи описание привычки
         settings_timezone_form: Выбери свой часовой пояс
-        settings_timezone: Часовой пояс сохранен!
+        settings_timezone: Часовой пояс %timezone% сохранен!
         settings_language_form: Выбери язык
         settings_language: Язык сохранен!
         remove_not_confirmed: 'Как скажешь :)'

@@ -12,10 +12,13 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
+use App\Service\Message\MessageContent;
 use App\Service\User\Event\TimezoneChangedEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
+use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
 use TgBotApi\BotApiBase\Method\SendAnimationMethod;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
@@ -30,6 +33,7 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
         private readonly UserRepository $userRepository,
         private readonly Animation $animation,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly MessageContent $messageContent,
     ) {
     }
 
@@ -45,10 +49,10 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
             return;
         }
 
-        $timezone = $commandCallback->parameters['tz'] ?? 'UTC';
+        $timezoneInput = $commandCallback->parameters['tz'] ?? 'UTC';
 
         try {
-            $timezone = new \DateTimeZone($timezone);
+            $timezone = new \DateTimeZone($timezoneInput);
         } catch (\Throwable) {
             return;
         }
@@ -57,10 +61,20 @@ class AddTimezoneCommand extends AbstractCommand implements CommandInterface
         $this->userRepository->save($user);
         $this->eventDispatcher->dispatch(new TimezoneChangedEvent($user));
 
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
+        $responseMessage = $this->translator->trans('command.response.settings_timezone', [
+            '%timezone%' => $timezoneInput,
+        ]);
+
+        $responseMessage = $this->messageContent->escapeMessageSymbols($responseMessage);
+
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $this->translator->trans('command.response.settings_timezone')
+                $update->callbackQuery->message->messageId,
+                $responseMessage,
+                [
+                    'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
+                ]
             )
         );
 
