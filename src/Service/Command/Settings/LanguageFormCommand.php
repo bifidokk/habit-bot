@@ -12,7 +12,8 @@ use App\Service\Command\CommandInterface;
 use App\Service\Keyboard\UserLanguageInlineKeyboard;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
+use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class LanguageFormCommand extends AbstractCommand implements CommandInterface
@@ -34,11 +35,13 @@ class LanguageFormCommand extends AbstractCommand implements CommandInterface
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
+                $update->callbackQuery->message->messageId,
                 $this->translator->trans('command.response.settings_language_form'),
                 [
+                    'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
                     'replyMarkup' => $this->userLanguageInlineKeyboard->generate(),
                 ]
             )
