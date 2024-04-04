@@ -21,7 +21,7 @@ class HabitInlineKeyboard
     {
         $steps = [];
 
-        foreach ($this->getSteps() as $step => $description) {
+        foreach ($this->getSteps($habit) as $step => $description) {
             $icon = $this->isStepButtonMarked($step, $habit) ? EmojiCode::Marked->value : EmojiCode::Unmarked->value;
 
             if ($step === CommandCallbackEnum::HabitPreview->value) {
@@ -39,14 +39,19 @@ class HabitInlineKeyboard
         return InlineKeyboardMarkupType::create($steps);
     }
 
-    public function getSteps(): array
+    public function getSteps(Habit $habit): array
     {
-        return [
+        $steps = [
             CommandCallbackEnum::HabitDescriptionForm->value => $this->translator->trans('habit.creation.add_description'),
             CommandCallbackEnum::HabitRemindDayForm->value => $this->translator->trans('habit.creation.add_remind_day'),
             CommandCallbackEnum::HabitRemindTimeForm->value => $this->translator->trans('habit.creation.add_remind_time'),
-            CommandCallbackEnum::HabitPreview->value => $this->translator->trans('preview'),
         ];
+
+        if ($habit->readyForPublishing()) {
+            $steps[CommandCallbackEnum::HabitPreview->value] = $this->translator->trans('preview');
+        }
+
+        return $steps;
     }
 
     private function isStepButtonMarked(string $step, Habit $habit): bool

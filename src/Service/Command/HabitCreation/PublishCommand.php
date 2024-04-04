@@ -17,8 +17,8 @@ use App\Service\Message\AnimationType;
 use App\Service\Router;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
 use TgBotApi\BotApiBase\Method\SendAnimationMethod;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class PublishCommand extends AbstractCommand implements CommandInterface
@@ -53,10 +53,11 @@ class PublishCommand extends AbstractCommand implements CommandInterface
 
         $this->habitService->publish($habit);
 
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $this->translator->trans('command.response.habit_published'),
+                $update->callbackQuery->message->messageId,
+                $this->translator->trans('command.response.habit_published')
             )
         );
 

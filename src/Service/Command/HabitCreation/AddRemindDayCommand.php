@@ -13,11 +13,11 @@ use App\Service\Command\CommandInterface;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Habit\RemindService;
+use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
-use App\Service\Message\SendMessageMethodFactory;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class AddRemindDayCommand extends AbstractCommand implements CommandInterface
@@ -29,8 +29,8 @@ class AddRemindDayCommand extends AbstractCommand implements CommandInterface
         private readonly RemindService $remindDayService,
         private readonly HabitService $habitService,
         private readonly HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
-        private readonly SendMessageMethodFactory $sendMessageMethodFactory,
         private readonly TranslatorInterface $translator,
+        private readonly HabitInlineKeyboard $habitInlineKeyboard,
     ) {
     }
 
@@ -64,10 +64,14 @@ class AddRemindDayCommand extends AbstractCommand implements CommandInterface
 
         if ($dayName === HabitRemindDayInlineKeyboard::NEXT_BUTTON) {
             if ($habit->getRemindWeekDays() > 0) {
-                $this->bot->sendMessage(
-                    $this->sendMessageMethodFactory->createHabitMenuMethod(
+                $this->bot->editMessageText(
+                    EditMessageTextMethod::create(
                         $update->callbackQuery->message->chat->id,
-                        $habit
+                        $update->callbackQuery->message->messageId,
+                        $this->translator->trans('command.response.habit_creation'),
+                        [
+                            'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
+                        ]
                     )
                 );
 
@@ -80,9 +84,10 @@ class AddRemindDayCommand extends AbstractCommand implements CommandInterface
 
     private function updateKeyboard(UpdateType $update, Habit $habit): void
     {
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
+                $update->callbackQuery->message->messageId,
                 $this->translator->trans('command.response.habit_remind_day'),
                 [
                     'replyMarkup' => $this->habitRemindDayInlineKeyboard->generate(

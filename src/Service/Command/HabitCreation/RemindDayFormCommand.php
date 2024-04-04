@@ -14,7 +14,7 @@ use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class RemindDayFormCommand extends AbstractCommand implements CommandInterface
@@ -42,9 +42,10 @@ class RemindDayFormCommand extends AbstractCommand implements CommandInterface
             HabitState::Draft
         );
 
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
+                $update->callbackQuery->message->messageId,
                 $this->translator->trans('command.response.habit_remind_day'),
                 [
                     'replyMarkup' => $this->habitRemindDayInlineKeyboard->generate(

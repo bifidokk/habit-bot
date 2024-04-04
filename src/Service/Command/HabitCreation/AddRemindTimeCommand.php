@@ -11,8 +11,10 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
-use App\Service\Message\SendMessageMethodFactory;
+use App\Service\Keyboard\HabitInlineKeyboard;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class AddRemindTimeCommand extends AbstractCommand implements CommandInterface
@@ -22,7 +24,8 @@ class AddRemindTimeCommand extends AbstractCommand implements CommandInterface
     public function __construct(
         private readonly BotApiComplete $bot,
         private readonly HabitService $habitService,
-        private readonly SendMessageMethodFactory $sendMessageMethodFactory,
+        private readonly TranslatorInterface $translator,
+        private readonly HabitInlineKeyboard $habitInlineKeyboard,
     ) {
     }
 
@@ -54,10 +57,14 @@ class AddRemindTimeCommand extends AbstractCommand implements CommandInterface
         $habit->setRemindAt($remindAt);
         $this->habitService->save($habit);
 
-        $this->bot->sendMessage(
-            $this->sendMessageMethodFactory->createHabitMenuMethod(
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $habit
+                $update->callbackQuery->message->messageId,
+                $this->translator->trans('command.response.habit_creation'),
+                [
+                    'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
+                ]
             )
         );
     }

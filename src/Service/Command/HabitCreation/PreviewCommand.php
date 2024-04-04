@@ -14,8 +14,8 @@ use App\Service\Habit\HabitState;
 use App\Service\Keyboard\HabitPreviewInlineKeyboard;
 use App\Service\Message\SendMessageMethodFactory;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
 use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class PreviewCommand extends AbstractCommand implements CommandInterface
@@ -44,9 +44,10 @@ class PreviewCommand extends AbstractCommand implements CommandInterface
         );
 
         if ($habit->readyForPublishing()) {
-            $this->bot->sendMessage(
-                SendMessageMethod::create(
+            $this->bot->editMessageText(
+                EditMessageTextMethod::create(
                     $update->callbackQuery->message->chat->id,
+                    $update->callbackQuery->message->messageId,
                     $this->habitService->getHabitPreviewText($habit),
                     [
                         'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,

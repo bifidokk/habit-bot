@@ -14,7 +14,8 @@ use App\Service\Habit\HabitState;
 use App\Service\InputHandler;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
+use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
+use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class DescriptionFormCommand extends AbstractCommand implements CommandInterface
@@ -47,10 +48,14 @@ class DescriptionFormCommand extends AbstractCommand implements CommandInterface
             sprintf('%s?%s', CommandCallbackEnum::SetHabitDescription->value, $habit->getQueryParameter())
         );
 
-        $this->bot->sendMessage(
-            SendMessageMethod::create(
+        $this->bot->editMessageText(
+            EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
-                $this->translator->trans('command.response.habit_description')
+                $update->callbackQuery->message->messageId,
+                $this->translator->trans('command.response.habit_description'),
+                [
+                    'parseMode' => HasParseModeVariableInterface::PARSE_MODE_MARKDOWN_V2,
+                ]
             )
         );
     }
