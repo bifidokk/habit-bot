@@ -61,6 +61,6 @@ jobs:
           DATABASE_URL: postgres://symfony:symfony@127.0.0.1:${{ job.services.postgres.ports[5432] }}/symfony?charset=UTF-8
           TG_BOT_WEBHOOK_TOKEN: token
       - name: PHPStan
-        run: vendor/bin/phpstan analyse src tests --level 7
+        run: vendor/bin/phpstan analyse
       - name: Code style
         run: vendor/bin/ecs check
