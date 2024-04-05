@@ -32,7 +32,7 @@ class HabitInlineKeyboardTest extends TestCase
         $rowCount = 0;
         $steps = [];
 
-        foreach ($this->habitInlineKeyboard->getSteps() as $step => $description) {
+        foreach ($this->habitInlineKeyboard->getSteps($habit) as $description) {
             $steps[] = $description;
         }
 

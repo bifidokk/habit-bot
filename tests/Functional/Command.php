@@ -10,6 +10,9 @@ use TgBotApi\BotApiBase\BotApiComplete;
 
 class Command extends WebTestCase
 {
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|BotApiComplete
+     */
     protected BotApiComplete $botApiCompleteMock;
 
     protected KernelBrowser $client;
