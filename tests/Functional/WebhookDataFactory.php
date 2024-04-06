@@ -19,7 +19,7 @@ class WebhookDataFactory
             ],
         ];
 
-        return json_encode($data);
+        return (string) json_encode($data);
     }
 
     private static function getCommonData(): array
