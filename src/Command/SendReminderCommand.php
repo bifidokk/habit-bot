@@ -8,6 +8,7 @@ use App\Entity\Habit;
 use App\Repository\HabitRepository;
 use App\Service\Habit\RemindService;
 use App\Service\Keyboard\HabitDoneKeyboard;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -26,6 +27,7 @@ class SendReminderCommand extends Command
         private readonly BotApiComplete $bot,
         private readonly RemindService $remindService,
         private readonly HabitDoneKeyboard $habitDoneKeyboard,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }
@@ -42,15 +44,24 @@ class SendReminderCommand extends Command
 
         /** @var Habit $habit */
         foreach ($habits as $habit) {
-            $this->bot->sendMessage(
-                SendMessageMethod::create(
-                    $habit->getUser()->getTelegramId(),
-                    $habit->getDescription(),
-                    [
-                        'replyMarkup' => $this->habitDoneKeyboard->generate($habit),
-                    ]
-                )
-            );
+            try {
+                $this->bot->sendMessage(
+                    SendMessageMethod::create(
+                        $habit->getUser()->getTelegramId(),
+                        $habit->getDescription(),
+                        [
+                            'replyMarkup' => $this->habitDoneKeyboard->generate($habit),
+                        ]
+                    )
+                );
+            } catch (\Throwable $exception) {
+                $this->logger->error('An error occurred during the reminder sending', [
+                    'error' => $exception->getMessage(),
+                    'code' => $exception->getCode(),
+                ]);
+
+                continue;
+            }
 
             $habit->setNextRemindAt($this->remindService->getNextRemindTime(new \DateTimeImmutable(), $habit));
             $this->habitRepository->save($habit);
