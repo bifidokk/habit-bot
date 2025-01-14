@@ -9,12 +9,11 @@ use App\Service\Command\AbstractCommand;
 use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\CommandInterface;
-use App\Service\Command\MainMenuCommand;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
+use App\Service\Keyboard\MainMenuKeyboard;
 use App\Service\Message\Animation;
 use App\Service\Message\AnimationType;
-use App\Service\Router;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
@@ -28,9 +27,9 @@ class PublishCommand extends AbstractCommand implements CommandInterface
     public function __construct(
         private readonly BotApiComplete $bot,
         private readonly HabitService $habitService,
-        private readonly Router $router,
         private readonly Animation $animation,
         private readonly TranslatorInterface $translator,
+        private readonly MainMenuKeyboard $mainMenuKeyboard,
     ) {
     }
 
@@ -57,16 +56,16 @@ class PublishCommand extends AbstractCommand implements CommandInterface
             EditMessageTextMethod::create(
                 $update->callbackQuery->message->chat->id,
                 $update->callbackQuery->message->messageId,
-                $this->translator->trans('command.response.habit_published')
+                $this->translator->trans('command.response.habit_published'),
             )
         );
 
         $this->bot->sendAnimation(SendAnimationMethod::create(
             $update->callbackQuery->message->chat->id,
             $this->animation->getByType(AnimationType::Success),
+            [
+                'replyMarkup' => $this->mainMenuKeyboard->generate(),
+            ]
         ));
-
-        $nextCommand = $this->router->getCommandByName(MainMenuCommand::COMMAND_NAME);
-        $nextCommand->run($update, $user, $commandCallback);
     }
 }
