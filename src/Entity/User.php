@@ -36,7 +36,7 @@ class User
     #[Assert\Length(max: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(type: 'integer', unique: true)]
+    #[ORM\Column(type: 'bigint', unique: true)]
     #[Assert\NotBlank]
     private int $telegramId = 0;
 
