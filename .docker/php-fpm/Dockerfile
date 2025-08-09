@@ -32,7 +32,8 @@ RUN apk add --no-cache \
     php82-pecl-apcu \
     php82-redis \
     make \
-    curl
+    curl \
+    openssl
 
 RUN set -x ; \
   addgroup -g 82 -S www-data ; \
