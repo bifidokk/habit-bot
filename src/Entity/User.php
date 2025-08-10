@@ -10,13 +10,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use TgBotApi\BotApiBase\Type\UserType;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -56,6 +57,9 @@ class User
 
     #[ORM\Column(type: 'string', length: 8)]
     private string $timezone = 'UTC';
+
+    #[ORM\Column(type: 'json', nullable: false, options: ['default' => '[]'])]
+    private array $roles = [];
 
     public function __construct()
     {
@@ -136,5 +140,25 @@ class User
     public function getUsername(): ?string
     {
         return $this->username;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+
+        if (! in_array('ROLE_USER', $roles, true)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->id;
     }
 }

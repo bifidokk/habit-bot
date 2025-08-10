@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\Service\Telegram;
@@ -40,7 +41,9 @@ class TelegramAuthServiceTest extends TestCase
     {
         $fields = [
             'auth_date' => time(),
-            'user' => json_encode(['id' => 1]),
+            'user' => json_encode([
+                'id' => 1,
+            ]),
             'hash' => 'invalid_hash',
         ];
 
@@ -56,7 +59,9 @@ class TelegramAuthServiceTest extends TestCase
     {
         $fields = [
             'auth_date' => time() - 90000, // > 86400 seconds old
-            'user' => json_encode(['id' => 1]),
+            'user' => json_encode([
+                'id' => 1,
+            ]),
         ];
 
         $initData = $this->generateInitData($fields);
@@ -73,7 +78,7 @@ class TelegramAuthServiceTest extends TestCase
         $checkString = '';
 
         foreach ($fields as $k => $v) {
-            $checkString .= $k . '=' . $v;
+            $checkString .= $k.'='.$v;
         }
 
         $secretKey = hash('sha256', self::BOT_TOKEN, true);
