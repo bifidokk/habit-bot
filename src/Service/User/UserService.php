@@ -6,6 +6,7 @@ namespace App\Service\User;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\Telegram\TelegramUser;
 use TgBotApi\BotApiBase\Type\UpdateType;
 use TgBotApi\BotApiBase\Type\UserType;
 
@@ -29,6 +30,14 @@ class UserService
         if ($user === null) {
             $user = $this->createUser($from);
         }
+
+        return $user;
+    }
+
+    public function createFromTelegramUser(TelegramUser $telegramUser): User
+    {
+        $user = User::createFromTelegramUser($telegramUser);
+        $this->userRepository->save($user);
 
         return $user;
     }

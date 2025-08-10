@@ -82,3 +82,7 @@ services:
             $redis: '@app.my_custom_redis_provider'
 
     App\Service\Redis\RedisClientInterface: '@App\Service\Redis\RedisClient'
+
+    App\Service\Telegram\TelegramAuthService:
+      arguments:
+        $token: '%env(TG_BOT_WEBHOOK_TOKEN)%'

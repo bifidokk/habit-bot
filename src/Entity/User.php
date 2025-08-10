@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Service\Telegram\TelegramUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -75,6 +76,18 @@ class User
         $user->lastName = $userType->lastName;
         $user->languageCode = $userType->languageCode;
         $user->telegramId = $userType->id;
+
+        return $user;
+    }
+
+    public static function createFromTelegramUser(TelegramUser $telegramUser): self
+    {
+        $user = new self();
+        $user->username = $telegramUser->getUsername();
+        $user->firstName = $telegramUser->getFirstName();
+        $user->lastName = $telegramUser->getLastName();
+        $user->languageCode = $telegramUser->getLanguageCode();
+        $user->telegramId = (int) $telegramUser->getId();
 
         return $user;
     }
