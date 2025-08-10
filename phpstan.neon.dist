@@ -9,7 +9,6 @@ parameters:
     paths:
         - src
         - tests
-    checkMissingIterableValueType: false
     checkAlwaysTrueCheckTypeFunctionCall: true
     checkAlwaysTrueInstanceof: true
     checkAlwaysTrueStrictComparison: true
@@ -36,3 +35,6 @@ parameters:
         - '#Unable to resolve the template type T in call to method Doctrine\\ORM\\EntityManagerInterface::getReference\(\)#'
         - '#Method .+? should return [a-zA-Z0-9\\\|]+ but returns object\|null#'
         - '#Parameter \$repositoryClass of attribute class Doctrine\\ORM\\Mapping\\Entity constructor expects class-string<Doctrine\\ORM\\EntityRepository<T of object>>\|null, (.*) given.#'
+        - identifier: missingType.generics
+        - identifier: missingType.iterableValue
+
