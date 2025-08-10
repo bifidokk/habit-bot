@@ -14,7 +14,7 @@ class TelegramAuthServiceTest extends TestCase
     public function testItReturnsUserOnValidInitData(): void
     {
         $user = [
-            'id' => 12345,
+            'id' => '12345',
             'first_name' => 'John',
             'last_name' => 'Doe',
             'username' => 'johndoe',
