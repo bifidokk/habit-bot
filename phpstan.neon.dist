@@ -10,7 +10,6 @@ parameters:
         - src
         - tests
     checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
     checkAlwaysTrueCheckTypeFunctionCall: true
     checkAlwaysTrueInstanceof: true
     checkAlwaysTrueStrictComparison: true

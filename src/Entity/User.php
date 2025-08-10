@@ -58,7 +58,9 @@ class User implements UserInterface
     #[ORM\Column(type: 'string', length: 8)]
     private string $timezone = 'UTC';
 
-    #[ORM\Column(type: 'json', nullable: false, options: ['default' => '[]'])]
+    #[ORM\Column(type: 'json', nullable: false, options: [
+        'default' => '[]',
+    ])]
     private array $roles = [];
 
     public function __construct()
