@@ -17,13 +17,16 @@ services:
       context: ./php-fpm
       dockerfile: ./Dockerfile.dev
       args:
-        PHP_XDEBUG_MODE: ${PHP_XDEBUG_MODE}
-        PHP_XDEBUG_CLIENT_PORT: ${PHP_XDEBUG_CLIENT_PORT}
-        PHP_XDEBUG_CLIENT_HOST: ${PHP_XDEBUG_CLIENT_HOST}
         SYMFONY_CLI_VERSION: 5.8.14
+        PHP_XDEBUG_MODE: ${XDEBUG_MODE:-}
+        PHP_XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST:-host.docker.internal}
+        PHP_XDEBUG_CLIENT_PORT: ${XDEBUG_CLIENT_PORT:-9003}
     environment:
       NEW_RELIC_LICENSE_KEY: ${NEW_RELIC_AGENT_LICENSE_KEY}
       NEW_RELIC_APP_NAME: ${NEW_RELIC_APP_NAME}
+      PHP_XDEBUG_MODE: ${XDEBUG_MODE:-}
+      PHP_XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST:-host.docker.internal}
+      PHP_XDEBUG_CLIENT_PORT: ${XDEBUG_CLIENT_PORT:-9003}
     volumes:
       - ../:/var/www/symfony:cached
     depends_on:

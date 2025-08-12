@@ -30,7 +30,7 @@ class AuthController extends AbstractController
         $initData = $request->toArray()['initData'] ?? '';
         $tgUser = $this->tgAuth->verify($initData);
 
-        if (! $tgUser instanceof TelegramUser) {
+        if (!$tgUser instanceof TelegramUser) {
             return $this->json([
                 'error' => 'Invalid Telegram auth',
             ], 403);
@@ -38,7 +38,7 @@ class AuthController extends AbstractController
 
         $user = $this->userRepository->findOneByTelegramId((int) $tgUser->getId());
 
-        if (! $user) {
+        if (!$user) {
             $user = $this->userService->createFromTelegramUser($tgUser);
         }
 

@@ -16,7 +16,7 @@ class TelegramAuthService
         parse_str($initData, $data);
         $checkHash = $data['hash'] ?? '';
 
-        if (! is_string($checkHash)) {
+        if (!is_string($checkHash)) {
             return null;
         }
 
@@ -33,21 +33,21 @@ class TelegramAuthService
         $secretKey = hash('sha256', $this->token, true);
         $hash = hash_hmac('sha256', $checkString, $secretKey);
 
-        if (! isset($data['auth_date']) || ! is_numeric($data['auth_date'])) {
+        if (!isset($data['auth_date']) || !is_numeric($data['auth_date'])) {
             return null;
         }
 
-        if (! hash_equals($hash, $checkHash) || (time() - (int) $data['auth_date'] > 86400)) {
+        if (!hash_equals($hash, $checkHash) || (time() - (int) $data['auth_date'] > 86400)) {
             return null;
         }
 
-        if (! isset($data['user']) || ! is_string($data['user'])) {
+        if (!isset($data['user']) || !is_string($data['user'])) {
             return null;
         }
 
         $userData = json_decode($data['user'], true);
 
-        if (! isset($userData['id'])) {
+        if (!isset($userData['id'])) {
             return null;
         }
 
