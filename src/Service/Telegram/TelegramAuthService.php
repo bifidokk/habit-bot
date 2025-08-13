@@ -52,7 +52,7 @@ class TelegramAuthService
         }
 
         return new TelegramUser(
-            $userData['id'],
+            (string) $userData['id'],
             $userData['first_name'] ?? '',
             $userData['last_name'] ?? '',
             $userData['username'] ?? '',
