@@ -29,6 +29,7 @@ security:
     access_control:
       # Allow anyone to call the Telegram login endpoint
       - { path: ^/api/auth/telegram, roles: PUBLIC_ACCESS }
+      - { path: ^/api/health, roles: PUBLIC_ACCESS }
 
       # Require JWT for all other API endpoints
       - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
