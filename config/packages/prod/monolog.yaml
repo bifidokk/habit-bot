@@ -21,6 +21,6 @@ monolog:
           type: rotating_file
           path: '%kernel.logs_dir%/%kernel.environment%_error.log'
           level: error
-          max_files: 5         # Keep 5 old error files
+          max_files: 5
           filename_format: '{filename}-{date}'
           date_format: 'Y-m-d'
