@@ -10,9 +10,10 @@ monolog:
             type: rotating_file
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
-            max_files: 1
+            max_files: 5
             filename_format: '{filename}-{date}'
             date_format: 'Y-m-d'
+            channels: ["!php"]
         console:
             type: console
             process_psr_3_messages: false
