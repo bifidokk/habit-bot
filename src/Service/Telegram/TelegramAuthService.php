@@ -52,14 +52,14 @@ class TelegramAuthService
         $secretKey = hash_hmac('sha256', $this->token, 'WebAppData', true);
         $hash = bin2hex(hash_hmac('sha256', $sortedInitData, $secretKey, true));
 
-        return 0 === strcmp($hash, $checksum);
+        return strcmp($hash, $checksum) === 0;
     }
 
     private function convertInitData(string $initData): array
     {
         $initDataArray = explode('&', rawurldecode($initData));
         $needle = 'hash=';
-        $hash  = '';
+        $hash = '';
 
         foreach ($initDataArray as &$data) {
             if (substr($data, 0, \strlen($needle)) === $needle) {
