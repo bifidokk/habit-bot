@@ -85,7 +85,7 @@ services:
 
     App\Service\Telegram\TelegramAuthService:
       arguments:
-        $token: '%env(TG_BOT_WEBHOOK_TOKEN)%'
+        $token: '%env(TG_BOT_API_KEY)%'
 
     App\EventListener\Security\JWTCreatedListener:
       tags:

@@ -14,30 +14,16 @@ class TelegramAuthService
     public function verify(string $initData): ?TelegramUser
     {
         parse_str($initData, $data);
-        $checkHash = $data['hash'] ?? '';
 
-        if (! is_string($checkHash)) {
+        if (! isset($data['auth_date'])
+            || ! is_numeric($data['auth_date'])
+        ) {
             return null;
         }
 
-        unset($data['hash']);
-
-        ksort($data);
-        $checkString = '';
-
-        foreach ($data as $key => $value) {
-            // cast to string
-            $checkString .= sprintf('%s=%s', $key, is_array($value) ? json_encode($value) : $value);
-        }
-
-        $secretKey = hash('sha256', $this->token, true);
-        $hash = hash_hmac('sha256', $checkString, $secretKey);
-
-        if (! isset($data['auth_date']) || ! is_numeric($data['auth_date'])) {
-            return null;
-        }
-
-        if (! hash_equals($hash, $checkHash) || (time() - (int) $data['auth_date'] > 86400)) {
+        if (! $this->isSafe($initData)
+            || (time() - (int) $data['auth_date'] > 86400)
+        ) {
             return null;
         }
 
@@ -58,5 +44,33 @@ class TelegramAuthService
             $userData['username'] ?? '',
             $userData['language_code'] ?? '',
         );
+    }
+
+    public function isSafe(string $initData): bool
+    {
+        [$checksum, $sortedInitData] = $this->convertInitData($initData);
+        $secretKey = hash_hmac('sha256', $this->token, 'WebAppData', true);
+        $hash = bin2hex(hash_hmac('sha256', $sortedInitData, $secretKey, true));
+
+        return 0 === strcmp($hash, $checksum);
+    }
+
+    private function convertInitData(string $initData): array
+    {
+        $initDataArray = explode('&', rawurldecode($initData));
+        $needle = 'hash=';
+        $hash  = '';
+
+        foreach ($initDataArray as &$data) {
+            if (substr($data, 0, \strlen($needle)) === $needle) {
+                $hash = substr_replace($data, '', 0, \strlen($needle));
+                $data = null;
+            }
+        }
+
+        $initDataArray = array_filter($initDataArray);
+        sort($initDataArray);
+
+        return [$hash, implode("\n", $initDataArray)];
     }
 }

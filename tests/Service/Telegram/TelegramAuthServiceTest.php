@@ -75,13 +75,15 @@ class TelegramAuthServiceTest extends TestCase
     private function generateInitData(array $fields): string
     {
         ksort($fields);
-        $checkString = '';
+        $checkStringParts = [];
 
         foreach ($fields as $k => $v) {
-            $checkString .= $k.'='.$v;
+            $checkStringParts[] = $k.'='.$v;
         }
 
-        $secretKey = hash('sha256', self::BOT_TOKEN, true);
+        $checkString = implode("\n", $checkStringParts);
+
+        $secretKey = hash_hmac('sha256', self::BOT_TOKEN, 'WebAppData', true);
         $hash = hash_hmac('sha256', $checkString, $secretKey);
 
         $fields['hash'] = $hash;
