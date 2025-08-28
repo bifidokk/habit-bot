@@ -26,6 +26,6 @@ class HabitResponseDtoFactory
      */
     public function createFromEntities(array $habits): array
     {
-        return array_map(fn(Habit $habit) => $this->createFromEntity($habit), $habits);
+        return array_map(fn (Habit $habit) => $this->createFromEntity($habit), $habits);
     }
 }

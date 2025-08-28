@@ -13,5 +13,6 @@ class HabitResponseDto
         public string $time,
         public string $createdAt,
         public array $completions = [],
-    ) {}
+    ) {
+    }
 }

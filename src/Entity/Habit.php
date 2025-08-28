@@ -111,7 +111,7 @@ class Habit
     {
         $binaryArray = str_split(sprintf('%07d', decbin($this->getRemindWeekDays())));
 
-        return array_keys(array_filter($binaryArray, fn($v) => (int)$v === 1));
+        return array_keys(array_filter($binaryArray, fn ($v) => (int) $v === 1));
     }
 
     public function getRemindAt(): ?\DateTimeImmutable
