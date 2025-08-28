@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller\Api;
+
+use App\Entity\User;
+use App\Repository\HabitRepository;
+use App\Service\Habit\Factory\HabitResponseDtoFactory;
+use App\Service\Habit\HabitState;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+
+class HabitController extends AbstractController
+{
+    public function __construct(
+        private readonly HabitRepository $habitRepository,
+        private readonly HabitResponseDtoFactory $habitResponseDtoFactory,
+    ) {
+    }
+
+    #[Route('/api/habits', name: 'api_habits', methods: ['GET'])]
+    public function index(#[CurrentUser] ?User $user): JsonResponse
+    {
+        if (!$user instanceof User) {
+            return $this->json([],  Response::HTTP_UNAUTHORIZED);
+        }
+
+        $habits = $this->habitRepository->findBy([
+            'user' => $user,
+            'state' => HabitState::Published,
+        ]);
+
+        return $this->json(
+            $this->habitResponseDtoFactory->createFromEntities($habits),
+        );
+    }
+}

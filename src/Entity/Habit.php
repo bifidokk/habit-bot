@@ -103,6 +103,17 @@ class Habit
         $this->remindWeekDays = $remindWeekDays;
     }
 
+    /**
+     * Returns array with filled number of days from Sun to Sat
+     * [0, 2, 5] means Sun, Tue, Friday
+     */
+    public function getRemindWeekDaysArray(): array
+    {
+        $binaryArray = str_split(sprintf('%07d', decbin($this->getRemindWeekDays())));
+
+        return array_keys(array_filter($binaryArray, fn($v) => (int)$v === 1));
+    }
+
     public function getRemindAt(): ?\DateTimeImmutable
     {
         return $this->remindAt;
@@ -133,5 +144,10 @@ class Habit
     public function setNextRemindAt(?\DateTimeImmutable $nextRemindAt): void
     {
         $this->nextRemindAt = $nextRemindAt;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 }
