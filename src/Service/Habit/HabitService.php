@@ -7,6 +7,7 @@ namespace App\Service\Habit;
 use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\HabitRepository;
+use App\Service\Habit\Dto\CreateHabitRequest;
 use App\Service\Habit\Exception\CouldNotGetHabit;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -19,12 +20,27 @@ class HabitService
     ) {
     }
 
-    public function createHabit(User $user): Habit
+    public function createDraftHabit(User $user): Habit
     {
         $habit = new Habit();
         $habit->setUser($user);
 
         $this->habitRepository->save($habit);
+
+        return $habit;
+    }
+
+    public function createHabit(
+        User $user,
+        CreateHabitRequest $createHabitRequest,
+    ): Habit {
+        $habit = new Habit();
+        $habit->setUser($user);
+        $habit->setDescription($createHabitRequest->name);
+        $habit->setRemindWeekDays($createHabitRequest->generateRemindWeekDaysInteger());
+        $habit->setRemindAt(new \DateTimeImmutable($createHabitRequest->time));
+
+        $this->publish($habit);
 
         return $habit;
     }

@@ -48,7 +48,7 @@ class StartCommand extends AbstractCommand implements CommandInterface
 
         if ($habit === null) {
             $this->habitService->removeUserDraftHabits($user);
-            $habit = $this->habitService->createHabit($user);
+            $habit = $this->habitService->createDraftHabit($user);
         }
 
         $user->addHabit($habit);
