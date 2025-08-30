@@ -34,6 +34,8 @@ class HabitService
         User $user,
         CreateHabitRequest $createHabitRequest,
     ): Habit {
+        $this->removeUserDraftHabits($user);
+
         $habit = new Habit();
         $habit->setUser($user);
         $habit->setDescription($createHabitRequest->name);

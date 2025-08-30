@@ -62,4 +62,27 @@ class HabitController extends AbstractController
             $this->habitResponseDtoFactory->createFromEntity($habit),
         );
     }
+
+    #[Route('/api/habits/{id}', name: 'api_delete_habit', methods: ['DELETE'])]
+    public function delete(
+        #[CurrentUser]
+        ?User $user,
+        ?Habit $habit,
+    ): JsonResponse {
+        if (! $user instanceof User) {
+            return $this->json([], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (!$habit) {
+            return $this->json([], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($habit->getUser()?->getId() !== $user->getId()) {
+            return $this->json([], Response::HTTP_FORBIDDEN);
+        }
+
+        $this->habitService->removeHabit($habit);
+
+        return $this->json([], Response::HTTP_NO_CONTENT);
+    }
 }
