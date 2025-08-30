@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Service\Habit\Dto;
@@ -16,7 +17,6 @@ class CreateHabitRequest
             maxMessage: 'Habit name cannot be longer than {{ limit }} characters'
         )]
         public readonly string $name = '',
-
         #[Assert\NotNull(message: 'Days are required')]
         #[Assert\Type('array', message: 'Days must be an array')]
         #[Assert\Count(
@@ -31,10 +31,9 @@ class CreateHabitRequest
                 notInRangeMessage: 'Day must be between {{ min }} and {{ max }} (1=Monday, 7=Sunday)',
                 min: 1,
                 max: 7
-            )
+            ),
         ])]
         public readonly array $days = [],
-
         #[Assert\NotBlank(message: 'Time is required')]
         #[Assert\Regex(
             pattern: '/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/',

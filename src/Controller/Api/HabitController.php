@@ -47,8 +47,10 @@ class HabitController extends AbstractController
 
     #[Route('/api/habits', name: 'api_create_habit', methods: ['POST'])]
     public function create(
-        #[CurrentUser] ?User $user,
-        #[MapRequestPayload] CreateHabitRequest $createHabitRequest,
+        #[CurrentUser]
+        ?User $user,
+        #[MapRequestPayload]
+        CreateHabitRequest $createHabitRequest,
     ): JsonResponse {
         if (! $user instanceof User) {
             return $this->json([], Response::HTTP_UNAUTHORIZED);
