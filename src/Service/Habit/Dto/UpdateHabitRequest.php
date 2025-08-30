@@ -1,12 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service\Habit\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreateHabitRequest
+class UpdateHabitRequest
 {
     use HabitRequestTrait;
 

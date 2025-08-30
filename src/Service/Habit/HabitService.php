@@ -8,6 +8,7 @@ use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\HabitRepository;
 use App\Service\Habit\Dto\CreateHabitRequest;
+use App\Service\Habit\Dto\UpdateHabitRequest;
 use App\Service\Habit\Exception\CouldNotGetHabit;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -113,6 +114,18 @@ class HabitService
     public function removeHabit(Habit $habit): void
     {
         $this->habitRepository->delete($habit);
+    }
+
+    public function updateHabit(Habit $habit, UpdateHabitRequest $updateHabitRequest): Habit
+    {
+        $habit->setDescription($updateHabitRequest->name);
+        $habit->setRemindWeekDays($updateHabitRequest->generateRemindWeekDaysInteger());
+        $habit->setRemindAt(new \DateTimeImmutable($updateHabitRequest->time));
+        $habit->setNextRemindAt($this->remindService->getNextRemindTime(new \DateTimeImmutable(), $habit));
+
+        $this->habitRepository->save($habit);
+
+        return $habit;
     }
 
     public function updateHabitNextRemindTime(Habit $habit): void

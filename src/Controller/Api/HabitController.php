@@ -8,6 +8,7 @@ use App\Entity\Habit;
 use App\Entity\User;
 use App\Repository\HabitRepository;
 use App\Service\Habit\Dto\CreateHabitRequest;
+use App\Service\Habit\Dto\UpdateHabitRequest;
 use App\Service\Habit\Factory\HabitResponseDtoFactory;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
@@ -84,5 +85,32 @@ class HabitController extends AbstractController
         $this->habitService->removeHabit($habit);
 
         return $this->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('/api/habits/{id}', name: 'api_update_habit', methods: ['PUT'])]
+    public function update(
+        #[CurrentUser]
+        ?User $user,
+        ?Habit $habit,
+        #[MapRequestPayload]
+        UpdateHabitRequest $updateHabitRequest,
+    ): JsonResponse {
+        if (! $user instanceof User) {
+            return $this->json([], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (! $habit) {
+            return $this->json([], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($habit->getUser()?->getId() !== $user->getId()) {
+            return $this->json([], Response::HTTP_FORBIDDEN);
+        }
+
+        $habit = $this->habitService->updateHabit($habit, $updateHabitRequest);
+
+        return $this->json(
+            $this->habitResponseDtoFactory->createFromEntity($habit),
+        );
     }
 }
