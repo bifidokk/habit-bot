@@ -73,7 +73,7 @@ class HabitController extends AbstractController
             return $this->json([], Response::HTTP_UNAUTHORIZED);
         }
 
-        if (!$habit) {
+        if (! $habit) {
             return $this->json([], Response::HTTP_NOT_FOUND);
         }
 
