@@ -12,6 +12,7 @@ class TelegramUser
         private readonly string $lastName,
         private readonly string $username,
         private readonly string $languageCode,
+        private readonly string $photoUrl,
     ) {
     }
 
@@ -38,5 +39,10 @@ class TelegramUser
     public function getLanguageCode(): string
     {
         return $this->languageCode;
+    }
+
+    public function getPhotoUrl(): string
+    {
+        return $this->photoUrl;
     }
 }

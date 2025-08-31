@@ -43,6 +43,7 @@ class TelegramAuthService
             $userData['last_name'] ?? '',
             $userData['username'] ?? '',
             $userData['language_code'] ?? '',
+            $userData['photo_url'] ?? '',
         );
     }
 
