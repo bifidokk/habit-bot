@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Habit;
 use App\Entity\Metric;
 use Doctrine\ORM\EntityRepository;
 
@@ -24,5 +25,22 @@ class MetricRepository extends EntityRepository
         $em = $this->getEntityManager();
         $em->persist($metric);
         $em->flush();
+    }
+
+    public function findByHabitOnDate(Habit $habit, \DateTimeImmutable $date): ?Metric
+    {
+        $startOfDay = $date->setTime(0, 0, 0);
+        $endOfDay = $date->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('m')
+            ->where('m.metricDate >= :startOfDay')
+            ->andWhere('m.metricDate <= :endOfDay')
+            ->andWhere('m.habit = :habit')
+            ->setParameter('startOfDay', $startOfDay)
+            ->setParameter('endOfDay', $endOfDay)
+            ->setParameter('habit', $habit)
+            ->orderBy('m.metricDate', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

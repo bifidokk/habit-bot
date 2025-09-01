@@ -104,8 +104,8 @@ class Habit
     }
 
     /**
-     * Returns array with filled number of days from Sun to Sat
-     * [0, 2, 5] means Sun, Tue, Friday
+     * Returns array with filled number of days from Mon to Sun
+     * [0, 2, 5] means Mon, Wed, Sat
      */
     public function getRemindWeekDaysArray(): array
     {
