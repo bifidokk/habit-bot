@@ -27,7 +27,7 @@ class MetricRepository extends EntityRepository
         $em->flush();
     }
 
-    public function findByHabitOnDate(Habit $habit, \DateTimeImmutable $date): ?Metric
+    public function findByHabitOnDate(Habit $habit, \DateTimeImmutable $date): array
     {
         $startOfDay = $date->setTime(0, 0, 0);
         $endOfDay = $date->setTime(23, 59, 59);

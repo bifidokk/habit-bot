@@ -17,6 +17,12 @@ class HabitCompleteRequest
 
     public function getDateAsDateTimeImmutable(): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromFormat('Y-m-d', $this->date);
+        $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d', $this->date);
+
+        if (! $dateTime) {
+            throw new \Exception('Invalid date string');
+        }
+
+        return $dateTime;
     }
 }
