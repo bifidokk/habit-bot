@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Habit;
 use App\Entity\Metric;
+use App\Service\Metric\MetricType;
 use Doctrine\ORM\EntityRepository;
 
 class MetricRepository extends EntityRepository
@@ -39,6 +40,25 @@ class MetricRepository extends EntityRepository
             ->setParameter('startOfDay', $startOfDay)
             ->setParameter('endOfDay', $endOfDay)
             ->setParameter('habit', $habit)
+            ->orderBy('m.metricDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findHabitDoneInDateRange(Habit $habit, \DateTimeImmutable $startDate, \DateTimeImmutable $endDate): array
+    {
+        $startOfDay = $startDate->setTime(0, 0, 0);
+        $endOfDay = $endDate->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('m')
+            ->where('m.metricDate >= :startOfDay')
+            ->andWhere('m.metricDate <= :endOfDay')
+            ->andWhere('m.habit = :habit')
+            ->andWhere('m.type = :metricType')
+            ->setParameter('startOfDay', $startOfDay)
+            ->setParameter('endOfDay', $endOfDay)
+            ->setParameter('habit', $habit)
+            ->setParameter('metricType', MetricType::HabitDone)
             ->orderBy('m.metricDate', 'ASC')
             ->getQuery()
             ->getResult();

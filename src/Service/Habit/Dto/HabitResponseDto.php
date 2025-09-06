@@ -15,4 +15,16 @@ class HabitResponseDto
         public array $completions = [],
     ) {
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'days' => $this->days,
+            'time' => $this->time,
+            'createdAt' => $this->createdAt,
+            'completions' => $this->completions,
+        ];
+    }
 }

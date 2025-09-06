@@ -15,6 +15,8 @@ phpunit:
 backend_shell:
 	@docker-compose --file .docker/docker-compose.dev.yml run php /bin/sh
 
+phpstan:
+	@docker-compose --file .docker/docker-compose.dev.yml exec php vendor/bin/phpstan analyse --memory-limit=1G
+
 cs:
-	@docker-compose --file .docker/docker-compose.dev.yml exec php vendor/bin/phpstan analyse src --level 7
 	@docker-compose --file .docker/docker-compose.dev.yml exec php vendor/bin/ecs check src tests

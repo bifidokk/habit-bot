@@ -17,12 +17,12 @@ class NoTranslator implements TranslatorInterface, TranslatorBagInterface, Local
      */
     private array $catalogues = [];
 
-    public function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
+    public function trans(string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         return $id;
     }
 
-    public function getCatalogue(string $locale = null): MessageCatalogueInterface
+    public function getCatalogue(?string $locale = null): MessageCatalogueInterface
     {
         return new NoMessageCatalogue();
     }

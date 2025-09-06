@@ -19,7 +19,7 @@ class NoMessageCatalogue implements MessageCatalogueInterface
         return [];
     }
 
-    public function all(string $domain = null): array
+    public function all(?string $domain = null): array
     {
         return [];
     }
