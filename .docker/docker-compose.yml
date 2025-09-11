@@ -18,8 +18,9 @@ services:
     depends_on:
       - db
     volumes:
-      - ./config/jwt:/var/www/habit/config/jwt:ro
       - habit_app:/var/www/habit
+      - ./config/jwt/private.pem:/var/www/habit/config/jwt/private.pem:ro
+      - ./config/jwt/public.pem:/var/www/habit/config/jwt/public.pem:ro
 
   nginx:
     container_name: habit_nginx
