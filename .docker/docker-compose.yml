@@ -19,8 +19,6 @@ services:
       - db
     volumes:
       - habit_app:/var/www/habit
-      - ./config/jwt/private.pem:/var/www/habit/config/jwt/private.pem
-      - ./config/jwt/public.pem:/var/www/habit/config/jwt/public.pem
 
   nginx:
     container_name: habit_nginx
