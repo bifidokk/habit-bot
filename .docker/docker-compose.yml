@@ -18,6 +18,7 @@ services:
     depends_on:
       - db
     volumes:
+      - ./config/jwt:/var/www/habit/config/jwt:ro
       - habit_app:/var/www/habit
 
   nginx:
