@@ -22,8 +22,8 @@ class UpdateHabitRequest
         #[Assert\NotNull(message: 'Days are required')]
         #[Assert\Type('array', message: 'Days must be an array')]
         #[Assert\Count(
-            min: 0,
-            max: 6,
+            min: 1,
+            max: 7,
             minMessage: 'At least {{ limit }} day must be selected',
             maxMessage: 'Cannot select more than {{ limit }} days'
         )]
