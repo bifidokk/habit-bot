@@ -8,6 +8,7 @@ use App\Entity\Habit;
 use App\Repository\HabitRepository;
 use App\Service\Habit\RemindService;
 use App\Service\Keyboard\HabitDoneKeyboard;
+use App\Service\User\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -28,6 +29,7 @@ class SendReminderCommand extends Command
         private readonly RemindService $remindService,
         private readonly HabitDoneKeyboard $habitDoneKeyboard,
         private readonly LoggerInterface $logger,
+        private readonly UserService $userService,
     ) {
         parent::__construct();
     }
@@ -60,6 +62,10 @@ class SendReminderCommand extends Command
                     'code' => $exception->getCode(),
                 ]);
 
+                if ($this->isForbidden($exception->getMessage())) {
+                    $this->userService->deactivateUser($habit->getUser());
+                }
+
                 continue;
             }
 
@@ -70,5 +76,10 @@ class SendReminderCommand extends Command
         $this->release();
 
         return Command::SUCCESS;
+    }
+
+    private function isForbidden(string $message): bool
+    {
+        return str_contains($message, 'Forbidden');
     }
 }

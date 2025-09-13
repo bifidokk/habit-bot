@@ -42,6 +42,16 @@ class UserService
         return $user;
     }
 
+    public function deactivateUser(?User $user): void
+    {
+        if (! $user instanceof User || ! $user->isActive()) {
+            return;
+        }
+
+        $user->deactivate();
+        $this->userRepository->save($user);
+    }
+
     private function createUser(UserType $userType): User
     {
         $user = User::createFromUserType($userType);

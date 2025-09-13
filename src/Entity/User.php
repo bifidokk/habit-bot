@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use App\Service\Telegram\TelegramUser;
+use App\Service\User\UserStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -63,10 +64,16 @@ class User implements UserInterface
     ])]
     private array $roles = [];
 
+    #[ORM\Column(length: 32, enumType: UserStatus::class, options: [
+        'default' => 'active',
+    ])]
+    private UserStatus $status;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->habits = new ArrayCollection();
+        $this->status = UserStatus::Active;
     }
 
     public function getId(): ?Uuid
@@ -162,5 +169,15 @@ class User implements UserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->id;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === UserStatus::Active;
+    }
+
+    public function deactivate(): void
+    {
+        $this->status = UserStatus::Inactive;
     }
 }

@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Habit\HabitState;
+use App\Service\User\UserStatus;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Uid\Uuid;
 
@@ -60,10 +61,12 @@ class HabitRepository extends EntityRepository
 
         return $this->createQueryBuilder('h')
             ->select('h, u')
-            ->where('h.nextRemindAt is not null')
+            ->leftJoin('h.user', 'u')
+            ->where('u.status = :active')
+            ->andwhere('h.nextRemindAt is not null')
             ->andWhere('h.nextRemindAt <= :currentTime')
             ->setParameter('currentTime', $currentTime)
-            ->leftJoin('h.user', 'u')
+            ->setParameter('active', UserStatus::Active->value)
             ->getQuery()
             ->getResult();
     }
