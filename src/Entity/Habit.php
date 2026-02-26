@@ -37,7 +37,9 @@ class Habit
     #[ORM\Column(type: 'smallint')]
     private int $remindWeekDays = 0;
 
-    #[ORM\Column(length: 7, enumType: HabitColor::class, options: ['default' => '#8b5cf6'])]
+    #[ORM\Column(length: 7, enumType: HabitColor::class, options: [
+        'default' => '#8b5cf6',
+    ])]
     private HabitColor $color = HabitColor::DEFAULT;
 
     #[ORM\Column(type: 'time_immutable', nullable: true)]
