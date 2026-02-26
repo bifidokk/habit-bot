@@ -9,7 +9,7 @@ use App\Repository\MetricRepository;
 
 class HabitCompletionGenerator
 {
-    private const DEFAULT_DAYS_BACK = 100;
+    private const DEFAULT_DAYS_BACK = 365;
 
     public function __construct(
         private readonly MetricRepository $metricRepository,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\HabitRepository;
+use App\Service\Habit\HabitColor;
 use App\Service\Habit\HabitState;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -35,6 +36,9 @@ class Habit
 
     #[ORM\Column(type: 'smallint')]
     private int $remindWeekDays = 0;
+
+    #[ORM\Column(length: 7, enumType: HabitColor::class, options: ['default' => '#8b5cf6'])]
+    private HabitColor $color = HabitColor::DEFAULT;
 
     #[ORM\Column(type: 'time_immutable', nullable: true)]
     private ?\DateTimeImmutable $remindAt = null;
@@ -122,6 +126,16 @@ class Habit
     public function setRemindAt(\DateTimeImmutable $remindAt): void
     {
         $this->remindAt = $remindAt;
+    }
+
+    public function getColor(): HabitColor
+    {
+        return $this->color;
+    }
+
+    public function setColor(HabitColor $color): void
+    {
+        $this->color = $color;
     }
 
     public function readyForPublishing(): bool

@@ -42,6 +42,7 @@ class HabitService
         $habit->setDescription($createHabitRequest->name);
         $habit->setRemindWeekDays($createHabitRequest->generateRemindWeekDaysInteger());
         $habit->setRemindAt(new \DateTimeImmutable($createHabitRequest->time));
+        $habit->setColor(HabitColor::from($createHabitRequest->color));
 
         $this->publish($habit);
 
@@ -121,6 +122,7 @@ class HabitService
         $habit->setDescription($updateHabitRequest->name);
         $habit->setRemindWeekDays($updateHabitRequest->generateRemindWeekDaysInteger());
         $habit->setRemindAt(new \DateTimeImmutable($updateHabitRequest->time));
+        $habit->setColor(HabitColor::from($updateHabitRequest->color));
         $habit->setNextRemindAt($this->remindService->getNextRemindTime(new \DateTimeImmutable(), $habit));
 
         $this->habitRepository->save($habit);

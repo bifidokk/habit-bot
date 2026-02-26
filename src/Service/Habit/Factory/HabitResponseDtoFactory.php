@@ -24,6 +24,7 @@ class HabitResponseDtoFactory
             name: $habit->getDescription(),
             days: $habit->getRemindWeekDaysArray(),
             time: $habit->getRemindAt()?->format('H:i') ?? '00:00',
+            color: $habit->getColor()->value,
             createdAt: $habit->getCreatedAt()->format('Y-m-d\TH:i:s\Z'),
             completions: $completions,
         );

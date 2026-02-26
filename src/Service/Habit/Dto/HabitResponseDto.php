@@ -11,6 +11,7 @@ class HabitResponseDto
         public string $name,
         public array $days,
         public string $time,
+        public string $color,
         public string $createdAt,
         public array $completions = [],
     ) {
@@ -23,6 +24,7 @@ class HabitResponseDto
             'name' => $this->name,
             'days' => $this->days,
             'time' => $this->time,
+            'color' => $this->color,
             'createdAt' => $this->createdAt,
             'completions' => $this->completions,
         ];

@@ -41,7 +41,12 @@ class CreateHabitRequest
             pattern: '/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/',
             message: 'Time must be in HH:MM format (24-hour)'
         )]
-        public readonly string $time = ''
+        public readonly string $time = '',
+        #[Assert\Regex(
+            pattern: '/^#[0-9a-fA-F]{6}$/',
+            message: 'Color must be a valid hex color (e.g. #8b5cf6)'
+        )]
+        public readonly string $color = '#8b5cf6'
     ) {
     }
 }
