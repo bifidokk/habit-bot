@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Service\User\UserStatus;
 use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository
@@ -31,5 +32,19 @@ class UserRepository extends EntityRepository
         $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findActiveUsersWithNewsIdLessThan(int $newsId): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.status = :status')
+            ->andWhere('u.lastNewsId < :newsId')
+            ->setParameter('status', UserStatus::Active)
+            ->setParameter('newsId', $newsId)
+            ->getQuery()
+            ->getResult();
     }
 }

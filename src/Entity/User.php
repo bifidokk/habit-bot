@@ -69,6 +69,11 @@ class User implements UserInterface
     ])]
     private UserStatus $status;
 
+    #[ORM\Column(type: 'integer', options: [
+        'default' => 1,
+    ])]
+    private int $lastNewsId = 1;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -179,5 +184,15 @@ class User implements UserInterface
     public function deactivate(): void
     {
         $this->status = UserStatus::Inactive;
+    }
+
+    public function getLastNewsId(): int
+    {
+        return $this->lastNewsId;
+    }
+
+    public function setLastNewsId(int $lastNewsId): void
+    {
+        $this->lastNewsId = $lastNewsId;
     }
 }
