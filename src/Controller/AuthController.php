@@ -48,6 +48,7 @@ class AuthController extends AbstractController
                 'id' => $user->getTelegramId(),
                 'username' => $user->getUsername(),
                 'photo_url' => $tgUser->getPhotoUrl(),
+                'language' => $user->getLanguageCode(),
             ],
         ]);
     }
