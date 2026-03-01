@@ -6,6 +6,7 @@ namespace App\Service\User;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\News\NewsProvider;
 use App\Service\Telegram\TelegramUser;
 use TgBotApi\BotApiBase\Type\UpdateType;
 use TgBotApi\BotApiBase\Type\UserType;
@@ -13,7 +14,8 @@ use TgBotApi\BotApiBase\Type\UserType;
 class UserService
 {
     public function __construct(
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
+        private readonly NewsProvider $newsProvider,
     ) {
     }
 
@@ -37,6 +39,7 @@ class UserService
     public function createFromTelegramUser(TelegramUser $telegramUser): User
     {
         $user = User::createFromTelegramUser($telegramUser);
+        $user->setLastNewsId($this->newsProvider->getLatest()->id);
         $this->userRepository->save($user);
 
         return $user;
@@ -55,6 +58,7 @@ class UserService
     private function createUser(UserType $userType): User
     {
         $user = User::createFromUserType($userType);
+        $user->setLastNewsId($this->newsProvider->getLatest()->id);
         $this->userRepository->save($user);
 
         return $user;
