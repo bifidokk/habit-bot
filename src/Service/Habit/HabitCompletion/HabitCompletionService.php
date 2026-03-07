@@ -32,7 +32,7 @@ class HabitCompletionService
             return;
         }
 
-        $this->eventDispatcher->dispatch(new HabitDoneEvent($habit));
+        $this->eventDispatcher->dispatch(new HabitDoneEvent($habit, $habitCompleteRequest->getDateAsDateTimeImmutable()));
     }
 
     private function deleteHabitMetrics(Habit $habit, \DateTimeImmutable $date): void

@@ -28,7 +28,7 @@ class HabitDoneSubscriber implements EventSubscriberInterface
     public function updateHabitDoneMetric(HabitDoneEvent $habitDoneEvent): void
     {
         $habit = $habitDoneEvent->getHabit();
-        $metricDate = new \DateTimeImmutable();
+        $metricDate = $habitDoneEvent->getDate();
 
         $metrics = $this->metricRepository->findByHabitOnDate($habit, $metricDate);
 
@@ -38,7 +38,7 @@ class HabitDoneSubscriber implements EventSubscriberInterface
 
         $this->metricService->addHabitMetric(
             MetricType::HabitDone,
-            new \DateTimeImmutable(),
+            $metricDate,
             $habit
         );
     }

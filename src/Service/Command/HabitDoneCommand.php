@@ -44,7 +44,7 @@ class HabitDoneCommand extends AbstractCommand implements CommandInterface
             return;
         }
 
-        $this->eventDispatcher->dispatch(new HabitDoneEvent($habit));
+        $this->eventDispatcher->dispatch(new HabitDoneEvent($habit, new \DateTimeImmutable()));
 
         $this->bot->editMessageReplyMarkup(
             EditMessageReplyMarkupMethod::create(
