@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Api;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -19,46 +17,7 @@ abstract class ApiTestCase extends WebTestCase
     {
         parent::setUp();
 
-        $this->ensureJwtKeysExist();
         $this->client = static::createClient();
-    }
-
-    private static bool $jwtKeysGenerated = false;
-
-    private function ensureJwtKeysExist(): void
-    {
-        if (self::$jwtKeysGenerated) {
-            return;
-        }
-
-        $projectDir = dirname(__DIR__, 2);
-        $privateKeyPath = $projectDir . '/config/jwt/private.pem';
-        $publicKeyPath = $projectDir . '/config/jwt/public.pem';
-
-        if (file_exists($privateKeyPath) && file_exists($publicKeyPath)) {
-            $key = openssl_pkey_get_private(file_get_contents($privateKeyPath));
-            if ($key !== false) {
-                self::$jwtKeysGenerated = true;
-
-                return;
-            }
-        }
-
-        if (!is_dir(dirname($privateKeyPath))) {
-            mkdir(dirname($privateKeyPath), 0755, true);
-        }
-
-        $privateKey = openssl_pkey_new([
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
-            'private_key_bits' => 2048,
-        ]);
-        openssl_pkey_export($privateKey, $privateKeyPem);
-        $publicKeyPem = openssl_pkey_get_details($privateKey)['key'];
-
-        file_put_contents($privateKeyPath, $privateKeyPem);
-        file_put_contents($publicKeyPath, $publicKeyPem);
-
-        self::$jwtKeysGenerated = true;
     }
 
     protected function createUser(int $telegramId = 12345, string $firstName = 'Test'): User
@@ -79,17 +38,14 @@ abstract class ApiTestCase extends WebTestCase
 
     protected function authenticatedRequest(string $method, string $uri, User $user, array $body = []): void
     {
-        $token = $this->getJwtToken($user);
+        $this->client->loginUser($user, 'api');
 
         $this->client->request(
             $method,
             $uri,
             [],
             [],
-            [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $token,
-                'CONTENT_TYPE' => 'application/json',
-            ],
+            ['CONTENT_TYPE' => 'application/json'],
             $body ? json_encode($body) : null,
         );
     }
@@ -104,14 +60,6 @@ abstract class ApiTestCase extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             $body ? json_encode($body) : null,
         );
-    }
-
-    protected function getJwtToken(User $user): string
-    {
-        /** @var JWTTokenManagerInterface $jwtManager */
-        $jwtManager = $this->client->getContainer()->get('lexik_jwt_authentication.jwt_manager');
-
-        return $jwtManager->create($user);
     }
 
     protected function getEntityManager(): EntityManagerInterface
