@@ -12,6 +12,7 @@ class HabitCompleteRequest
         #[Assert\NotBlank(message: 'Date is required')]
         #[Assert\Date(message: 'Date must be a valid date in Y-m-d format')]
         public readonly string $date = '',
+        public readonly bool $completed = true,
     ) {
     }
 

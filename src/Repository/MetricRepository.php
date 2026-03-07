@@ -28,6 +28,31 @@ class MetricRepository extends EntityRepository
         $em->flush();
     }
 
+    public function remove(Metric $metric): void
+    {
+        $em = $this->getEntityManager();
+        $em->remove($metric);
+        $em->flush();
+    }
+
+    public function findHabitDoneOnDate(Habit $habit, \DateTimeImmutable $date): array
+    {
+        $startOfDay = $date->setTime(0, 0, 0);
+        $endOfDay = $date->setTime(23, 59, 59);
+
+        return $this->createQueryBuilder('m')
+            ->where('m.metricDate >= :startOfDay')
+            ->andWhere('m.metricDate <= :endOfDay')
+            ->andWhere('m.habit = :habit')
+            ->andWhere('m.type = :metricType')
+            ->setParameter('startOfDay', $startOfDay)
+            ->setParameter('endOfDay', $endOfDay)
+            ->setParameter('habit', $habit)
+            ->setParameter('metricType', MetricType::HabitDone)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findByHabitOnDate(Habit $habit, \DateTimeImmutable $date): array
     {
         $startOfDay = $date->setTime(0, 0, 0);
