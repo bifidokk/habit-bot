@@ -23,14 +23,25 @@ abstract class ApiTestCase extends WebTestCase
         $this->client = static::createClient();
     }
 
+    private static bool $jwtKeysGenerated = false;
+
     private function ensureJwtKeysExist(): void
     {
+        if (self::$jwtKeysGenerated) {
+            return;
+        }
+
         $projectDir = dirname(__DIR__, 2);
         $privateKeyPath = $projectDir . '/config/jwt/private.pem';
         $publicKeyPath = $projectDir . '/config/jwt/public.pem';
 
         if (file_exists($privateKeyPath) && file_exists($publicKeyPath)) {
-            return;
+            $key = openssl_pkey_get_private(file_get_contents($privateKeyPath));
+            if ($key !== false) {
+                self::$jwtKeysGenerated = true;
+
+                return;
+            }
         }
 
         if (!is_dir(dirname($privateKeyPath))) {
@@ -46,6 +57,8 @@ abstract class ApiTestCase extends WebTestCase
 
         file_put_contents($privateKeyPath, $privateKeyPem);
         file_put_contents($publicKeyPath, $publicKeyPem);
+
+        self::$jwtKeysGenerated = true;
     }
 
     protected function createUser(int $telegramId = 12345, string $firstName = 'Test'): User
