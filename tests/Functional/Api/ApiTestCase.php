@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Api;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -38,14 +39,17 @@ abstract class ApiTestCase extends WebTestCase
 
     protected function authenticatedRequest(string $method, string $uri, User $user, array $body = []): void
     {
-        $this->client->loginUser($user, 'api');
+        $token = $this->getJwtToken($user);
 
         $this->client->request(
             $method,
             $uri,
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            [
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $token,
+                'CONTENT_TYPE' => 'application/json',
+            ],
             $body ? json_encode($body) : null,
         );
     }
@@ -60,6 +64,14 @@ abstract class ApiTestCase extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             $body ? json_encode($body) : null,
         );
+    }
+
+    protected function getJwtToken(User $user): string
+    {
+        /** @var JWTTokenManagerInterface $jwtManager */
+        $jwtManager = $this->client->getContainer()->get('lexik_jwt_authentication.jwt_manager');
+
+        return $jwtManager->create($user);
     }
 
     protected function getEntityManager(): EntityManagerInterface

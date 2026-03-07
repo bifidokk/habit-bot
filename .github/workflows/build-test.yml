@@ -49,6 +49,8 @@ jobs:
       - name: Install Composer dependencies
         run: |
           composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+      - name: Generate JWT keys
+        run: php bin/console lexik:jwt:generate-keypair --skip-if-exists
       - name: Run Migration
         run: |
           composer require symfony/orm-pack
