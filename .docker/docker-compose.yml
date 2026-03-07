@@ -21,6 +21,7 @@ services:
       - db
     volumes:
       - habit_app:/var/www/habit
+      - ./jwt:/var/www/habit/config/jwt
 
   nginx:
     container_name: habit_nginx
