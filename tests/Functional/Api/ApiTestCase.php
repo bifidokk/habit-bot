@@ -19,7 +19,33 @@ abstract class ApiTestCase extends WebTestCase
     {
         parent::setUp();
 
+        $this->ensureJwtKeysExist();
         $this->client = static::createClient();
+    }
+
+    private function ensureJwtKeysExist(): void
+    {
+        $projectDir = dirname(__DIR__, 2);
+        $privateKeyPath = $projectDir . '/config/jwt/private.pem';
+        $publicKeyPath = $projectDir . '/config/jwt/public.pem';
+
+        if (file_exists($privateKeyPath) && file_exists($publicKeyPath)) {
+            return;
+        }
+
+        if (!is_dir(dirname($privateKeyPath))) {
+            mkdir(dirname($privateKeyPath), 0755, true);
+        }
+
+        $privateKey = openssl_pkey_new([
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            'private_key_bits' => 2048,
+        ]);
+        openssl_pkey_export($privateKey, $privateKeyPem);
+        $publicKeyPem = openssl_pkey_get_details($privateKey)['key'];
+
+        file_put_contents($privateKeyPath, $privateKeyPem);
+        file_put_contents($publicKeyPath, $publicKeyPem);
     }
 
     protected function createUser(int $telegramId = 12345, string $firstName = 'Test'): User
