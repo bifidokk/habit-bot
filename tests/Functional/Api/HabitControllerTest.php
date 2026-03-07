@@ -27,7 +27,7 @@ class HabitControllerTest extends ApiTestCase
 
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = json_decode((string) $this->client->getResponse()->getContent(), true);
         $this->assertCount(1, $data);
         $this->assertSame('Exercise', $data[0]['name']);
     }
@@ -45,7 +45,7 @@ class HabitControllerTest extends ApiTestCase
 
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = json_decode((string) $this->client->getResponse()->getContent(), true);
         $this->assertSame('New Habit', $data['name']);
         $this->assertSame('#ef4444', $data['color']);
     }
@@ -85,7 +85,7 @@ class HabitControllerTest extends ApiTestCase
 
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = json_decode((string) $this->client->getResponse()->getContent(), true);
         $this->assertSame('Updated Name', $data['name']);
     }
 

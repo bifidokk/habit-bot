@@ -19,7 +19,6 @@ class UserTest extends TestCase
 
         $timezone = $user->getTimezone();
 
-        $this->assertInstanceOf(\DateTimeZone::class, $timezone);
         $this->assertSame('Europe/Moscow', $timezone->getName());
     }
 
