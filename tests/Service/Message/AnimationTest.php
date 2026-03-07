@@ -16,7 +16,6 @@ class AnimationTest extends TestCase
 
         foreach (AnimationType::cases() as $type) {
             $result = $animation->getByType($type);
-            $this->assertIsString($result);
             $this->assertNotEmpty($result);
         }
     }

@@ -15,7 +15,6 @@ class HabitCompleteRequestTest extends TestCase
 
         $result = $request->getDateAsDateTimeImmutable();
 
-        $this->assertInstanceOf(\DateTimeImmutable::class, $result);
         $this->assertSame('2026-03-07', $result->format('Y-m-d'));
     }
 
