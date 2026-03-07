@@ -16,7 +16,7 @@ class HabitCompletionControllerTest extends ApiTestCase
         $user = $this->createUser();
         $habit = $this->createPublishedHabit($user);
 
-        $this->authenticatedRequest('POST', '/api/habits/' . $habit->getId()->toRfc4122() . '/completions', $user, [
+        $this->authenticatedRequest('POST', '/api/habits/'.$habit->getId()->toRfc4122().'/completions', $user, [
             'date' => '2026-03-07',
             'completed' => true,
         ]);
@@ -29,7 +29,7 @@ class HabitCompletionControllerTest extends ApiTestCase
         $user = $this->createUser();
         $habit = $this->createPublishedHabit($user);
 
-        $this->authenticatedRequest('POST', '/api/habits/' . $habit->getId()->toRfc4122() . '/completions', $user, [
+        $this->authenticatedRequest('POST', '/api/habits/'.$habit->getId()->toRfc4122().'/completions', $user, [
             'date' => '2026-03-07',
             'completed' => false,
         ]);
@@ -53,7 +53,7 @@ class HabitCompletionControllerTest extends ApiTestCase
         $otherUser = $this->createUser(22222, 'Other');
         $habit = $this->createPublishedHabit($owner);
 
-        $this->authenticatedRequest('POST', '/api/habits/' . $habit->getId()->toRfc4122() . '/completions', $otherUser, [
+        $this->authenticatedRequest('POST', '/api/habits/'.$habit->getId()->toRfc4122().'/completions', $otherUser, [
             'date' => '2026-03-07',
             'completed' => true,
         ]);

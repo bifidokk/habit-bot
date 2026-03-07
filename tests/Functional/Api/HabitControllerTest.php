@@ -55,7 +55,7 @@ class HabitControllerTest extends ApiTestCase
         $user = $this->createUser();
         $habit = $this->createPublishedHabit($user, 'To Delete');
 
-        $this->authenticatedRequest('DELETE', '/api/habits/' . $habit->getId()->toRfc4122(), $user);
+        $this->authenticatedRequest('DELETE', '/api/habits/'.$habit->getId()->toRfc4122(), $user);
 
         $this->assertSame(Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
     }
@@ -66,7 +66,7 @@ class HabitControllerTest extends ApiTestCase
         $otherUser = $this->createUser(22222, 'Other');
         $habit = $this->createPublishedHabit($owner, 'Not Yours');
 
-        $this->authenticatedRequest('DELETE', '/api/habits/' . $habit->getId()->toRfc4122(), $otherUser);
+        $this->authenticatedRequest('DELETE', '/api/habits/'.$habit->getId()->toRfc4122(), $otherUser);
 
         $this->assertSame(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
     }
@@ -76,7 +76,7 @@ class HabitControllerTest extends ApiTestCase
         $user = $this->createUser();
         $habit = $this->createPublishedHabit($user, 'Old Name');
 
-        $this->authenticatedRequest('PUT', '/api/habits/' . $habit->getId()->toRfc4122(), $user, [
+        $this->authenticatedRequest('PUT', '/api/habits/'.$habit->getId()->toRfc4122(), $user, [
             'name' => 'Updated Name',
             'days' => [0, 1],
             'time' => '10:00',

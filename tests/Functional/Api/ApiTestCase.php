@@ -47,7 +47,7 @@ abstract class ApiTestCase extends WebTestCase
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $token,
+                'HTTP_AUTHORIZATION' => 'Bearer '.$token,
                 'CONTENT_TYPE' => 'application/json',
             ],
             $body ? (string) json_encode($body) : null,
@@ -61,7 +61,9 @@ abstract class ApiTestCase extends WebTestCase
             $uri,
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            [
+                'CONTENT_TYPE' => 'application/json',
+            ],
             $body ? (string) json_encode($body) : null,
         );
     }

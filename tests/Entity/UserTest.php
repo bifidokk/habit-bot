@@ -7,7 +7,6 @@ namespace App\Tests\Entity;
 use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Telegram\TelegramUser;
-use App\Service\User\UserStatus;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase

@@ -29,7 +29,10 @@ class WebhookRequestListenerTest extends TestCase
 
     public function testValidTokenAllowsRequest(): void
     {
-        $request = new Request([], [], ['_controller' => WebhookController::class . '::webhook', 'token' => 'valid-token']);
+        $request = new Request([], [], [
+            '_controller' => WebhookController::class.'::webhook',
+            'token' => 'valid-token',
+        ]);
         $event = $this->createRequestEvent($request);
 
         $this->webhookService
@@ -45,7 +48,10 @@ class WebhookRequestListenerTest extends TestCase
 
     public function testInvalidTokenReturns403(): void
     {
-        $request = new Request([], [], ['_controller' => WebhookController::class . '::webhook', 'token' => 'bad-token']);
+        $request = new Request([], [], [
+            '_controller' => WebhookController::class.'::webhook',
+            'token' => 'bad-token',
+        ]);
         $event = $this->createRequestEvent($request);
 
         $this->webhookService
@@ -62,7 +68,9 @@ class WebhookRequestListenerTest extends TestCase
 
     public function testNonWebhookRouteSkipped(): void
     {
-        $request = new Request([], [], ['_controller' => 'App\Controller\SomeOtherController::index']);
+        $request = new Request([], [], [
+            '_controller' => 'App\Controller\SomeOtherController::index',
+        ]);
         $event = $this->createRequestEvent($request);
 
         $this->webhookService

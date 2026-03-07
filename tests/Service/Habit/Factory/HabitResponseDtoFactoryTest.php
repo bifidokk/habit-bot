@@ -27,8 +27,14 @@ class HabitResponseDtoFactoryTest extends TestCase
     {
         $habit = $this->createHabit();
         $completions = [
-            ['date' => '2026-03-07', 'completed' => true],
-            ['date' => '2026-03-06', 'completed' => false],
+            [
+                'date' => '2026-03-07',
+                'completed' => true,
+            ],
+            [
+                'date' => '2026-03-06',
+                'completed' => false,
+            ],
         ];
 
         $this->completionGenerator
