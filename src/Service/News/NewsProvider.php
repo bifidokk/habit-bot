@@ -24,6 +24,11 @@ class NewsProvider
                 ru: "🎉 Новость!\n\nУ бота теперь есть своё мини-приложение прямо в Telegram! Там можно управлять привычками и смотреть свой прогресс — всё красиво и удобно 📊✨\n\nЖми кнопку Start в боте и заглядывай 👀",
                 en: "🎉 News!\n\nThe bot now has its own mini app right inside Telegram! You can manage your habits and check your progress — all nice and tidy 📊✨\n\nHit the Start button in the bot and take a peek 👀",
             ),
+            new News(
+                id: 3,
+                ru: "🎬 Новость!\n\nТеперь можно включить или выключить анимации (GIF) в настройках бота. Если гифки отвлекают — просто отключи их в разделе Настройки 🛠️",
+                en: "🎬 News!\n\nYou can now enable or disable animations (GIFs) in the bot settings. If GIFs are distracting — just turn them off in Settings 🛠️",
+            ),
         ];
     }
 
