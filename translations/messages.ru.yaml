@@ -51,6 +51,9 @@ command:
 settings_menu:
     timezone: Часовой пояс
     language: Язык
+    animations: Анимации
+    animations_on: Анимации включены
+    animations_off: Анимации выключены
     languages:
         en: Английский
         ru: Русский

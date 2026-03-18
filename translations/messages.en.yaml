@@ -51,6 +51,9 @@ command:
 settings_menu:
     timezone: Timezone
     language: Language
+    animations: Animations
+    animations_on: Animations enabled
+    animations_off: Animations disabled
     languages:
         en: English
         ru: Russian

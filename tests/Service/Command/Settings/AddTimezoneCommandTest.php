@@ -104,6 +104,29 @@ class AddTimezoneCommandTest extends TestCase
         $this->command->run($update, $user, $callback);
     }
 
+    public function testRunDoesNotSendAnimationWhenDisabled(): void
+    {
+        $user = new User();
+        $user->toggleShowAnimations();
+        $callback = new CommandCallback();
+        $callback->command = CommandCallbackEnum::SetTimezone;
+        $callback->parameters = [
+            'tz' => 'Europe/Moscow',
+        ];
+
+        $update = $this->createCallbackUpdate(123, 456);
+
+        $this->userRepository->expects($this->once())->method('save')->with($user);
+        $this->eventDispatcher->expects($this->once())->method('dispatch');
+        $this->translator->method('trans')->willReturn('Timezone set');
+        $this->messageContent->method('escapeMessageSymbols')->willReturn('Timezone set');
+
+        $this->bot->expects($this->once())->method('editMessageText');
+        $this->bot->expects($this->never())->method('sendAnimation');
+
+        $this->command->run($update, $user, $callback);
+    }
+
     public function testRunWithInvalidTimezone(): void
     {
         $user = new User();

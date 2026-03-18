@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Keyboard;
 
+use App\Entity\User;
 use App\Service\Command\CommandCallbackEnum;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\Type\InlineKeyboardButtonType;
@@ -16,8 +17,13 @@ class SettingsInlineKeyboard
     ) {
     }
 
-    public function generate(): InlineKeyboardMarkupType
+    public function generate(User $user): InlineKeyboardMarkupType
     {
+        $statusEmoji = $user->isShowAnimations()
+            ? EmojiCode::Marked->value
+            : EmojiCode::Unmarked->value;
+        $animationsLabel = sprintf('%s %s', $statusEmoji, $this->translator->trans('settings_menu.animations'));
+
         return InlineKeyboardMarkupType::create([
             [InlineKeyboardButtonType::create(
                 sprintf(
@@ -37,6 +43,16 @@ class SettingsInlineKeyboard
                 ),
                 [
                     'callbackData' => CommandCallbackEnum::SettingsLanguageForm->value,
+                ]
+            )],
+            [InlineKeyboardButtonType::create(
+                sprintf(
+                    '%s%s',
+                    EmojiCode::Film->value,
+                    $animationsLabel
+                ),
+                [
+                    'callbackData' => CommandCallbackEnum::ToggleAnimations->value,
                 ]
             )],
         ]);

@@ -117,6 +117,32 @@ class HabitDoneCommandTest extends TestCase
         $this->command->run($update, $user, $callback);
     }
 
+    public function testRunDoesNotSendAnimationWhenDisabled(): void
+    {
+        $user = new User();
+        $user->toggleShowAnimations();
+        $habit = new Habit();
+        $habit->setUser($user);
+
+        $callback = new CommandCallback();
+        $callback->command = CommandCallbackEnum::HabitDone;
+        $callback->parameters = [
+            'id' => 'some-id',
+        ];
+
+        $update = $this->createCallbackUpdate(123, 456);
+
+        $this->habitService->method('getHabitById')->willReturn($habit);
+        $this->eventDispatcher->expects($this->once())->method('dispatch');
+        $this->translator->method('trans')->willReturn('Done!');
+
+        $this->bot->expects($this->once())->method('editMessageReplyMarkup');
+        $this->bot->expects($this->once())->method('editMessageText');
+        $this->bot->expects($this->never())->method('sendAnimation');
+
+        $this->command->run($update, $user, $callback);
+    }
+
     public function testRunReturnsEarlyForWrongUser(): void
     {
         $user = new User();

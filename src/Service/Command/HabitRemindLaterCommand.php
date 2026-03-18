@@ -72,9 +72,11 @@ class HabitRemindLaterCommand extends AbstractCommand implements CommandInterfac
             )
         );
 
-        $this->bot->sendAnimation(SendAnimationMethod::create(
-            $update->callbackQuery->message->chat->id,
-            $this->animation->getByType(AnimationType::HabitBusy)
-        ));
+        if ($user->isShowAnimations()) {
+            $this->bot->sendAnimation(SendAnimationMethod::create(
+                $update->callbackQuery->message->chat->id,
+                $this->animation->getByType(AnimationType::HabitBusy)
+            ));
+        }
     }
 }

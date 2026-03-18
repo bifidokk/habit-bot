@@ -114,6 +114,33 @@ class HabitRemindLaterCommandTest extends TestCase
         $this->command->run($update, $user, $callback);
     }
 
+    public function testRunWithRemindMinutesNullAndAnimationsDisabled(): void
+    {
+        $user = new User();
+        $user->toggleShowAnimations();
+        $habit = new Habit();
+        $habit->setUser($user);
+
+        $callback = new CommandCallback();
+        $callback->command = CommandCallbackEnum::HabitBusy;
+        $callback->parameters = [
+            'id' => 'some-id',
+        ];
+
+        $update = $this->createCallbackUpdate(123, 456);
+
+        $this->habitService->method('getHabitById')->willReturn($habit);
+        $this->remindLaterService->method('remindLater')->willReturn(0);
+
+        $this->translator->method('trans')->willReturn('No more reminders');
+
+        $this->bot->expects($this->once())->method('editMessageReplyMarkup');
+        $this->bot->expects($this->once())->method('editMessageText');
+        $this->bot->expects($this->never())->method('sendAnimation');
+
+        $this->command->run($update, $user, $callback);
+    }
+
     public function testRunReturnsEarlyForWrongUser(): void
     {
         $user = new User();

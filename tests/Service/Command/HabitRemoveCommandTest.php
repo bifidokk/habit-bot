@@ -115,6 +115,33 @@ class HabitRemoveCommandTest extends TestCase
         $this->command->run($update, $user, $callback);
     }
 
+    public function testRunConfirmedDoesNotSendAnimationWhenDisabled(): void
+    {
+        $user = new User();
+        $user->toggleShowAnimations();
+        $habit = new Habit();
+        $habit->setUser($user);
+
+        $callback = new CommandCallback();
+        $callback->command = CommandCallbackEnum::HabitRemove;
+        $callback->parameters = [
+            'c' => '1',
+            'id' => 'some-id',
+        ];
+
+        $update = $this->createCallbackUpdate(123, 456);
+
+        $this->habitService->method('getHabitById')->willReturn($habit);
+        $this->habitService->expects($this->once())->method('removeHabit')->with($habit);
+
+        $this->translator->method('trans')->willReturn('Removed');
+
+        $this->bot->expects($this->once())->method('editMessageText');
+        $this->bot->expects($this->never())->method('sendAnimation');
+
+        $this->command->run($update, $user, $callback);
+    }
+
     public function testRunConfirmedWrongUser(): void
     {
         $user = new User();

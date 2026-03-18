@@ -90,6 +90,34 @@ class PublishCommandTest extends TestCase
         $this->command->run($update, $user, $callback);
     }
 
+    public function testRunDoesNotSendAnimationWhenDisabled(): void
+    {
+        $user = new User();
+        $user->toggleShowAnimations();
+        $habit = new Habit();
+        $habit->setDescription('Test');
+        $habit->setRemindWeekDays(127);
+        $habit->setRemindAt(new \DateTimeImmutable('09:00'));
+
+        $callback = new CommandCallback();
+        $callback->command = CommandCallbackEnum::HabitPublish;
+        $callback->parameters = [
+            'id' => 'some-id',
+        ];
+
+        $update = $this->createCallbackUpdate(123, 456);
+
+        $this->habitService->method('getHabitByIdWithState')->willReturn($habit);
+        $this->habitService->expects($this->once())->method('publish')->with($habit);
+
+        $this->translator->method('trans')->willReturn('Published');
+
+        $this->bot->expects($this->once())->method('editMessageText');
+        $this->bot->expects($this->never())->method('sendAnimation');
+
+        $this->command->run($update, $user, $callback);
+    }
+
     public function testRunReturnsEarlyIfNotReady(): void
     {
         $user = new User();

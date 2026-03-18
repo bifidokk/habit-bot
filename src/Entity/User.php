@@ -74,6 +74,11 @@ class User implements UserInterface
     ])]
     private int $lastNewsId = 1;
 
+    #[ORM\Column(type: 'boolean', options: [
+        'default' => true,
+    ])]
+    private bool $showAnimations = true;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -194,5 +199,15 @@ class User implements UserInterface
     public function setLastNewsId(int $lastNewsId): void
     {
         $this->lastNewsId = $lastNewsId;
+    }
+
+    public function isShowAnimations(): bool
+    {
+        return $this->showAnimations;
+    }
+
+    public function toggleShowAnimations(): void
+    {
+        $this->showAnimations = ! $this->showAnimations;
     }
 }

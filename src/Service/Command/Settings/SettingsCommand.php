@@ -43,7 +43,7 @@ class SettingsCommand extends AbstractCommand implements CommandInterface
                 $update->message->chat->id,
                 $update->message->text,
                 [
-                    'replyMarkup' => $this->settingsInlineKeyboard->generate(),
+                    'replyMarkup' => $this->settingsInlineKeyboard->generate($user),
                 ]
             )
         );

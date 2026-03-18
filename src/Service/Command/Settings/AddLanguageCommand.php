@@ -68,9 +68,11 @@ class AddLanguageCommand extends AbstractCommand implements CommandInterface
             )
         );
 
-        $this->bot->sendAnimation(SendAnimationMethod::create(
-            $update->callbackQuery->message->chat->id,
-            $this->animation->getByType(AnimationType::Language),
-        ));
+        if ($user->isShowAnimations()) {
+            $this->bot->sendAnimation(SendAnimationMethod::create(
+                $update->callbackQuery->message->chat->id,
+                $this->animation->getByType(AnimationType::Language),
+            ));
+        }
     }
 }

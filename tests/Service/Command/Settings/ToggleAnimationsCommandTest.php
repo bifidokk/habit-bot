@@ -8,18 +8,18 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
-use App\Service\Command\Settings\AddLanguageCommand;
-use App\Service\Keyboard\MainMenuKeyboard;
-use App\Service\Message\Animation;
+use App\Service\Command\Settings\ToggleAnimationsCommand;
+use App\Service\Keyboard\SettingsInlineKeyboard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
-class AddLanguageCommandTest extends TestCase
+class ToggleAnimationsCommandTest extends TestCase
 {
-    private AddLanguageCommand $command;
+    private ToggleAnimationsCommand $command;
 
     private BotApiComplete&MockObject $bot;
 
@@ -27,33 +27,37 @@ class AddLanguageCommandTest extends TestCase
 
     private UserRepository&MockObject $userRepository;
 
-    private Animation&MockObject $animation;
-
-    private MainMenuKeyboard&MockObject $mainMenuKeyboard;
+    private SettingsInlineKeyboard&MockObject $settingsInlineKeyboard;
 
     protected function setUp(): void
     {
         $this->bot = $this->createMock(BotApiComplete::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->userRepository = $this->createMock(UserRepository::class);
-        $this->animation = $this->createMock(Animation::class);
-        $this->mainMenuKeyboard = $this->createMock(MainMenuKeyboard::class);
+        $this->settingsInlineKeyboard = $this->createMock(SettingsInlineKeyboard::class);
 
-        $this->command = new AddLanguageCommand(
+        $this->command = new ToggleAnimationsCommand(
             $this->bot,
             $this->translator,
             $this->userRepository,
-            $this->animation,
-            $this->mainMenuKeyboard,
+            $this->settingsInlineKeyboard,
         );
     }
 
     public function testCanRunWithCorrectCallback(): void
     {
         $callback = new CommandCallback();
-        $callback->command = CommandCallbackEnum::SetLanguage;
+        $callback->command = CommandCallbackEnum::ToggleAnimations;
 
         $this->assertTrue($this->command->canRun(new UpdateType(), new User(), $callback));
+    }
+
+    public function testCanRunWithWrongCallback(): void
+    {
+        $callback = new CommandCallback();
+        $callback->command = CommandCallbackEnum::HabitList;
+
+        $this->assertFalse($this->command->canRun(new UpdateType(), new User(), $callback));
     }
 
     public function testCanRunWithNull(): void
@@ -61,61 +65,57 @@ class AddLanguageCommandTest extends TestCase
         $this->assertFalse($this->command->canRun(new UpdateType(), new User(), null));
     }
 
-    public function testRunWithNullCallback(): void
-    {
-        $update = new UpdateType();
-        $user = new User();
-
-        $this->bot->expects($this->never())->method('deleteMessage');
-
-        $this->command->run($update, $user, null);
-    }
-
-    public function testRunSetsLanguageAndSendsMessages(): void
+    public function testRunTogglesAnimationsOffAndSendsMessage(): void
     {
         $user = new User();
+        $this->assertTrue($user->isShowAnimations());
+
         $callback = new CommandCallback();
-        $callback->command = CommandCallbackEnum::SetLanguage;
-        $callback->parameters = [
-            'lang' => 'ru',
-        ];
+        $callback->command = CommandCallbackEnum::ToggleAnimations;
 
         $update = $this->createCallbackUpdate(123, 456);
 
         $this->userRepository->expects($this->once())->method('save')->with($user);
 
-        $this->translator->method('trans')->willReturn('Language set');
-        $this->animation->method('getByType')->willReturn('animation_id');
+        $this->translator->method('trans')
+            ->with('settings_menu.animations_off')
+            ->willReturn('Animations disabled');
 
-        $this->bot->expects($this->once())->method('deleteMessage');
-        $this->bot->expects($this->once())->method('sendMessage');
-        $this->bot->expects($this->once())->method('sendAnimation');
+        $this->settingsInlineKeyboard->method('generate')
+            ->willReturn(InlineKeyboardMarkupType::create([]));
+
+        $this->bot->expects($this->once())->method('editMessageText');
 
         $this->command->run($update, $user, $callback);
 
-        $this->assertSame('ru', $user->getLanguageCode());
+        $this->assertFalse($user->isShowAnimations());
     }
 
-    public function testRunDoesNotSendAnimationWhenDisabled(): void
+    public function testRunTogglesAnimationsOnAndSendsMessage(): void
     {
         $user = new User();
         $user->toggleShowAnimations();
+        $this->assertFalse($user->isShowAnimations());
+
         $callback = new CommandCallback();
-        $callback->command = CommandCallbackEnum::SetLanguage;
-        $callback->parameters = [
-            'lang' => 'ru',
-        ];
+        $callback->command = CommandCallbackEnum::ToggleAnimations;
 
         $update = $this->createCallbackUpdate(123, 456);
 
         $this->userRepository->expects($this->once())->method('save')->with($user);
-        $this->translator->method('trans')->willReturn('Language set');
 
-        $this->bot->expects($this->once())->method('deleteMessage');
-        $this->bot->expects($this->once())->method('sendMessage');
-        $this->bot->expects($this->never())->method('sendAnimation');
+        $this->translator->method('trans')
+            ->with('settings_menu.animations_on')
+            ->willReturn('Animations enabled');
+
+        $this->settingsInlineKeyboard->method('generate')
+            ->willReturn(InlineKeyboardMarkupType::create([]));
+
+        $this->bot->expects($this->once())->method('editMessageText');
 
         $this->command->run($update, $user, $callback);
+
+        $this->assertTrue($user->isShowAnimations());
     }
 
     private function createCallbackUpdate(int $chatId, int $messageId): UpdateType

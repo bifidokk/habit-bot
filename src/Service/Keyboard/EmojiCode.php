@@ -39,4 +39,6 @@ enum EmojiCode: string
     case Angel = '😇';
 
     case Busy = '😩';
+
+    case Film = '🎬';
 }

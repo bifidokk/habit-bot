@@ -87,4 +87,22 @@ class UserTest extends TestCase
         // ID is null for a new entity not persisted
         $this->assertSame('', $user->getUserIdentifier());
     }
+
+    public function testShowAnimationsDefaultTrue(): void
+    {
+        $user = new User();
+
+        $this->assertTrue($user->isShowAnimations());
+    }
+
+    public function testToggleShowAnimations(): void
+    {
+        $user = new User();
+
+        $user->toggleShowAnimations();
+        $this->assertFalse($user->isShowAnimations());
+
+        $user->toggleShowAnimations();
+        $this->assertTrue($user->isShowAnimations());
+    }
 }
