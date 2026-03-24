@@ -43,8 +43,8 @@ class User implements UserInterface
     #[Assert\NotBlank]
     private int $telegramId = 0;
 
-    #[ORM\Column(type: 'string', length: 3, nullable: true)]
-    #[Assert\Length(max: 3)]
+    #[ORM\Column(type: 'string', length: 10, nullable: true)]
+    #[Assert\Length(max: 10)]
     private ?string $languageCode = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
