@@ -75,9 +75,9 @@ class User implements UserInterface
     private int $lastNewsId = 1;
 
     #[ORM\Column(type: 'boolean', options: [
-        'default' => true,
+        'default' => false,
     ])]
-    private bool $showAnimations = true;
+    private bool $showAnimations = false;
 
     public function __construct()
     {
