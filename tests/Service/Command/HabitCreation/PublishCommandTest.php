@@ -65,6 +65,7 @@ class PublishCommandTest extends TestCase
     public function testRunPublishesReadyHabit(): void
     {
         $user = new User();
+        $user->toggleShowAnimations();
         $habit = new Habit();
         $habit->setDescription('Test');
         $habit->setRemindWeekDays(127);
@@ -93,7 +94,6 @@ class PublishCommandTest extends TestCase
     public function testRunDoesNotSendAnimationWhenDisabled(): void
     {
         $user = new User();
-        $user->toggleShowAnimations();
         $habit = new Habit();
         $habit->setDescription('Test');
         $habit->setRemindWeekDays(127);

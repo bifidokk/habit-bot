@@ -87,6 +87,7 @@ class HabitDoneCommandTest extends TestCase
     public function testRunDispatchesEventAndSendsMessages(): void
     {
         $user = new User();
+        $user->toggleShowAnimations();
         $habit = new Habit();
         $habit->setUser($user);
 
@@ -120,7 +121,6 @@ class HabitDoneCommandTest extends TestCase
     public function testRunDoesNotSendAnimationWhenDisabled(): void
     {
         $user = new User();
-        $user->toggleShowAnimations();
         $habit = new Habit();
         $habit->setUser($user);
 

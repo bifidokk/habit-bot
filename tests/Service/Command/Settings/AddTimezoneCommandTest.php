@@ -80,6 +80,7 @@ class AddTimezoneCommandTest extends TestCase
     public function testRunWithValidTimezone(): void
     {
         $user = new User();
+        $user->toggleShowAnimations();
         $callback = new CommandCallback();
         $callback->command = CommandCallbackEnum::SetTimezone;
         $callback->parameters = [
@@ -107,7 +108,6 @@ class AddTimezoneCommandTest extends TestCase
     public function testRunDoesNotSendAnimationWhenDisabled(): void
     {
         $user = new User();
-        $user->toggleShowAnimations();
         $callback = new CommandCallback();
         $callback->command = CommandCallbackEnum::SetTimezone;
         $callback->parameters = [

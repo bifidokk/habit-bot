@@ -90,6 +90,7 @@ class HabitRemindLaterCommandTest extends TestCase
     public function testRunWithRemindMinutesNull(): void
     {
         $user = new User();
+        $user->toggleShowAnimations();
         $habit = new Habit();
         $habit->setUser($user);
 
@@ -117,7 +118,6 @@ class HabitRemindLaterCommandTest extends TestCase
     public function testRunWithRemindMinutesNullAndAnimationsDisabled(): void
     {
         $user = new User();
-        $user->toggleShowAnimations();
         $habit = new Habit();
         $habit->setUser($user);
 

@@ -91,6 +91,7 @@ class HabitRemoveCommandTest extends TestCase
     public function testRunConfirmedCorrectUser(): void
     {
         $user = new User();
+        $user->toggleShowAnimations();
         $habit = new Habit();
         $habit->setUser($user);
 
@@ -118,7 +119,6 @@ class HabitRemoveCommandTest extends TestCase
     public function testRunConfirmedDoesNotSendAnimationWhenDisabled(): void
     {
         $user = new User();
-        $user->toggleShowAnimations();
         $habit = new Habit();
         $habit->setUser($user);
 

@@ -65,36 +65,9 @@ class ToggleAnimationsCommandTest extends TestCase
         $this->assertFalse($this->command->canRun(new UpdateType(), new User(), null));
     }
 
-    public function testRunTogglesAnimationsOffAndSendsMessage(): void
-    {
-        $user = new User();
-        $this->assertTrue($user->isShowAnimations());
-
-        $callback = new CommandCallback();
-        $callback->command = CommandCallbackEnum::ToggleAnimations;
-
-        $update = $this->createCallbackUpdate(123, 456);
-
-        $this->userRepository->expects($this->once())->method('save')->with($user);
-
-        $this->translator->method('trans')
-            ->with('settings_menu.animations_off')
-            ->willReturn('Animations disabled');
-
-        $this->settingsInlineKeyboard->method('generate')
-            ->willReturn(InlineKeyboardMarkupType::create([]));
-
-        $this->bot->expects($this->once())->method('editMessageText');
-
-        $this->command->run($update, $user, $callback);
-
-        $this->assertFalse($user->isShowAnimations());
-    }
-
     public function testRunTogglesAnimationsOnAndSendsMessage(): void
     {
         $user = new User();
-        $user->toggleShowAnimations();
         $this->assertFalse($user->isShowAnimations());
 
         $callback = new CommandCallback();
@@ -116,6 +89,33 @@ class ToggleAnimationsCommandTest extends TestCase
         $this->command->run($update, $user, $callback);
 
         $this->assertTrue($user->isShowAnimations());
+    }
+
+    public function testRunTogglesAnimationsOffAndSendsMessage(): void
+    {
+        $user = new User();
+        $user->toggleShowAnimations();
+        $this->assertTrue($user->isShowAnimations());
+
+        $callback = new CommandCallback();
+        $callback->command = CommandCallbackEnum::ToggleAnimations;
+
+        $update = $this->createCallbackUpdate(123, 456);
+
+        $this->userRepository->expects($this->once())->method('save')->with($user);
+
+        $this->translator->method('trans')
+            ->with('settings_menu.animations_off')
+            ->willReturn('Animations disabled');
+
+        $this->settingsInlineKeyboard->method('generate')
+            ->willReturn(InlineKeyboardMarkupType::create([]));
+
+        $this->bot->expects($this->once())->method('editMessageText');
+
+        $this->command->run($update, $user, $callback);
+
+        $this->assertFalse($user->isShowAnimations());
     }
 
     private function createCallbackUpdate(int $chatId, int $messageId): UpdateType

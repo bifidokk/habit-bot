@@ -74,6 +74,7 @@ class AddLanguageCommandTest extends TestCase
     public function testRunSetsLanguageAndSendsMessages(): void
     {
         $user = new User();
+        $user->toggleShowAnimations();
         $callback = new CommandCallback();
         $callback->command = CommandCallbackEnum::SetLanguage;
         $callback->parameters = [
@@ -99,7 +100,6 @@ class AddLanguageCommandTest extends TestCase
     public function testRunDoesNotSendAnimationWhenDisabled(): void
     {
         $user = new User();
-        $user->toggleShowAnimations();
         $callback = new CommandCallback();
         $callback->command = CommandCallbackEnum::SetLanguage;
         $callback->parameters = [
