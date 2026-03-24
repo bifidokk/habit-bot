@@ -30,20 +30,20 @@ class SettingsInlineKeyboardTest extends TestCase
         $this->assertStringContainsString('settings_menu.animations', $rows[2][0]->text);
     }
 
-    public function testAnimationsButtonShowsEnabledStatus(): void
+    public function testAnimationsButtonShowsDisabledStatus(): void
     {
         $user = new User();
         $result = $this->keyboard->generate($user);
 
-        $this->assertStringContainsString('✅', $result->inlineKeyboard[2][0]->text);
+        $this->assertStringContainsString('☑️', $result->inlineKeyboard[2][0]->text);
     }
 
-    public function testAnimationsButtonShowsDisabledStatus(): void
+    public function testAnimationsButtonShowsEnabledStatus(): void
     {
         $user = new User();
         $user->toggleShowAnimations();
         $result = $this->keyboard->generate($user);
 
-        $this->assertStringContainsString('☑️', $result->inlineKeyboard[2][0]->text);
+        $this->assertStringContainsString('✅', $result->inlineKeyboard[2][0]->text);
     }
 }

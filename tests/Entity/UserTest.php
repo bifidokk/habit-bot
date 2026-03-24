@@ -88,11 +88,11 @@ class UserTest extends TestCase
         $this->assertSame('', $user->getUserIdentifier());
     }
 
-    public function testShowAnimationsDefaultTrue(): void
+    public function testShowAnimationsDefaultFalse(): void
     {
         $user = new User();
 
-        $this->assertTrue($user->isShowAnimations());
+        $this->assertFalse($user->isShowAnimations());
     }
 
     public function testToggleShowAnimations(): void
@@ -100,9 +100,9 @@ class UserTest extends TestCase
         $user = new User();
 
         $user->toggleShowAnimations();
-        $this->assertFalse($user->isShowAnimations());
+        $this->assertTrue($user->isShowAnimations());
 
         $user->toggleShowAnimations();
-        $this->assertTrue($user->isShowAnimations());
+        $this->assertFalse($user->isShowAnimations());
     }
 }
