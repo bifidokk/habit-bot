@@ -73,7 +73,9 @@ class CancelHabitCreationCommandTest extends TestCase
 
         $callback = new CommandCallback();
         $callback->command = CommandCallbackEnum::CancelHabitCreation;
-        $callback->parameters = ['id' => 'some-id'];
+        $callback->parameters = [
+            'id' => 'some-id',
+        ];
 
         $update = $this->createCallbackUpdate(123, 456);
 

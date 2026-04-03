@@ -32,12 +32,14 @@ class HabitRemindTimeKeyboardTest extends TestCase
         $this->assertIsArray($keyboard->inlineKeyboard);
 
         $timeRows = array_slice($keyboard->inlineKeyboard, 0, 6);
+
         foreach ($timeRows as $key => $row) {
             $this->assertIsArray($row);
             $this->assertEquals($expectedRow[$key], $this->getButtonLabels($row));
         }
 
-        $lastRow = end($keyboard->inlineKeyboard);
+        $rows = $keyboard->inlineKeyboard;
+        $lastRow = $rows[array_key_last($rows)];
         $lastRowLabels = $this->getButtonLabels($lastRow);
         $this->assertCount(2, $lastRowLabels);
     }

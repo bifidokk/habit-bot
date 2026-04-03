@@ -76,7 +76,9 @@ class BackToRemindDayCommandTest extends TestCase
 
         $callback = new CommandCallback();
         $callback->command = CommandCallbackEnum::BackToRemindDay;
-        $callback->parameters = ['id' => $habit->getId()->toRfc4122()];
+        $callback->parameters = [
+            'id' => $habit->getId()->toRfc4122(),
+        ];
 
         $update = $this->createCallbackUpdate(123, 456);
 
