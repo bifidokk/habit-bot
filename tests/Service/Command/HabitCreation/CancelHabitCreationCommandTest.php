@@ -4,46 +4,50 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Command\HabitCreation;
 
-use App\Entity\Habit;
 use App\Entity\User;
 use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
-use App\Service\Command\HabitCreation\AddRemindTimeCommand;
+use App\Service\Command\HabitCreation\CancelHabitCreationCommand;
 use App\Service\Habit\HabitService;
-use App\Service\Keyboard\HabitPreviewInlineKeyboard;
+use App\Service\Keyboard\HabitMenuInlineKeyboard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
-class AddRemindTimeCommandTest extends TestCase
+class CancelHabitCreationCommandTest extends TestCase
 {
-    private AddRemindTimeCommand $command;
+    private CancelHabitCreationCommand $command;
 
     private BotApiComplete&MockObject $bot;
 
     private HabitService&MockObject $habitService;
 
-    private HabitPreviewInlineKeyboard&MockObject $habitPreviewInlineKeyboard;
+    private HabitMenuInlineKeyboard&MockObject $habitMenuInlineKeyboard;
+
+    private TranslatorInterface&MockObject $translator;
 
     protected function setUp(): void
     {
         $this->bot = $this->createMock(BotApiComplete::class);
         $this->habitService = $this->createMock(HabitService::class);
-        $this->habitPreviewInlineKeyboard = $this->createMock(HabitPreviewInlineKeyboard::class);
+        $this->habitMenuInlineKeyboard = $this->createMock(HabitMenuInlineKeyboard::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
 
-        $this->command = new AddRemindTimeCommand(
+        $this->command = new CancelHabitCreationCommand(
             $this->bot,
             $this->habitService,
-            $this->habitPreviewInlineKeyboard,
+            $this->habitMenuInlineKeyboard,
+            $this->translator,
         );
     }
 
     public function testCanRunWithCorrectCallback(): void
     {
         $callback = new CommandCallback();
-        $callback->command = CommandCallbackEnum::SetHabitRemindTime;
+        $callback->command = CommandCallbackEnum::CancelHabitCreation;
 
         $this->assertTrue($this->command->canRun(new UpdateType(), new User(), $callback));
     }
@@ -63,49 +67,25 @@ class AddRemindTimeCommandTest extends TestCase
         $this->command->run($update, $user, null);
     }
 
-    public function testRunWithValidTime(): void
+    public function testRun(): void
     {
         $user = new User();
-        $habit = new Habit();
 
         $callback = new CommandCallback();
-        $callback->command = CommandCallbackEnum::SetHabitRemindTime;
-        $callback->parameters = [
-            'id' => 'some-id',
-            'time' => '09:00',
-        ];
+        $callback->command = CommandCallbackEnum::CancelHabitCreation;
+        $callback->parameters = ['id' => 'some-id'];
 
         $update = $this->createCallbackUpdate(123, 456);
 
-        $this->habitService->method('getHabitByIdWithState')->willReturn($habit);
-        $this->habitService->expects($this->once())->method('save')->with($habit);
-        $this->habitService->method('getHabitPreviewText')->willReturn('Preview text');
+        $this->habitService->expects($this->once())->method('removeUserDraftHabits')->with($user);
 
-        $this->habitPreviewInlineKeyboard->method('generate')
+        $this->translator->method('trans')->willReturn('Habits');
+        $this->habitMenuInlineKeyboard->expects($this->once())
+            ->method('generate')
             ->willReturn(InlineKeyboardMarkupType::create([]));
 
-        $this->bot->expects($this->once())->method('editMessageText');
-
-        $this->command->run($update, $user, $callback);
-    }
-
-    public function testRunWithInvalidTime(): void
-    {
-        $user = new User();
-        $habit = new Habit();
-
-        $callback = new CommandCallback();
-        $callback->command = CommandCallbackEnum::SetHabitRemindTime;
-        $callback->parameters = [
-            'id' => 'some-id',
-            'time' => 'not-a-time',
-        ];
-
-        $update = new UpdateType();
-
-        $this->habitService->method('getHabitByIdWithState')->willReturn($habit);
-        $this->habitService->expects($this->never())->method('save');
-        $this->bot->expects($this->never())->method('editMessageText');
+        $this->bot->expects($this->once())->method('deleteMessage');
+        $this->bot->expects($this->once())->method('sendMessage');
 
         $this->command->run($update, $user, $callback);
     }

@@ -41,4 +41,6 @@ enum EmojiCode: string
     case Busy = '😩';
 
     case Film = '🎬';
+
+    case Cancel = '❌';
 }

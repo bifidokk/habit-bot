@@ -11,8 +11,8 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\HabitCreation\AddRemindDayCommand;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\RemindService;
-use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
+use App\Service\Keyboard\HabitRemindTimeInlineKeyboard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Uuid;
@@ -35,7 +35,7 @@ class AddRemindDayCommandTest extends TestCase
 
     private TranslatorInterface&MockObject $translator;
 
-    private HabitInlineKeyboard&MockObject $habitInlineKeyboard;
+    private HabitRemindTimeInlineKeyboard&MockObject $habitRemindTimeInlineKeyboard;
 
     protected function setUp(): void
     {
@@ -44,7 +44,7 @@ class AddRemindDayCommandTest extends TestCase
         $this->habitService = $this->createMock(HabitService::class);
         $this->habitRemindDayInlineKeyboard = $this->createMock(HabitRemindDayInlineKeyboard::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
-        $this->habitInlineKeyboard = $this->createMock(HabitInlineKeyboard::class);
+        $this->habitRemindTimeInlineKeyboard = $this->createMock(HabitRemindTimeInlineKeyboard::class);
 
         $this->command = new AddRemindDayCommand(
             $this->bot,
@@ -52,7 +52,7 @@ class AddRemindDayCommandTest extends TestCase
             $this->habitService,
             $this->habitRemindDayInlineKeyboard,
             $this->translator,
-            $this->habitInlineKeyboard,
+            $this->habitRemindTimeInlineKeyboard,
         );
     }
 
@@ -154,10 +154,10 @@ class AddRemindDayCommandTest extends TestCase
 
         $this->habitService->method('getHabitByIdWithState')->willReturn($habit);
 
-        $this->translator->method('trans')->willReturn('Creation menu');
-        $this->habitInlineKeyboard->expects($this->once())
+        $this->translator->method('trans')->willReturn('Choose time');
+        $this->habitRemindTimeInlineKeyboard->expects($this->once())
             ->method('generate')
-            ->with($habit)
+            ->with($habit->getId()->toRfc4122())
             ->willReturn(InlineKeyboardMarkupType::create([]));
 
         $this->bot->expects($this->once())->method('editMessageText');

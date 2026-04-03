@@ -13,7 +13,7 @@ use App\Service\Habit\HabitDescriptionDto;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\InputHandler;
-use App\Service\Message\SendMessageMethodFactory;
+use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
@@ -30,7 +30,7 @@ class AddDescriptionCommand extends AbstractCommand implements CommandInterface
         private readonly HabitService $habitService,
         private readonly ValidatorInterface $validator,
         private readonly InputHandler $inputHandler,
-        private readonly SendMessageMethodFactory $sendMessageMethodFactory,
+        private readonly HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
         private readonly TranslatorInterface $translator,
     ) {
     }
@@ -72,7 +72,16 @@ class AddDescriptionCommand extends AbstractCommand implements CommandInterface
 
         $this->inputHandler->unwaitForInput($user);
         $this->bot->sendMessage(
-            $this->sendMessageMethodFactory->createHabitMenuMethod($update->message->chat->id, $habit)
+            SendMessageMethod::create(
+                $update->message->chat->id,
+                $this->translator->trans('command.response.habit_remind_day'),
+                [
+                    'replyMarkup' => $this->habitRemindDayInlineKeyboard->generate(
+                        $habit->getRemindWeekDays(),
+                        $habit->getId()->toRfc4122()
+                    ),
+                ]
+            )
         );
     }
 

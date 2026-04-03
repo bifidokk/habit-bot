@@ -11,15 +11,15 @@ use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\HabitCreation\AddDescriptionCommand;
 use App\Service\Habit\HabitService;
 use App\Service\InputHandler;
-use App\Service\Message\SendMessageMethodFactory;
+use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
-use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class AddDescriptionCommandTest extends TestCase
@@ -34,7 +34,7 @@ class AddDescriptionCommandTest extends TestCase
 
     private InputHandler&MockObject $inputHandler;
 
-    private SendMessageMethodFactory&MockObject $sendMessageMethodFactory;
+    private HabitRemindDayInlineKeyboard&MockObject $habitRemindDayInlineKeyboard;
 
     private TranslatorInterface&MockObject $translator;
 
@@ -44,7 +44,7 @@ class AddDescriptionCommandTest extends TestCase
         $this->habitService = $this->createMock(HabitService::class);
         $this->validator = $this->createMock(ValidatorInterface::class);
         $this->inputHandler = $this->createMock(InputHandler::class);
-        $this->sendMessageMethodFactory = $this->createMock(SendMessageMethodFactory::class);
+        $this->habitRemindDayInlineKeyboard = $this->createMock(HabitRemindDayInlineKeyboard::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
 
         $this->command = new AddDescriptionCommand(
@@ -52,7 +52,7 @@ class AddDescriptionCommandTest extends TestCase
             $this->habitService,
             $this->validator,
             $this->inputHandler,
-            $this->sendMessageMethodFactory,
+            $this->habitRemindDayInlineKeyboard,
             $this->translator,
         );
     }
@@ -89,7 +89,7 @@ class AddDescriptionCommandTest extends TestCase
     public function testRunWithValidDescription(): void
     {
         $user = new User();
-        $habit = new Habit();
+        $habit = $this->createHabitWithId();
 
         $callback = new CommandCallback();
         $callback->command = CommandCallbackEnum::SetHabitDescription;
@@ -110,8 +110,7 @@ class AddDescriptionCommandTest extends TestCase
 
         $this->inputHandler->expects($this->once())->method('unwaitForInput')->with($user);
 
-        $sendMethod = SendMessageMethod::create(123, 'menu');
-        $this->sendMessageMethodFactory->method('createHabitMenuMethod')->willReturn($sendMethod);
+        $this->translator->method('trans')->willReturn('Choose days');
 
         $this->bot->expects($this->once())->method('sendMessage');
 
@@ -170,5 +169,18 @@ class AddDescriptionCommandTest extends TestCase
         $this->bot->expects($this->once())->method('sendMessage');
 
         $this->command->run($update, $user, $callback);
+    }
+
+    private function createHabitWithId(): Habit
+    {
+        $habit = new Habit();
+        $habit->setUser(new User());
+        $habit->setRemindWeekDays(0);
+
+        $reflection = new \ReflectionClass($habit);
+        $property = $reflection->getProperty('id');
+        $property->setValue($habit, Uuid::v4());
+
+        return $habit;
     }
 }

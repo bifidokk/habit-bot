@@ -43,4 +43,12 @@ enum CommandCallbackEnum: string
     case HabitBusy = '/busy';
 
     case ToggleAnimations = '/toggleAnimations';
+
+    case BackToRemindDay = '/backToRemindDay';
+
+    case CancelHabitCreation = '/cancelHabitCreation';
+
+    case BackToRemindTime = '/backToRemindTime';
+
+    case BackToDescription = '/backToDescription';
 }

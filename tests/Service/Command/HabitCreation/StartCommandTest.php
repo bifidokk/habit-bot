@@ -10,12 +10,12 @@ use App\Service\Command\CommandCallback;
 use App\Service\Command\CommandCallbackEnum;
 use App\Service\Command\HabitCreation\StartCommand;
 use App\Service\Habit\HabitService;
-use App\Service\Keyboard\HabitInlineKeyboard;
+use App\Service\InputHandler;
+use App\Service\Keyboard\MainMenuKeyboard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
-use TgBotApi\BotApiBase\Type\InlineKeyboardMarkupType;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
 class StartCommandTest extends TestCase
@@ -26,22 +26,26 @@ class StartCommandTest extends TestCase
 
     private HabitService&MockObject $habitService;
 
+    private InputHandler&MockObject $inputHandler;
+
     private TranslatorInterface&MockObject $translator;
 
-    private HabitInlineKeyboard&MockObject $habitInlineKeyboard;
+    private MainMenuKeyboard&MockObject $mainMenuKeyboard;
 
     protected function setUp(): void
     {
         $this->bot = $this->createMock(BotApiComplete::class);
         $this->habitService = $this->createMock(HabitService::class);
+        $this->inputHandler = $this->createMock(InputHandler::class);
         $this->translator = $this->createMock(TranslatorInterface::class);
-        $this->habitInlineKeyboard = $this->createMock(HabitInlineKeyboard::class);
+        $this->mainMenuKeyboard = $this->createMock(MainMenuKeyboard::class);
 
         $this->command = new StartCommand(
             $this->bot,
             $this->habitService,
+            $this->inputHandler,
             $this->translator,
-            $this->habitInlineKeyboard,
+            $this->mainMenuKeyboard,
         );
     }
 
@@ -75,11 +79,9 @@ class StartCommandTest extends TestCase
         $this->habitService->expects($this->never())->method('removeUserDraftHabits');
         $this->habitService->expects($this->never())->method('createDraftHabit');
 
-        $this->translator->method('trans')->willReturn('Creation');
-        $this->habitInlineKeyboard->method('generate')
-            ->willReturn(InlineKeyboardMarkupType::create([]));
-
-        $this->bot->expects($this->once())->method('editMessageText');
+        $this->translator->method('trans')->willReturn('Description');
+        $this->inputHandler->expects($this->once())->method('waitForInput');
+        $this->bot->expects($this->once())->method('sendMessage');
 
         $this->command->run($update, $user, $callback);
     }
@@ -98,11 +100,9 @@ class StartCommandTest extends TestCase
         $this->habitService->expects($this->once())->method('removeUserDraftHabits')->with($user);
         $this->habitService->expects($this->once())->method('createDraftHabit')->with($user)->willReturn($habit);
 
-        $this->translator->method('trans')->willReturn('Creation');
-        $this->habitInlineKeyboard->method('generate')
-            ->willReturn(InlineKeyboardMarkupType::create([]));
-
-        $this->bot->expects($this->once())->method('editMessageText');
+        $this->translator->method('trans')->willReturn('Description');
+        $this->inputHandler->expects($this->once())->method('waitForInput');
+        $this->bot->expects($this->once())->method('sendMessage');
 
         $this->command->run($update, $user, $callback);
     }
@@ -117,11 +117,9 @@ class StartCommandTest extends TestCase
         $this->habitService->expects($this->once())->method('removeUserDraftHabits')->with($user);
         $this->habitService->expects($this->once())->method('createDraftHabit')->with($user)->willReturn($habit);
 
-        $this->translator->method('trans')->willReturn('Creation');
-        $this->habitInlineKeyboard->method('generate')
-            ->willReturn(InlineKeyboardMarkupType::create([]));
-
-        $this->bot->expects($this->once())->method('editMessageText');
+        $this->translator->method('trans')->willReturn('Description');
+        $this->inputHandler->expects($this->once())->method('waitForInput');
+        $this->bot->expects($this->once())->method('sendMessage');
 
         $this->command->run($update, $user, null);
     }

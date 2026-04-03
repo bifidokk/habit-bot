@@ -27,12 +27,18 @@ class HabitPreviewInlineKeyboardTest extends TestCase
         $result = $this->keyboard->generate($habit);
 
         $rows = $result->inlineKeyboard;
-        $this->assertCount(1, $rows);
-        $this->assertCount(2, $rows[0]);
+        $habitId = $habit->getId()->toRfc4122();
+
+        $this->assertCount(3, $rows);
+        $this->assertCount(1, $rows[0]);
+        $this->assertCount(1, $rows[1]);
+        $this->assertCount(1, $rows[2]);
         $this->assertStringContainsString('back', $rows[0][0]->text);
-        $this->assertStringContainsString('submit', $rows[0][1]->text);
-        $this->assertStringContainsString($habit->getId()->toRfc4122(), $rows[0][0]->callbackData);
-        $this->assertStringContainsString($habit->getId()->toRfc4122(), $rows[0][1]->callbackData);
+        $this->assertStringContainsString('cancel', $rows[1][0]->text);
+        $this->assertStringContainsString('submit', $rows[2][0]->text);
+        $this->assertStringContainsString($habitId, $rows[0][0]->callbackData);
+        $this->assertStringContainsString($habitId, $rows[1][0]->callbackData);
+        $this->assertStringContainsString($habitId, $rows[2][0]->callbackData);
     }
 
     private function createHabitWithId(): Habit

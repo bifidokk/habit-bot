@@ -12,6 +12,8 @@ habit:
         confirm: Вы уверены, что хотите удалить?
 preview: Предпросмотр
 back: Назад
+cancel: Отмена
+cancelled: Отменено
 submit: Сохранить
 choose_all: Выбрать все
 next: Далее

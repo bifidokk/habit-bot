@@ -7,13 +7,17 @@ namespace App\Tests\Service\Keyboard;
 use App\Service\Keyboard\HabitRemindTimeInlineKeyboard;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\Type\KeyboardButtonType;
 
 class HabitRemindTimeKeyboardTest extends TestCase
 {
     public function testItCreatesValidTimeKeyboardTest(): void
     {
-        $habitRemindTimeInlineKeyboard = new HabitRemindTimeInlineKeyboard();
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->method('trans')->willReturnArgument(0);
+
+        $habitRemindTimeInlineKeyboard = new HabitRemindTimeInlineKeyboard($translator);
 
         $expectedRow = [
             ['06:00', '07:00', '08:00'],
@@ -27,10 +31,15 @@ class HabitRemindTimeKeyboardTest extends TestCase
         $keyboard = $habitRemindTimeInlineKeyboard->generate(Uuid::v4()->toRfc4122());
         $this->assertIsArray($keyboard->inlineKeyboard);
 
-        foreach ($keyboard->inlineKeyboard as $key => $row) {
+        $timeRows = array_slice($keyboard->inlineKeyboard, 0, 6);
+        foreach ($timeRows as $key => $row) {
             $this->assertIsArray($row);
             $this->assertEquals($expectedRow[$key], $this->getButtonLabels($row));
         }
+
+        $lastRow = end($keyboard->inlineKeyboard);
+        $lastRowLabels = $this->getButtonLabels($lastRow);
+        $this->assertCount(2, $lastRowLabels);
     }
 
     private function getButtonLabels(array $buttons): array

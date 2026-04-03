@@ -57,7 +57,29 @@ class HabitRemindDayInlineKeyboard
             $buttons,
             [
                 InlineKeyboardButtonType::create(
-                    $this->translator->trans('choose_all'),
+                    sprintf('%s %s', EmojiCode::Back->value, $this->translator->trans('back')),
+                    [
+                        'callbackData' => sprintf(
+                            '%s?id=%s',
+                            CommandCallbackEnum::BackToDescription->value,
+                            $habitId
+                        ),
+                    ]
+                ),
+                InlineKeyboardButtonType::create(
+                    sprintf('%s %s', EmojiCode::Cancel->value, $this->translator->trans('cancel')),
+                    [
+                        'callbackData' => sprintf(
+                            '%s?id=%s',
+                            CommandCallbackEnum::CancelHabitCreation->value,
+                            $habitId
+                        ),
+                    ]
+                ),
+            ],
+            [
+                InlineKeyboardButtonType::create(
+                    sprintf('%s %s', EmojiCode::Marked->value, $this->translator->trans('choose_all')),
                     [
                         'callbackData' => sprintf(
                             '%s?id=%s&day=%s',
@@ -67,10 +89,8 @@ class HabitRemindDayInlineKeyboard
                         ),
                     ]
                 ),
-            ],
-            [
                 InlineKeyboardButtonType::create(
-                    $this->translator->trans('next'),
+                    sprintf('%s %s', EmojiCode::Next->value, $this->translator->trans('next')),
                     [
                         'callbackData' => sprintf(
                             '%s?id=%s&day=%s',

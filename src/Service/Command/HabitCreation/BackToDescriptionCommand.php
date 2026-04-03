@@ -15,13 +15,14 @@ use App\Service\InputHandler;
 use App\Service\Keyboard\MainMenuKeyboard;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
+use TgBotApi\BotApiBase\Method\DeleteMessageMethod;
 use TgBotApi\BotApiBase\Method\Interfaces\HasParseModeVariableInterface;
 use TgBotApi\BotApiBase\Method\SendMessageMethod;
 use TgBotApi\BotApiBase\Type\UpdateType;
 
-class StartCommand extends AbstractCommand implements CommandInterface
+class BackToDescriptionCommand extends AbstractCommand implements CommandInterface
 {
-    public const COMMAND_NAME = 'habit_creation_start';
+    public const COMMAND_NAME = 'habit_creation_back_to_description';
 
     public function __construct(
         private readonly BotApiComplete $bot,
@@ -34,26 +35,27 @@ class StartCommand extends AbstractCommand implements CommandInterface
 
     public function canRun(UpdateType $update, User $user, ?CommandCallback $commandCallback): bool
     {
-        return $commandCallback !== null && $commandCallback->command === CommandCallbackEnum::HabitForm;
+        return $commandCallback !== null
+            && $commandCallback->command === CommandCallbackEnum::BackToDescription;
     }
 
     public function run(UpdateType $update, User $user, ?CommandCallback $commandCallback): void
     {
-        $habit = null;
-
-        if ($commandCallback !== null && isset($commandCallback->parameters['id'])) {
-            $habit = $this->habitService->getHabitByIdWithState(
-                $commandCallback->parameters['id'],
-                HabitState::Draft
-            );
+        if ($commandCallback === null) {
+            return;
         }
 
-        if ($habit === null) {
-            $this->habitService->removeUserDraftHabits($user);
-            $habit = $this->habitService->createDraftHabit($user);
-        }
+        $habit = $this->habitService->getHabitByIdWithState(
+            $commandCallback->parameters['id'],
+            HabitState::Draft
+        );
 
-        $user->addHabit($habit);
+        $this->bot->deleteMessage(
+            DeleteMessageMethod::create(
+                $update->callbackQuery->message->chat->id,
+                $update->callbackQuery->message->messageId,
+            )
+        );
 
         $this->inputHandler->waitForInput(
             $user,

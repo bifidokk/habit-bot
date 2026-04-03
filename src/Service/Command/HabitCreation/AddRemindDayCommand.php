@@ -13,8 +13,8 @@ use App\Service\Command\CommandInterface;
 use App\Service\Habit\HabitService;
 use App\Service\Habit\HabitState;
 use App\Service\Habit\RemindService;
-use App\Service\Keyboard\HabitInlineKeyboard;
 use App\Service\Keyboard\HabitRemindDayInlineKeyboard;
+use App\Service\Keyboard\HabitRemindTimeInlineKeyboard;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TgBotApi\BotApiBase\BotApiComplete;
 use TgBotApi\BotApiBase\Method\EditMessageTextMethod;
@@ -30,7 +30,7 @@ class AddRemindDayCommand extends AbstractCommand implements CommandInterface
         private readonly HabitService $habitService,
         private readonly HabitRemindDayInlineKeyboard $habitRemindDayInlineKeyboard,
         private readonly TranslatorInterface $translator,
-        private readonly HabitInlineKeyboard $habitInlineKeyboard,
+        private readonly HabitRemindTimeInlineKeyboard $habitRemindTimeInlineKeyboard,
     ) {
     }
 
@@ -68,9 +68,11 @@ class AddRemindDayCommand extends AbstractCommand implements CommandInterface
                     EditMessageTextMethod::create(
                         $update->callbackQuery->message->chat->id,
                         $update->callbackQuery->message->messageId,
-                        $this->translator->trans('command.response.habit_creation'),
+                        $this->translator->trans('command.response.habit_remind_time'),
                         [
-                            'replyMarkup' => $this->habitInlineKeyboard->generate($habit),
+                            'replyMarkup' => $this->habitRemindTimeInlineKeyboard->generate(
+                                $habit->getId()->toRfc4122()
+                            ),
                         ]
                     )
                 );

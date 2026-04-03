@@ -19,19 +19,35 @@ class HabitPreviewInlineKeyboard
 
     public function generate(Habit $habit): InlineKeyboardMarkupType
     {
+        $habitId = $habit->getId()->toRfc4122();
+
         return InlineKeyboardMarkupType::create([
             [
                 InlineKeyboardButtonType::create(sprintf(
-                    '️%s%s',
+                    '%s %s',
                     EmojiCode::Back->value,
                     $this->translator->trans('back')
                 ), [
                     'callbackData' => sprintf(
                         '%s?id=%s',
-                        CommandCallbackEnum::HabitForm->value,
-                        $habit->getId()->toRfc4122()
+                        CommandCallbackEnum::BackToRemindTime->value,
+                        $habitId
                     ),
                 ]),
+            ],
+            [
+                InlineKeyboardButtonType::create(
+                    sprintf('%s %s', EmojiCode::Cancel->value, $this->translator->trans('cancel')),
+                    [
+                        'callbackData' => sprintf(
+                            '%s?id=%s',
+                            CommandCallbackEnum::CancelHabitCreation->value,
+                            $habitId
+                        ),
+                    ]
+                ),
+            ],
+            [
                 InlineKeyboardButtonType::create(sprintf(
                     '%s%s',
                     EmojiCode::Marked->value,
@@ -40,7 +56,7 @@ class HabitPreviewInlineKeyboard
                     'callbackData' => sprintf(
                         '%s?id=%s',
                         CommandCallbackEnum::HabitPublish->value,
-                        $habit->getId()->toRfc4122()
+                        $habitId
                     ),
                 ]),
             ],

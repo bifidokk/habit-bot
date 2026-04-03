@@ -12,6 +12,8 @@ habit:
         confirm: Are you sure you want to delete?
 preview: Preview
 back: Back
+cancel: Cancel
+cancelled: Cancelled
 submit: Submit
 choose_all: Choose all
 next: Next
