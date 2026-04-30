@@ -1,43 +1,36 @@
-FROM alpine:3.18
+FROM php:8.5-fpm-alpine
 
 RUN apk add --no-cache \
     coreutils \
     gettext \
-    php82-fpm \
-    php82-ctype \
-    php82-curl \
-    php82-dom \
-    php82-gd \
-    php82-iconv \
-    php82-json \
-    php82-intl \
-    php82-fileinfo\
-    php82-mbstring \
-    php82-opcache \
-    php82-openssl \
-    php82-pdo \
-    php82-pdo_pgsql \
-    php82-pgsql \
-    php82-xml \
-    php82-xsl \
-    php82-zlib \
-    php82-phar \
-    php82-tokenizer \
-    php82-session \
-    php82-simplexml \
-    php82-zip \
-    php82-xmlwriter \
-    php82-sodium \
-    php82-pecl-apcu \
-    php82-redis \
+    icu-dev \
+    libpq-dev \
+    libxslt-dev \
+    libzip-dev \
+    libsodium-dev \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    linux-headers \
+    autoconf \
+    gcc \
+    g++ \
     make \
     curl \
     tar \
     openssl
 
-RUN set -x ; \
-  addgroup -g 82 -S www-data ; \
-  adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        intl \
+        pdo_pgsql \
+        pgsql \
+        xsl \
+        zip \
+        gd
+
+RUN pecl install apcu && docker-php-ext-enable apcu
+RUN pecl install redis && docker-php-ext-enable redis
 
 ARG PHP_XDEBUG_MODE=""
 ARG PHP_XDEBUG_CLIENT_PORT="9003"
@@ -47,24 +40,20 @@ ENV PHP_XDEBUG_MODE=$PHP_XDEBUG_MODE \
     PHP_XDEBUG_CLIENT_PORT=$PHP_XDEBUG_CLIENT_PORT \
     PHP_XDEBUG_CLIENT_HOST=$PHP_XDEBUG_CLIENT_HOST
 
-COPY xdebug.ini /etc/php82/conf.d/xdebug.ini.template
+COPY xdebug.ini /tmp/xdebug.ini.template
 RUN if [ "$PHP_XDEBUG_MODE" != "off" ] && [ -n "$PHP_XDEBUG_MODE" ]; then \
         echo "Installing Xdebug..." && \
-        apk add --no-cache php82-pecl-xdebug && \
-        envsubst < /etc/php82/conf.d/xdebug.ini.template > /etc/php82/conf.d/xdebug.ini && \
+        pecl install xdebug && \
+        docker-php-ext-enable xdebug && \
+        rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+        envsubst < /tmp/xdebug.ini.template > /usr/local/etc/php/conf.d/xdebug.ini && \
         echo "Xdebug installed and configured"; \
-    else \
-        echo "Xdebug installation skipped"; \
     fi
+RUN rm -f /tmp/xdebug.ini.template
 
-RUN rm -f /etc/php82/conf.d/xdebug.ini.template
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-RUN curl -sS https://getcomposer.org/installer | tee composer-setup.php \
-    && php82 composer-setup.php && rm composer-setup.php* \
-    && chmod +x composer.phar && mv composer.phar /usr/bin/composer \
-    && ln -s /usr/bin/php82 /usr/local/bin/php
-
-RUN curl -sS https://download.newrelic.com/php_agent/archive/10.16.0.5/newrelic-php5-10.16.0.5-linux-musl.tar.gz | tar -C /tmp -zx && \
+RUN curl -sS https://download.newrelic.com/php_agent/archive/12.6.0.34/newrelic-php5-12.6.0.34-linux-musl.tar.gz | tar -C /tmp -zx && \
     export NR_INSTALL_USE_CP_NOT_LN=1 && \
     export NR_INSTALL_SILENT=1 && \
     /tmp/newrelic-php5-*/newrelic-install install && \
@@ -74,7 +63,7 @@ RUN curl -sS https://download.newrelic.com/php_agent/archive/10.16.0.5/newrelic-
         -e 's/newrelic.appname = "PHP Application"/newrelic.appname = \${NEW_RELIC_APP_NAME}/' \
         -e 's/;newrelic.daemon.app_connect_timeout =.*/newrelic.daemon.app_connect_timeout=15s/' \
         -e 's/;newrelic.daemon.start_timeout =.*/newrelic.daemon.start_timeout=5s/' \
-        /etc/php82/conf.d/newrelic.ini
+        /usr/local/etc/php/conf.d/newrelic.ini
 
 ARG SYMFONY_CLI_VERSION
 RUN wget https://github.com/symfony-cli/symfony-cli/releases/download/v$SYMFONY_CLI_VERSION/symfony-cli_linux_amd64.tar.gz \
@@ -82,11 +71,10 @@ RUN wget https://github.com/symfony-cli/symfony-cli/releases/download/v$SYMFONY_
     && chmod +x symfony \
     && mv symfony /usr/local/bin/
 
-COPY symfony.ini /etc/php82/conf.d/
-COPY symfony.ini /etc/php82/cli/conf.d/
-
-COPY symfony.pool.conf /etc/php82/php-fpm.d/
+COPY symfony.ini /usr/local/etc/php/conf.d/
+COPY symfony.pool.conf /usr/local/etc/php-fpm.d/symfony.pool.conf
+RUN rm -f /usr/local/etc/php-fpm.d/www.conf* /usr/local/etc/php-fpm.d/docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 WORKDIR /var/www/symfony
 
-CMD ["php-fpm82", "-F"]
+CMD ["php-fpm"]
