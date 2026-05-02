@@ -11,7 +11,7 @@ class RedisDummyClient implements RedisClientInterface
     /**
      * @param mixed $value
      */
-    public function set(string $key, $value, int $ttl = null): bool
+    public function set(string $key, $value, ?int $ttl = null): bool
     {
         $this->data[$key] = $value;
 
