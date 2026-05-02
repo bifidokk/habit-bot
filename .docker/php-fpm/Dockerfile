@@ -18,7 +18,8 @@ RUN apk add --no-cache \
     g++ \
     make \
     curl \
-    openssl
+    openssl \
+    patch
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
