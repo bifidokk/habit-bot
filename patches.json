@@ -1,0 +1,9 @@
+{
+    "patches": {
+        "tg-bot-api/bot-api-base": {
+            "Fix implicit nullable parameters for PHP 8.5": {
+                "url": "patches/tg-bot-api-nullable-fix.patch"
+            }
+        }
+    }
+}

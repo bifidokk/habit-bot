@@ -1,0 +1,17 @@
+{
+    "_hash": "6d69468c0db87712903d2ec4f12026b7ae0badbaee952f273f10592d0c44020b",
+    "patches": {
+        "tg-bot-api/bot-api-base": [
+            {
+                "package": "tg-bot-api/bot-api-base",
+                "description": "Fix implicit nullable parameters for PHP 8.5",
+                "url": "patches/tg-bot-api-nullable-fix.patch",
+                "sha256": "f21582612b126f987d5d67694cb63122f91339972e94a3266e2c4f5fd3ec98ba",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}
