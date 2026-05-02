@@ -19,7 +19,7 @@
         "lexik/jwt-authentication-bundle": "^3.1",
         "nelmio/cors-bundle": "2.4.0",
         "nyholm/psr7": "^1.4",
-        "php-http/guzzle6-adapter": "^2.0.2",
+        "php-http/guzzle7-adapter": "^1.1",
         "predis/predis": "^1.1",
         "sensio/framework-extra-bundle": "^6.1",
         "sentry/sentry-symfony": "^4.2",

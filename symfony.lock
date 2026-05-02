@@ -120,9 +120,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
-    "guzzlehttp/guzzle": {
-        "version": "6.5.5"
-    },
     "guzzlehttp/promises": {
         "version": "1.4.0"
     },
@@ -194,9 +191,6 @@
     },
     "php-http/discovery": {
         "version": "1.14.1"
-    },
-    "php-http/guzzle6-adapter": {
-        "version": "v2.0.1"
     },
     "php-http/httplug": {
         "version": "2.2.0"
@@ -551,9 +545,6 @@
         ]
     },
     "symfony/polyfill-intl-grapheme": {
-        "version": "v1.22.1"
-    },
-    "symfony/polyfill-intl-idn": {
         "version": "v1.22.1"
     },
     "symfony/polyfill-intl-normalizer": {
