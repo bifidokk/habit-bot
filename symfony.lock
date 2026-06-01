@@ -1,7 +1,4 @@
 {
-    "clue/stream-filter": {
-        "version": "v1.5.0"
-    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
@@ -186,20 +183,8 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
-    "php-http/client-common": {
-        "version": "2.5.0"
-    },
-    "php-http/discovery": {
-        "version": "1.14.1"
-    },
     "php-http/httplug": {
         "version": "2.2.0"
-    },
-    "php-http/message": {
-        "version": "1.12.0"
-    },
-    "php-http/message-factory": {
-        "version": "v1.0.2"
     },
     "php-http/promise": {
         "version": "1.1.0"
@@ -346,9 +331,6 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
-    },
-    "sentry/sdk": {
-        "version": "3.1.1"
     },
     "sentry/sentry": {
         "version": "3.3.4"

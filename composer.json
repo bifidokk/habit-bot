@@ -22,7 +22,7 @@
         "php-http/guzzle7-adapter": "^1.1",
         "predis/predis": "^1.1",
         "sensio/framework-extra-bundle": "^6.1",
-        "sentry/sentry-symfony": "^4.2",
+        "sentry/sentry-symfony": "^5.0",
         "symfony/cache": "6.4.*",
         "symfony/console": "6.4.*",
         "symfony/dotenv": "6.4.*",
